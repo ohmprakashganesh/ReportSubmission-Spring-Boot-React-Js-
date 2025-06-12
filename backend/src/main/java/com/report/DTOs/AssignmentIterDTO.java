@@ -2,10 +2,10 @@ package com.report.DTOs;
 
 
 
+import com.report.entities.Status;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.report.entities.IterationType;
-import com.report.entities.SubmissionStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class AssignmentIterDTO {
     private Long id;
     private IterationType iterationType;
     private MultipartFile file;
-    private SubmissionStatus status;
+    private Status status;
     private Long submittedBy; // ID of the user
     private Long assignmentId;
 

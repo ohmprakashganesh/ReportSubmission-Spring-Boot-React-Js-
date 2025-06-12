@@ -1,5 +1,10 @@
 package com.report.exceptional;
 
-public class FileNotFound {
+import java.io.File;
+
+public class FileNotFound extends  RuntimeException{
+    public FileNotFound(String msg){
+        super(msg);
+    }
     
 }

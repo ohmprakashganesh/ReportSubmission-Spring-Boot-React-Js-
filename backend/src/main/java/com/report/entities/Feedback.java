@@ -2,6 +2,7 @@ package com.report.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -41,6 +42,6 @@ public class Feedback {
     private AssignmentIteration assignmentIteration;
 
     @ManyToOne
-    @JsonManagedReference(value="feedback")
+    @JsonBackReference(value="feedback")
     private User supervisor; // User with role SUPERVISOR
 }

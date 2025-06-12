@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.report.DTOs.UserDTO;
 import com.report.entities.Role;
+import com.report.exceptional.UserNotFound;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.User;
@@ -38,19 +39,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFound("User not found"));
     }
 
     @Override
     public User updateUser(Long id, User temp) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found");
+            throw new UserNotFound("User not found");
         }
 
         Optional<User> updated = userRepository.findById(id);
         User user= updated.get();
         user.setName(temp.getName());
-        user.setRole(Role.STUDENT);
+        user.setRole(temp.getRole());
         user.setGroup(temp.getGroup());
         return userRepository.save(user);
     }

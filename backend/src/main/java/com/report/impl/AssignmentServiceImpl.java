@@ -63,7 +63,9 @@ public class AssignmentServiceImpl implements AssignmentService {
     public Assignment updateAssignment(Long id, Assignment assignment) {
         Assignment obj= assignmentRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with the id"+id));
         obj.setDescription(assignment.getDescription());
-        obj.setStudentGroup(assignment.getStudentGroup());
+        obj.setTitle(assignment.getTitle());
+        obj.setStudentGroup(obj.getStudentGroup());
+
         return assignmentRepository.save(obj);
     }
 

@@ -39,7 +39,7 @@ public class AssignmentIteration {
     private Assignment assignment;
 
     @Enumerated(EnumType.STRING)
-    private SubmissionStatus status = SubmissionStatus.SUBMITTED;
+    private Status status = Status.SUBMITTED;
 
 
     @ManyToOne
