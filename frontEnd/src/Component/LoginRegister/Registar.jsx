@@ -1,61 +1,101 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Registar = () => {
   return (
-   <div class="signup-container">
-  <div class="signup-card">
-    <div class="signup-header">
-      <h2>Create Your Account</h2>
-      <p>Get started with smart report submission</p>
-    </div>
-    
-    <form class="signup-form">
-      <div class="input-row">
-        <div class="input-group">
-          <label for="first-name">First Name</label>
-          <input type="text" id="first-name" placeholder="John"/>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-2xl p-8 bg-white rounded-2xl shadow-md">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl font-bold text-gray-800">Create Your Account</h2>
+          <p className="text-gray-500 mt-1">Get started with Smart Report Submission</p>
         </div>
-        <div class="input-group">
-          <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" placeholder="Doe"/>
-        </div>
-      </div>
-      
-      <div class="input-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="your.email@example.com" />
-      </div>
-      
-      <div class="input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Create a password" />
-        <div class="password-strength">
-          <span class="strength-indicator weak"></span>
-          <span class="strength-indicator medium"></span>
-          <span class="strength-indicator strong"></span>
-          <span class="strength-text">Password strength</span>
-        </div>
-      </div>
-      
-      <div class="input-group">
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" placeholder="Confirm your password" />
-      </div>
-      
-      <div class="terms-checkbox">
-        <input type="checkbox" id="terms"/>
-        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
-      </div>
-      
-      <button type="submit" class="signup-button">Create Account</button>
-      
-      <div class="login-link">
-        Already have an account? <a href="/login">Log in</a>
-      </div>
-    </form>
-  </div>
-</div>
-  )
-}
 
-export default Registar
+        <form className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">First Name</label>
+              <input
+                type="text"
+                id="first-name"
+                placeholder="John"
+                className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">Last Name</label>
+              <input
+                type="text"
+                id="last-name"
+                placeholder="Doe"
+                className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="your.email@example.com"
+              className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a password"
+              className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            <div className="flex items-center gap-1 mt-2 text-sm text-gray-500">
+              <span className="h-2 w-8 rounded-full bg-red-400"></span>
+              <span className="h-2 w-8 rounded-full bg-yellow-400"></span>
+              <span className="h-2 w-8 rounded-full bg-green-500"></span>
+              <span className="ml-2">Password strength</span>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm-password"
+              placeholder="Confirm your password"
+              className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+
+          <div className="flex items-start">
+            <input
+              type="checkbox"
+              id="terms"
+              className="mt-1 mr-2"
+            />
+            <label htmlFor="terms" className="text-sm text-gray-600">
+              I agree to the <a href="#" className="text-indigo-600 underline">Terms of Service</a> and <a href="#" className="text-indigo-600 underline">Privacy Policy</a>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition duration-300"
+          >
+            Create Account
+          </button>
+
+          <div className="text-center text-sm text-gray-600 mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-indigo-600 underline">
+              Log in
+            </Link>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default Registar;
