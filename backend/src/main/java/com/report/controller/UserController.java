@@ -39,6 +39,7 @@ public class UserController {
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     @GetMapping("/all")
     public ResponseEntity< List<User>> getAllUsers() {
         List< User> user = userService.getUsers();
@@ -58,4 +59,7 @@ public class UserController {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    //admin controller
 }
