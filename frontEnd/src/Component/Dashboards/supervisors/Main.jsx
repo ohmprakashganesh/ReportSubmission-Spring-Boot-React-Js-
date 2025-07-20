@@ -9,7 +9,7 @@ const SupervisorDashboard = () => {
 
        <>
  <div className="sticky top-0 z-50 bg-white shadow">
-    <Navbar title="Welcome to Student Dashboard" />
+    {/* <Navbar title="Welcome to Student Dashboard" />
   </div>  
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
@@ -215,7 +215,7 @@ const SupervisorDashboard = () => {
             </button>
           </form>
         </div>
-      </main>
+      </main> 
     </div>
     </>
   );
