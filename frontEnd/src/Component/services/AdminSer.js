@@ -7,14 +7,13 @@ export const createUser=async (user)=>{
     return resp.data;
 }
 
-
-
-
 //groups 
 export const createGroup = async (group)=>{
     const resp=await httpClient.post('/api/groups',group);
     return resp.data;
 }
+
+
 export const getGroups = async ()=>{
     const resp= await httpClient.get(`/api/groups/all`);
     return resp.data;

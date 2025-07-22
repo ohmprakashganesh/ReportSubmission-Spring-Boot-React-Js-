@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { createUser } from '../../services/AdminSer';
 
 const RegisterUser = () => {
        const [id, setId]=useState('');
@@ -85,6 +86,10 @@ const RegisterUser = () => {
             });
           // Log the form data to the console instead of making an API call
           console.log(response);
+         
+           
+
+
           setSubmissionMessage('user created successfully '); // Display success message
           // Simulate a delay for the "Creating User..." button state
           await new Promise(resolve => setTimeout(resolve, 1000));
