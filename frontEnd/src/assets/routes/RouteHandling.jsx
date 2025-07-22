@@ -21,7 +21,7 @@ const RouteHandling = () => {
             {/* <Route  path='/admin'  element={<Admin />} />  */}
               {/* <Route  path='/adminu'  element={<AdminU />} /> */}
               <Route  path='/admin'  element={<Dash />} />
-               <Route  path='/professor'  element={<DashboardU />} />
+               <Route  path='/supervisor'  element={<DashboardU />} />
 
 
 
