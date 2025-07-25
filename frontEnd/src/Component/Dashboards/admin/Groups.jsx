@@ -273,7 +273,6 @@ const Groups = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showReassignModal, setShowReassignModal] = useState(false);
   const [groupToReassign, setGroupToReassign] = useState(null);
-
   // Form states for creating new groups
   const [groupName, setGroupName] = useState('');
   const [newSelectedStudents, setNewSelectedStudents] = useState([]); // Use different name to avoid conflict
@@ -369,25 +368,29 @@ const Groups = () => {
   };
 
   return (
-    <section id="groups" className="section-content p-6">
-      <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Student Groups</h1>
-      <CreateGroup />
-       <GroupsTable />
-        {showDetailsModal && (
-        <GroupDetailsModal group={selectedGroup} onClose={closeDetailsModal} />
-      )}
-      {showReassignModal && (
-        <ReAssignGroup
-          group={groupToReassign}
-         onClose={closeReassignModal}
-          onSave={handleSaveReassignedGroup}
-             mockStudents={mockStudents} // ✅ pass mock data
-            mockSupervisors={mockSupervisors}
-        />
-      )}
-    </section>
-  );
-};
+  <section id="groups" className="section-content p-6">
+    <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Student Groups</h1>
 
+    {showReassignModal ? (
+      <ReAssignGroup
+        group={groupToReassign}
+        onClose={closeReassignModal}
+        onSave={handleSaveReassignedGroup}
+        mockStudents={mockStudents}
+        mockSupervisors={mockSupervisors}
+      />
+    ) : (
+      <>
+        <div className="text-green-800">hello mother fucker</div>
+        <CreateGroup />
+        <GroupsTable />
+        {showDetailsModal && (
+          <GroupDetailsModal group={selectedGroup} onClose={closeDetailsModal} />
+        )}
+      </>
+    )}
+  </section>
+);
+}
 export default  Groups;
 

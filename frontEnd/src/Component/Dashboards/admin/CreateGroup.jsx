@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createGroup, getStudents, getSupervisors } from '../../services/AdminSer';
 
-const mockStudents = [
+const students = [
   { id: 101, name: "John Doe" },
   { id: 102, name: "Jane Smith" },
   { id: 103, name: "Peter Jones" },
@@ -12,7 +12,7 @@ const mockStudents = [
   { id: 108, name: "Eve White" },
 ];
 
-const mockSupervisors = [
+const supervisors = [
   { id: 201, name: "Dr. Emily Clark" },
   { id: 202, name: "Prof. David Lee" },
   { id: 203, name: "Dr. Sarah Kim" },
@@ -82,6 +82,7 @@ const CreateGroup = () => {
   //     console.log(error);
   //   }
     
+  // }
 
  
 
@@ -145,7 +146,7 @@ const CreateGroup = () => {
     console.error("Failed to create group:", error);
     alert("Failed to create group. Please try again.");
   }
-};
+}
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-8">
@@ -212,5 +213,4 @@ const CreateGroup = () => {
     </div>
   );
 };
-
 export default CreateGroup;
