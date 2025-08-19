@@ -1,6 +1,7 @@
 package com.report.impl;
 
 import com.report.DTOs.AssignmentIterDTO;
+import com.report.FileHandle.FilePutGet;
 import com.report.copyleaks.DTOs.AuthService;
 import com.report.copyleaks.DTOs.CopyLeaksCheck;
 import com.report.copyleaks.DTOs.CopyleaksBusinessCheck;
@@ -27,15 +28,16 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     private  final AssignmentIterationRepo assignmentIterationRepository;
     private  final AssignmentRepo assignmentRepo;
     private final  UserRepo userRepo;
-    // private final AuthService authService;
+
+//   private final AuthService authService;
     private final CopyleaksBusinessCheck copyleaksBusinessCheck;
 
-    private  FileService fileService;
+    private FilePutGet fileService;
 
     // private CopyLeaksCheck copyLeaksCheck;
 
   
-    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository, CopyleaksBusinessCheck copyleaksBusinessCheck, UserRepo userRepo,FileService fileService, AssignmentRepo assignmentRepo) {
+    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository, CopyleaksBusinessCheck copyleaksBusinessCheck, UserRepo userRepo,FilePutGet fileService, AssignmentRepo assignmentRepo) {
         this.assignmentIterationRepository = assignmentIterationRepository;
         this.userRepo=userRepo;
         this.copyleaksBusinessCheck=copyleaksBusinessCheck;

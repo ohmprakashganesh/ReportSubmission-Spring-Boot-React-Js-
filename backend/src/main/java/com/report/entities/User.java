@@ -28,16 +28,6 @@ public class User {
      @Enumerated (EnumType.STRING)
     private Role role;
 
-    // Student-only relation
-//    @ManyToOne
-//    @JsonManagedReference(value = "supervisor-group")
-//    private StudentGroup group;
-//
-//    // Supervisor-only relation
-//    @OneToMany(mappedBy = "supervisor")
-//    @JsonManagedReference(value = "user-studentGroup")
-//    private List<StudentGroup> supervisedGroups;
-
 
     @ManyToOne
     @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "fk_user_group", foreignKeyDefinition = "FOREIGN KEY (group_id) REFERENCES student_group(id) ON DELETE SET NULL"))
@@ -55,3 +45,13 @@ public class User {
     private List<Feedback> feedbacks;
 
 }
+
+// Student-only relation
+//    @ManyToOne
+//    @JsonManagedReference(value = "supervisor-group")
+//    private StudentGroup group;
+//
+//    // Supervisor-only relation
+//    @OneToMany(mappedBy = "supervisor")
+//    @JsonManagedReference(value = "user-studentGroup")
+//    private List<StudentGroup> supervisedGroups;

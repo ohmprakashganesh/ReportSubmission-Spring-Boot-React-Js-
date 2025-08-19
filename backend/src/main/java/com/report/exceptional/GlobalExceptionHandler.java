@@ -14,8 +14,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUserNotFound(UserNotFound ex){
         return new ResponseEntity<>(ex.getMessage()+ ex.getCause(), HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler
+    @ExceptionHandler(FileNotFound.class)
     public ResponseEntity<String> handleFileNotFound(FileNotFound ex){
         return  new ResponseEntity<>(ex.getMessage()+ex.getCause(),HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotFoundObject.class)
+    public  ResponseEntity<String> handleObjectNotFound(NotFoundObject ex){
+        return  new ResponseEntity<>(ex.getMessage()+ ex.getCause(), HttpStatus.NOT_FOUND);
     }
 }

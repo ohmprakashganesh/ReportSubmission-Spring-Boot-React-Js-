@@ -81,7 +81,7 @@ public class MappingCls {
     }
 
 
-}
+
 //
 ////    public List< StrudentGroupDTO > stdGroupToDTO( List< StudentGroup> grp){
 ////        List<StrudentGroupDTO> lst= new ArrayList<>();
@@ -204,3 +204,29 @@ public class MappingCls {
 ////    }
 //
 //}
+
+
+   public static  StudentGroupDetailDTO studentGrpToDto(StudentGroup group){
+        StudentDto std= new StudentDto();
+         List<StudentDto> stdList= new ArrayList<>();
+        SupervisorDto sup= new SupervisorDto();
+          sup.setId(group.getSupervisor().getId());
+          sup.setName(group.getSupervisor().getName());
+           sup.setEmail(group.getSupervisor().getEmail());
+
+           for(User user: group.getStudents()){
+               std.setId(user.getId());
+               std.setName(user.getName());
+               std.setEmail(user.getEmail());
+               stdList.add(std);
+           }
+       StudentGroupDetailDTO  obj= new StudentGroupDetailDTO();
+           obj.setStudents(stdList);
+           obj.setId(group.getId());
+           obj.setName(group.getName());
+           obj.setSupervisor(sup);
+
+          return  obj;
+
+   }
+        }

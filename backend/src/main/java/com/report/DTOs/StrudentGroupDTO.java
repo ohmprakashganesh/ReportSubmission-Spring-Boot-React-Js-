@@ -20,11 +20,9 @@ import java.util.List;
 public class StrudentGroupDTO {
 
     private Long id;
-
-
     private String groupName;
     private List<Long> stdIds;
-    private  Long supervisorId;
+    private Long supervisorId;
 
 
 //

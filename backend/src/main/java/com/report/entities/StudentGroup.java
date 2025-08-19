@@ -6,25 +6,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
-@Builder
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString(exclude = {"students", "supervisor", "assignments"}) // Exclude cyclic fields
 public class StudentGroup {
+
     @Id
  @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-
     private String name;
 
-   @OneToMany(mappedBy = "group")
+   @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
   @JsonManagedReference (value = "group")
    private List<User> students; // Users with role STUDENT
 

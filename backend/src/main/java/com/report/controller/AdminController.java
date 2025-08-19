@@ -8,14 +8,13 @@ import com.report.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
+@CrossOrigin("*")
 public class AdminController {
 
 
@@ -36,27 +35,27 @@ public class AdminController {
     //total supervisor
 
 
-    @GetMapping("/get/students")
+    @GetMapping("/students")
     public ResponseEntity<List<User>> getStudents(){
         return  ResponseEntity.ok(adminService.getAllStudents());
     }
 
-    @GetMapping("/get/supervisors")
+    @GetMapping("/supervisors")
     public ResponseEntity<List<User>> getAllSupervisors(){
         return  ResponseEntity.ok(adminService.getAllSupervisors());
     }
 
-    @GetMapping("/get/groups")
+    @GetMapping("/groups")
     public ResponseEntity<List<StudentGroup>> getGroups(){
         return  ResponseEntity.ok(group.allGroups());
     }
 
-    @GetMapping("/get/totalUsers")
+    @GetMapping("/totalUsers")
     public ResponseEntity<Integer> getTotalStudents(){
         return  ResponseEntity.ok(adminService.getTotalStudetns());
     }
 
-    @GetMapping("/get/totalGroups")
+    @GetMapping("/totalGroups")
     public ResponseEntity<Integer> getSupervisors(){
         return  ResponseEntity.ok(adminService.getTotalSupervisors());
     }

@@ -5,10 +5,12 @@ import com.report.entities.User;
 import com.report.repository.UserRepo;
 import com.report.services.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+@Service
 public class AdminServiceImpl  implements AdminService {
 
     private  final UserRepo repo;

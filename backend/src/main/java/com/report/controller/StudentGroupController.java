@@ -1,8 +1,10 @@
 package com.report.controller;
 import java.util.List;
+import java.util.Optional;
 
 import com.report.DTOs.StrudentGroupDTO;
 //import com.report.mapping.MappingCls;
+import com.report.DTOs.StudentGroupDetailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import com.report.services.StudentGroupService;
 
 @RestController
 @RequestMapping("/api/groups")
+@CrossOrigin("*")
 public class StudentGroupController {
 
     private final StudentGroupService studentGroupService;
@@ -26,20 +29,16 @@ public class StudentGroupController {
 //post the student in group
     @PostMapping
     public ResponseEntity<StudentGroup> createGroup(@RequestBody StrudentGroupDTO group) {
-//        StudentGroup std= mapper.dtoToStudentGroup(group);
-//        StudentGroup createdGroup = studentGroupService.createGroup(group);
-//        StrudentGroupDTO obj= mapper.studentGroupToDTO(createdGroup);
-
-
         return new ResponseEntity<>(studentGroupService.createGroup(group), HttpStatus.CREATED);
     }
 
-    //fetch the single group
-    @GetMapping("/{id}")
-    public ResponseEntity<StudentGroup> getGroup(@PathVariable Long id) {
-        StudentGroup group = studentGroupService.getGroupById(id);
-        return new ResponseEntity<>(group, HttpStatus.OK);
-    }
+
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Optional<StudentGroup>>  getGroupNew(@PathVariable Long id) {
+//        Optional< StudentGroup> group = studentGroupService.findGroupWithStudentsAndSupervisor(id);
+//        return new ResponseEntity<>(group, HttpStatus.OK);
+//    }
+
     //fetch all group
     @GetMapping("/all")
     public ResponseEntity<List< StudentGroup>> getAll() {
@@ -49,7 +48,7 @@ public class StudentGroupController {
 
     //update the group
     @PutMapping("/{id}")
-    public ResponseEntity<StudentGroup> updateGroup(@PathVariable Long id, @RequestBody StudentGroup group) {
+    public ResponseEntity<StudentGroup> updateGroup(@PathVariable Long id, @RequestBody StrudentGroupDTO group) {
         StudentGroup updatedGroup = studentGroupService.updateGroup(id, group);
         return new ResponseEntity<>(updatedGroup, HttpStatus.OK);
     }
@@ -59,5 +58,10 @@ public class StudentGroupController {
     public ResponseEntity<Void> deleteGroup(@PathVariable Long id) {
         studentGroupService.deleteGroup(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/groupDetails/{id}")
+    public  ResponseEntity<StudentGroupDetailDTO> groupWithStdAndSupervisor (@PathVariable Long id ){
+        return  new ResponseEntity<>(studentGroupService.findGroupWithStudentsAndSupervisor(id),HttpStatus.OK);
     }
 }

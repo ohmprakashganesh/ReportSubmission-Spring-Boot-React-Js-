@@ -27,7 +27,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(UserDTO user) {
         User usr= new User();
-        usr.setRole(user.getRole());
+        if(user.getRole()=="STUDENT"){
+            usr.setRole(Role.STUDENT);
+        }
+        if(user.getRole().equals("SUPERVISER"))
+        {
+            usr.setRole(Role.SUPERVISER);
+        }
         usr.setName(user.getName());
         usr.setPassword(user.getPassword());
         usr.setEmail(user.getEmail());
@@ -66,5 +72,7 @@ public class UserServiceImpl implements UserService {
         List<User> user =userRepository.findAll();
         return  user;
     }
-     
+
+
+
 }

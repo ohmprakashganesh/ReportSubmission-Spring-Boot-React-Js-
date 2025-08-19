@@ -1,2 +1,16 @@
-package com.report.DTOs;public class StudentGroupDetailDTO {
+package com.report.DTOs;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class StudentGroupDetailDTO {
+
+        private Long id;
+        private String name;
+        private SupervisorDto supervisor;
+        private List<StudentDto> students;
+
+
 }

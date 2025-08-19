@@ -3,8 +3,10 @@ package com.report.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.report.DTOs.StrudentGroupDTO;
+import com.report.DTOs.StudentGroupDetailDTO;
 import com.report.entities.User;
 //import com.report.mapping.MappingCls;
 import com.report.mapping.MappingCls;
@@ -31,43 +33,37 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
     @Override
     public StudentGroup createGroup(StrudentGroupDTO dto) {
-        StudentGroup createdGroup=new StudentGroup();
-        StudentGroup obj=new StudentGroup();
+        StudentGroup obj = new StudentGroup();
         obj.setName(dto.getGroupName());
 
-//        fetch and set st
-        User supervisor=new User();
-        //fetch and set supervisor
-        Optional<User> opt= userRepo.findById(dto.getSupervisorId());
-        if(opt.isPresent()){
-            supervisor=opt.get();
-        }
-        obj.setSupervisor(supervisor);
-        createdGroup = studentGroupRepository.save(obj);
+        List<User> stdsObj = new ArrayList<>();
 
-
-         //save the group in user table
-//        List<User> students=new ArrayList<>();
-        List<Long> stds=dto.getStdIds();
-        List<User> objs=new ArrayList<>();
-
-        //for fetching the students and save
-        for(Long id : stds){
-            Optional<User> opt2= userRepo.findById(id);
-            if(opt2.isPresent()){
-             User user =  opt2.get();
-             user.setGroup(createdGroup);
-                userRepo.save(user);
+        for (Long temp : dto.getStdIds()) {
+            Optional<User> usr = userRepo.findById(temp);
+            if (usr.isPresent()) {
+                User student = usr.get();
+                student.setGroup(obj); // ✅ set reverse relationship
+                stdsObj.add(student);
             }
         }
 
+        obj.setStudents(stdsObj);
 
+        // ✅ set supervisor
+        Optional<User> opt = userRepo.findById(dto.getSupervisorId());
+        opt.ifPresent(obj::setSupervisor);
 
-   return  createdGroup;
+        // ✅ Save the group first (this gives it an ID)
+        StudentGroup createdGroup = studentGroupRepository.save(obj);
 
+        // ✅ Save the students with updated group info
+        for (User student : stdsObj) {
+            userRepo.save(student);
+        }
 
-
+        return createdGroup;
     }
+
 
     @Override
     public StudentGroup getGroupById(Long id) {
@@ -75,12 +71,27 @@ public class StudentGroupServiceImpl implements StudentGroupService {
     }
 
     @Override
-    public StudentGroup updateGroup(Long id, StudentGroup group) {
+    public StudentGroup updateGroup(Long id, StrudentGroupDTO group) {
+        if(group==null){
+            throw  new RuntimeException("object not found ");
+
+        }
         StudentGroup gru= studentGroupRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with id "+id) );
-        gru.setName(group.getName());
-        gru.setStudents(group.getStudents());
-        gru.setAssignments(group.getAssignments());
-        gru.setSupervisor(group.getSupervisor());
+        gru.setName(group.getGroupName());
+        List<User> stds = group.getStdIds().stream()
+                .map(stdId -> userRepo.findById(stdId)
+                        .orElseThrow(() -> new RuntimeException("Student not found with ID " + stdId)))
+                .collect(Collectors.toList()); // ✅ safe in Java 8+
+
+         gru.setStudents(stds);
+        Optional<User> sup= userRepo.findById(group.getSupervisorId());
+        if(sup.isPresent()){
+            gru.setSupervisor(sup.get());
+        }
+        System.out.println(sup);
+        gru.setStudents(stds);
+        gru.setAssignments(gru.getAssignments());
+
         return studentGroupRepository.save(gru);
     }
 
@@ -96,6 +107,17 @@ public class StudentGroupServiceImpl implements StudentGroupService {
         studentGroupRepository.deleteById(id);
         System.out.println("deleted successfully ");
     }
+
+    @Override
+    public StudentGroupDetailDTO findGroupWithStudentsAndSupervisor(Long id) {
+        Optional< StudentGroup> grp=studentGroupRepository.findGroupWithStudentsAndSupervisor(id);
+        if(grp.isPresent()){
+            return  MappingCls.studentGrpToDto(grp.get());
+        }else{
+            return null;
+        }
+    }
+
 
     @Override
     public List<StudentGroup> allGroups() {
