@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import MyDetails from './MyDetails';
+import SubmittedWorks from './SubmittedWorks';
 
 // Main App component that contains the entire dashboard
 const App = () => {
@@ -160,6 +162,7 @@ const App = () => {
       },
     ];
 
+
     setGroups(mockGroups);
     setAssignments(mockAssignments);
     setSubmissions(mockSubmissions);
@@ -246,106 +249,99 @@ const App = () => {
   };
 
   // --- Sidebar Components ---
-
-  // MyDetails Component: Displays student's personal information
-  const MyDetails = ({ student }) => (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">My Details</h2>
-      <div className="space-y-2 text-gray-700">
-        <p><strong>Name:</strong> {student.name}</p>
-        <p><strong>Email:</strong> {student.email}</p>
-        <p><strong>Role:</strong> {student.role}</p>
-        {/* Add more student details as needed */}
-      </div>
-    </div>
-  );
+  <>
+   <MyDetails />
 
   // SubmittedWorks Component: Displays all submitted assignments
-  const SubmittedWorks = ({ allAssignments, allSubmissions }) => {
-    // Group submissions by assignment for easier display
-    const submissionsByAssignment = allSubmissions.reduce((acc, sub) => {
-      if (!acc[sub.assignmentId]) {
-        acc[sub.assignmentId] = [];
-      }
-      acc[sub.assignmentId].push(sub);
-      return acc;
-    }, {});
 
-    return (
-      <div className="p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>
-        {Object.keys(submissionsByAssignment).length === 0 ? (
-          <p className="text-gray-600">You haven't submitted any work yet.</p>
-        ) : (
-          <div className="space-y-6">
-            {Object.entries(submissionsByAssignment).map(([assignmentId, subs]) => {
-              const assignment = allAssignments.find(a => a.id === assignmentId);
-              if (!assignment) return null; // Should not happen with consistent data
+   <SubmittedWorks mockAssignments={assignments} mockSubmissions={submissions} />
+   </>
 
-              return (
-                <div key={assignmentId} className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">{assignment.name}</h3>
-                  <ul className="space-y-3">
-                    {subs.sort((a, b) => a.iteration - b.iteration).map(sub => (
-                      <li key={sub.id} className="border-b border-gray-100 pb-3 last:border-b-0">
-                        <h4 className="text-lg font-medium text-gray-700">Iteration {sub.iteration}</h4>
-                        <p className="text-sm text-gray-600">
-                          <strong>Submitted On:</strong> {new Date(sub.dateSubmitted).toLocaleString()}
-                        </p>
-                        <p className="text-sm">
-                          <strong>Status:</strong>{' '}
-                          <span
-                            className={`font-bold ${
-                              sub.status === 'Accepted'
-                                ? 'text-green-600'
-                                : sub.status === 'Rejected'
-                                ? 'text-red-600'
-                                : 'text-yellow-600'
-                            }`}
-                          >
-                            {sub.status}
-                          </span>
-                        </p>
-                        {sub.feedback && (
-                          <p className="text-sm text-gray-700">
-                            <strong>Feedback:</strong> {sub.feedback}
-                          </p>
-                        )}
-                        {sub.fileUrl && (
-                          <p className="mt-1">
-                            <a
-                              href={sub.fileUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline text-sm flex items-center"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4 mr-1"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                              Download File
-                            </a>
-                          </p>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    );
-  };
+  // const SubmittedWorks = ({ allAssignments, allSubmissions }) => {
+  //   // Group submissions by assignment for easier display
+  //   const submissionsByAssignment = allSubmissions.reduce((acc, sub) => {
+  //     if (!acc[sub.assignmentId]) {
+  //       acc[sub.assignmentId] = [];
+  //     }
+  //     acc[sub.assignmentId].push(sub);
+  //     return acc;
+  //   }, {});
+
+  //   return (
+  //     <div className="p-4 bg-white rounded-lg shadow-md">
+  //       <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>
+  //       {Object.keys(submissionsByAssignment).length === 0 ? (
+  //         <p className="text-gray-600">You haven't submitted any work yet.</p>
+  //       ) : (
+  //         <div className="space-y-6">
+  //           {Object.entries(submissionsByAssignment).map(([assignmentId, subs]) => {
+  //             const assignment = allAssignments.find(a => a.id === assignmentId);
+  //             if (!assignment) return null; // Should not happen with consistent data
+
+  //             return (
+  //               <div key={assignmentId} className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+  //                 <h3 className="text-xl font-semibold mb-3 text-gray-800">{assignment.name}</h3>
+  //                 <ul className="space-y-3">
+  //                   {subs.sort((a, b) => a.iteration - b.iteration).map(sub => (
+  //                     <li key={sub.id} className="border-b border-gray-100 pb-3 last:border-b-0">
+  //                       <h4 className="text-lg font-medium text-gray-700">Iteration {sub.iteration}</h4>
+  //                       <p className="text-sm text-gray-600">
+  //                         <strong>Submitted On:</strong> {new Date(sub.dateSubmitted).toLocaleString()}
+  //                       </p>
+  //                       <p className="text-sm">
+  //                         <strong>Status:</strong>{' '}
+  //                         <span
+  //                           className={`font-bold ${
+  //                             sub.status === 'Accepted'
+  //                               ? 'text-green-600'
+  //                               : sub.status === 'Rejected'
+  //                               ? 'text-red-600'
+  //                               : 'text-yellow-600'
+  //                           }`}
+  //                         >
+  //                           {sub.status}
+  //                         </span>
+  //                       </p>
+  //                       {sub.feedback && (
+  //                         <p className="text-sm text-gray-700">
+  //                           <strong>Feedback:</strong> {sub.feedback}
+  //                         </p>
+  //                       )}
+  //                       {sub.fileUrl && (
+  //                         <p className="mt-1">
+  //                           <a
+  //                             href={sub.fileUrl}
+  //                             target="_blank"
+  //                             rel="noopener noreferrer"
+  //                             className="text-blue-600 hover:underline text-sm flex items-center"
+  //                           >
+  //                             <svg
+  //                               xmlns="http://www.w3.org/2000/svg"
+  //                               className="h-4 w-4 mr-1"
+  //                               viewBox="0 0 20 20"
+  //                               fill="currentColor"
+  //                             >
+  //                               <path
+  //                                 fillRule="evenodd"
+  //                                 d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+  //                                 clipRule="evenodd"
+  //                               />
+  //                             </svg>
+  //                             Download File
+  //                           </a>
+  //                         </p>
+  //                       )}
+  //                     </li>
+  //                   ))}
+  //                 </ul>
+  //               </div>
+  //             );
+  //           })}
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // };
 
   // ChatPlaceholder Component: Non-functional chat section
   const ChatPlaceholder = () => (
@@ -387,6 +383,8 @@ const App = () => {
     );
   };
 
+
+  
   // GroupDetail Component: Displays assignments within a selected group
   const GroupDetail = ({ group, assignments, onBack, onSubmitAssignment, allSubmissions }) => {
     const [showSubmissionHistory, setShowSubmissionHistory] = useState(false);
@@ -692,6 +690,8 @@ const App = () => {
             </ul>
           </nav>
         </div>
+
+
 
         {/* Main Content Area */}
         <div className="flex-grow p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">

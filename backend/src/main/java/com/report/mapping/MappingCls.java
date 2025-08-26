@@ -4,6 +4,7 @@ import com.report.DTOs.*;
 import com.report.entities.*;
 import com.report.repository.AssignmentIterationRepo;
 import com.report.repository.StudentGroupRepo;
+import com.report.response.ResponseUser;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -228,5 +229,24 @@ public class MappingCls {
 
           return  obj;
 
-   }
+
+    }
+//    public static List< ResponseUser> UserToResponse(List<User> user){
+//        List<ResponseUser> users2=new ArrayList<>();
+//        for (User usr: user){
+//            ResponseUser user1=new ResponseUser();
+//            user1.setId(usr.getId());
+//            user1.setEmail(usr.getEmail());
+//            user1.setName(usr.getName());
+//
+//            users2.add(user1);
+//
+//
+//
+//        }
+//        return  users2;
+//
+//    }
+//
+
         }

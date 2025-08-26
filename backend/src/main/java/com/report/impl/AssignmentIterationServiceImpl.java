@@ -2,8 +2,6 @@ package com.report.impl;
 
 import com.report.DTOs.AssignmentIterDTO;
 import com.report.FileHandle.FilePutGet;
-import com.report.copyleaks.DTOs.AuthService;
-import com.report.copyleaks.DTOs.CopyLeaksCheck;
 import com.report.copyleaks.DTOs.CopyleaksBusinessCheck;
 import com.report.entities.Assignment;
 import com.report.entities.User;
@@ -29,15 +27,13 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     private  final AssignmentRepo assignmentRepo;
     private final  UserRepo userRepo;
 
-//   private final AuthService authService;
     private final CopyleaksBusinessCheck copyleaksBusinessCheck;
 
-    private FilePutGet fileService;
+    private FileService fileService;
 
-    // private CopyLeaksCheck copyLeaksCheck;
 
   
-    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository, CopyleaksBusinessCheck copyleaksBusinessCheck, UserRepo userRepo,FilePutGet fileService, AssignmentRepo assignmentRepo) {
+    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository, CopyleaksBusinessCheck copyleaksBusinessCheck, UserRepo userRepo,FileService fileService, AssignmentRepo assignmentRepo) {
         this.assignmentIterationRepository = assignmentIterationRepository;
         this.userRepo=userRepo;
         this.copyleaksBusinessCheck=copyleaksBusinessCheck;
@@ -51,7 +47,6 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
         AssignmentIteration itr= new AssignmentIteration();
         itr.setIterationType(iteration.getIterationType());
         itr.setStatus(iteration.getStatus());
-
         itr.setAssignment(assinment(iteration.getAssignmentId()));
         itr.setSubmittedBy(loggedUser(iteration.getSubmittedBy()));
         String[] names = fileService.saveFile(iteration.getFile());
@@ -59,17 +54,6 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
         itr.setDocumentName(names[0]);
         itr.setDocumentUrl(filepath.toString());
         System.out.println(" upto here file is well ");// important fix
-
-//        try {
-//            //this is for education
-////            copyLeaksCheck.submitDocumentFromFile(names);
-//            //this for business
-//            copyleaksBusinessCheck.submitDocumentFromFile(names);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e.getMessage());
-//        }
-
-        //check docx and  save in table and add percentage in table
 
 
         return assignmentIterationRepository.save(itr);

@@ -11,6 +11,7 @@ import com.report.entities.User;
 //import com.report.mapping.MappingCls;
 import com.report.mapping.MappingCls;
 import com.report.repository.UserRepo;
+import com.report.response.GroupResponse;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.StudentGroup;
@@ -116,6 +117,19 @@ public class StudentGroupServiceImpl implements StudentGroupService {
         }else{
             return null;
         }
+    }
+
+    @Override
+    public GroupResponse getAssignMents(Long id) {
+      Optional<StudentGroup> grp = studentGroupRepository.findById(id);
+        GroupResponse resp= new GroupResponse();
+
+        if(grp.isPresent()){
+          resp.setAssignments(grp.get().getAssignments());
+      }
+        return resp;
+
+
     }
 
 

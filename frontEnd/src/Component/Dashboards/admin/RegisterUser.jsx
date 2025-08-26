@@ -77,6 +77,7 @@ const RegisterUser = () => {
         }
     
         setIsSubmitting(true); // Set submitting state to true (for visual feedback)
+        console.log(formData);
         try {
             const response= await createUser({
                 name: formData.name,
@@ -86,10 +87,6 @@ const RegisterUser = () => {
             });
           // Log the form data to the console instead of making an API call
           console.log(response);
-         
-           
-
-
           setSubmissionMessage('user created successfully '); // Display success message
           // Simulate a delay for the "Creating User..." button state
           await new Promise(resolve => setTimeout(resolve, 1000));
@@ -149,8 +146,8 @@ const RegisterUser = () => {
               className={`mt-1 block w-full p-3 border ${errors.role ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
             >
               <option value="">Select Role</option>
-              <option value="student">STUDENT</option>
-              <option value="professor">SUPERVISER</option>
+              <option value="STUDENT">STUDENT</option>
+              <option value="SUPERVISER">SUPERVISOR</option>
             </select>
             {errors.role && <p className="text-red-500 text-xs mt-1">{errors.role}</p>}
           </div>

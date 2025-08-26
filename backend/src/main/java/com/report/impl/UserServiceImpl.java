@@ -17,7 +17,6 @@ import com.report.services.UserService;
 public class UserServiceImpl implements UserService {
     
     private final  UserRepo userRepository;
-
   
     public UserServiceImpl(UserRepo userRepository) {
         this.userRepository = userRepository;
@@ -26,17 +25,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserDTO user) {
+        System.out.println(user);
         User usr= new User();
-        if(user.getRole()=="STUDENT"){
-            usr.setRole(Role.STUDENT);
-        }
-        if(user.getRole().equals("SUPERVISER"))
-        {
-            usr.setRole(Role.SUPERVISER);
-        }
+
+        usr.setRole(Role.valueOf(user.getRole()));
+
+//        if(user.getRole().equalsIgnoreCase("STUDENT")){
+//            usr.setRole(Role.STUDENT);
+//        }
+//        if(user.getRole().equalsIgnoreCase("SUPERVISER"))
+//        {
+//            usr.setRole(Role.SUPERVISER);
+//        }
         usr.setName(user.getName());
         usr.setPassword(user.getPassword());
         usr.setEmail(user.getEmail());
+        System.out.println(usr);
 
 
         return   userRepository.save(usr);

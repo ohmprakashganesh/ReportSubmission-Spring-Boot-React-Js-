@@ -1,5 +1,8 @@
 package com.report.repository;
 
+import com.report.entities.Assignment;
+import com.report.response.AllGroupsResponse;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.report.entities.StudentGroup;
@@ -26,6 +29,17 @@ public interface StudentGroupRepo extends  JpaRepository<StudentGroup, Long> {
             "WHERE g.id = :groupId")
     Optional<StudentGroup> findGroupWithDetails(@Param("groupId") Long groupId);
 
+
+
+    @EntityGraph(attributePaths = {"assignments"})
+    Optional<StudentGroup> findById(Long id);
+
+    @Query("SELECT new com.example.dto.AllGroupsResponse(" +
+            "g.id, g.title, u.id, u.name, u.email) " +
+            "FROM Group g " +
+            "JOIN g.supervisor u " +
+            "WHERE u.role = 'SUPERVISOR'")
+    List<AllGroupsResponse> findAllGroupsWithSupervisor();
 
 
 }

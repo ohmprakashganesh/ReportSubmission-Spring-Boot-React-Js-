@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.report.DTOs.StrudentGroupDTO;
 import com.report.DTOs.StudentGroupDetailDTO;
 import com.report.entities.StudentGroup;
+import com.report.response.GroupResponse;
 
 public interface StudentGroupService {
     StudentGroup createGroup(StrudentGroupDTO group);
@@ -15,4 +16,6 @@ public interface StudentGroupService {
     void deleteGroup(Long id);
 //    StudentGroupDetailDTO findGroupWithDetails(Long id);
     StudentGroupDetailDTO findGroupWithStudentsAndSupervisor(Long id);
+
+    GroupResponse getAssignMents(Long id);
 }

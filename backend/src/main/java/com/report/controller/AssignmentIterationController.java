@@ -18,6 +18,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/itr")
+@CrossOrigin("*")
 public class AssignmentIterationController {
      public User user;
 
