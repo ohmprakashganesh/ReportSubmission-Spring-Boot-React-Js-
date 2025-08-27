@@ -46,3 +46,7 @@ export const updateUser= async(id, user)=>{
     return resp.data;
 }
 
+ export const updateGroup=async(id,group)=>{
+    const resp=await httpClient.put(`/api/groups/${id}`,group);
+    return resp.data;
+ }

@@ -45,13 +45,16 @@ import SubmissionHistory from './SubmissionHistory';
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {assignments.map((assignment) => (
+               console.log(assignment.id),
                 <AssignedWorks
                   key={assignment.id}
                   assignment={assignment}
                   onSubmit={onSubmitAssignment}
                   onViewSubmissions={handleViewSubmissions}
+                  
                 />
               ))}
+         
             </div>
           )}
   

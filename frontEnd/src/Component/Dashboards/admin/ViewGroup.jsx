@@ -31,7 +31,10 @@ const group = {
   ]
 };
 
-const ViewGroup = ({ onClose }) => {
+const ViewGroup = ({ onClose ,grp}) => {
+  console.log("this is grp",grp);
+
+
   const supervisor = group.users.find(u => u.role === "SUPERVISOR");
   const students = group.users.filter(u => u.role === "STUDENT");
 
@@ -40,8 +43,8 @@ const ViewGroup = ({ onClose }) => {
      <div className="bg-white rounded-xl h-screen shadow-2xl p-6 w-full max-w-6xl transform transition-all duration-300 scale-100 opacity-100 animate-slideUp">
         <div className="flex mt-10 justify-between items-center mb-6 pb-4 border-b border-gray-700">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">{group.groupName}</h2>
-            <p className="text-sm text-gray-500 mt-1">{group.projectName}</p>
+            <h2 className="text-2xl font-bold text-gray-800">{grp.name}</h2>
+            <p className="text-sm text-gray-500 mt-1">{grp.description}</p>
           </div>
           <button
             onClick={onClose}
@@ -62,13 +65,14 @@ const ViewGroup = ({ onClose }) => {
               Group Information
             </h3>
             <div className="space-y-3">
+              
               <div>
                 <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Supervisor</p>
-                <p className="text-sm font-medium">{supervisor?.name} <span className="text-blue-600">({supervisor?.email})</span></p>
+                <p className="text-sm font-medium">{grp.supervisor?.name} </p>
               </div>
               <div>
-                <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Submission Date</p>
-                <p className="text-sm font-medium">{group.submissionDate}</p>
+                <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Email of Supervisor</p>
+                <p className="text-sm font-medium"><span className="text-black-600">{grp.supervisor?.email}</span></p>
               </div>
               <div>
                 <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Status</p>
@@ -89,10 +93,10 @@ const ViewGroup = ({ onClose }) => {
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
-              Team Members ({students.length})
+              Team Members ({grp.students.length})
             </h3>
             <ul className="space-y-2">
-              {students.map(student => (
+              {grp.students.map(student => (
                 <li key={student.id} className="flex items-center">
                   <div className="bg-purple-100 text-purple-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-medium">
                     {student.name.charAt(0)}
@@ -115,7 +119,7 @@ const ViewGroup = ({ onClose }) => {
               Assignments
             </h3>
             <div className="grid md:grid-cols-2 gap-4">
-              {group.assignments.map(assign => (
+              {grp.assignments.map(assign => (
                 <div key={assign.id} className="bg-white p-3 rounded-md border border-amber-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-amber-900">{assign.title}</h4>

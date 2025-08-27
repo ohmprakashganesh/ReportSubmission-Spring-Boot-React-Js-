@@ -5,6 +5,7 @@ import ViewGroup from './ViewGroup';
 
 const GroupsTable = () => {
   const [groups, setGroups] = useState([]);
+  const [group, setGroup]=useState('')
   const [showReassignModal, setShowReassignModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   // const [selectedGroup, setSelectedGroup] = useState(null);
@@ -23,13 +24,15 @@ const GroupsTable = () => {
     fetchGroups();
   }, []);
 
-  const handleReassignClick = (ind) => {
-    setTempId(ind);
+  const handleReassignClick = (group) => {
+    setTempId(group.id);
+    setGroup(group)
     setShowReassignModal(true);
   };
 
-  const handleViewClick = (ind) => {
-    setTempId(ind);
+  const handleViewClick = (group) => {
+    setTempId(group.id);
+    setGroup(group);
     setShowViewModal(true);
   };
 
@@ -74,13 +77,13 @@ const GroupsTable = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                       <button
-                        onClick={() => handleReassignClick(ind)}
+                        onClick={() => handleReassignClick(group)}
                         className="text-indigo-600 hover:text-indigo-900 px-3 py-1 rounded-md hover:bg-indigo-50 transition-colors duration-200"
                       >
                         Re-Assign
                       </button>
                       <button
-                        onClick={() => handleViewClick(ind)}
+                        onClick={() => handleViewClick(group)}
                         className="text-indigo-600 hover:text-indigo-900 px-3 py-1 rounded-md hover:bg-indigo-50 transition-colors duration-200"
                       >
                         View
@@ -112,6 +115,7 @@ const GroupsTable = () => {
   <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl p-6">
         <ReAssignGroup
           gid={tempId}
+          group={group}
           onClose={() => {
            setShowReassignModal(false);
             setTempId(null);
@@ -135,6 +139,7 @@ const GroupsTable = () => {
           <div className="bg-white rounded-xl shadow-2xl w-full  max-h-[90vh] flex flex-col">
             <ViewGroup
               git={tempId}
+              grp={group}
               onClose={() => {
                 setShowViewModal(false);
                 setTempId(null);

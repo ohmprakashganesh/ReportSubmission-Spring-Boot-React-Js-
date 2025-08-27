@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { createGroup, getStudents, getSupervisors } from '../../services/AdminSer';
+import { createGroup, getStudents, getSupervisors, updateGroup } from '../../services/AdminSer';
 
-const students = [
-  { id: 101, name: "John Doe" },
-  { id: 102, name: "Jane Smith" },
-  { id: 103, name: "Peter Jones" },
-  { id: 104, name: "Alice Brown" },
-  { id: 105, name: "Bob White" },
-  { id: 106, name: "Charlie Green" },
-  { id: 107, name: "David Lee" },
-  { id: 108, name: "Eve White" },
-];
+// const students = [
+//   { id: 101, name: "John Doe" },
+//   { id: 102, name: "Jane Smith" },
+//   { id: 103, name: "Peter Jones" },
+//   { id: 104, name: "Alice Brown" },
+//   { id: 105, name: "Bob White" },
+//   { id: 106, name: "Charlie Green" },
+//   { id: 107, name: "David Lee" },
+//   { id: 108, name: "Eve White" },
+// ];
 
-const supervisors = [
-  { id: 201, name: "Dr. Emily Clark" },
-  { id: 202, name: "Prof. David Lee" },
-  { id: 203, name: "Dr. Sarah Kim" },
-  { id: 204, name: "Dr. Alex Johnson" },
-];
+// const supervisors = [
+//   { id: 201, name: "Dr. Emily Clark" },
+//   { id: 202, name: "Prof. David Lee" },
+//   { id: 203, name: "Dr. Sarah Kim" },
+//   { id: 204, name: "Dr. Alex Johnson" },
+// ];
 
-const ReAssignGroup = ({gid, onClose}) => {
+const ReAssignGroup = ({group, onClose}) => {
+  console.log(group,"this is group ")
   const [supervisors, setSupervisors] = useState([]);
   const [students, setStudents] = useState([]);
 
@@ -30,7 +31,7 @@ const ReAssignGroup = ({gid, onClose}) => {
    const closeFun=()=>{
     onClose();
    }
-   console.log(gid);
+   console.log(group.id);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -83,8 +84,10 @@ const ReAssignGroup = ({gid, onClose}) => {
   console.log("Ready to send payload:", JSON.stringify(groupPayload));
 
   try {
-    const resp = await createGroup(groupPayload);
-    console.log("Successfully created group:", JSON.stringify(resp));
+      // const resp= await updateUser(uid, formData);
+    const resp = await updateGroup(group.id, groupPayload);
+    alert("group updated successfully")
+    console.log("Successfully updated group:", JSON.stringify(resp));
 
     // Optionally reset form after success
     setGroupName('');
