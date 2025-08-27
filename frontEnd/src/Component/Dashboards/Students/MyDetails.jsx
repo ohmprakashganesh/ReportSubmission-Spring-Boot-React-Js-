@@ -1,9 +1,13 @@
 import React from 'react'
-
-const MyDetails = (student) => {
+  const student = {
+      id: 3,
+      name: "THREE",
+      email: "SUP@example.com",
+      role: "STUDENT"
+    };
+const MyDetails = () => {
+ 
   return (
-
-    
     <div className="p-4 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-gray-800">My Details</h2>
       <div className="space-y-2 text-gray-700">
