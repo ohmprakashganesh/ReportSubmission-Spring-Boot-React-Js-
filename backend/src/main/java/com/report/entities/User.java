@@ -37,7 +37,8 @@ public class User {
 
     // Supervisor-only relation
     @OneToMany(mappedBy = "supervisor")
-   @JsonManagedReference(value = "supervisor")
+    @JsonManagedReference(value = "supervisor")
+    @JsonIgnore
     private List<StudentGroup> supervisedGroups;
 
     @OneToMany(mappedBy="supervisor")

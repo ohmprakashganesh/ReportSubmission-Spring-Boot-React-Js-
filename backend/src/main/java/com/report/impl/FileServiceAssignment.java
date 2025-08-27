@@ -1,2 +1,4 @@
-package com.report.impl;public class FileServiceAssignment {
+package com.report.impl;
+
+public class FileServiceAssignment {
 }

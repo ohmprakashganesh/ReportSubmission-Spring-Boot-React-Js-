@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Data
@@ -26,6 +27,7 @@ public class Assignment {
     private String description;
 
     private String title;
+
 
     @ManyToOne
     @JsonBackReference(value = "supervisor-assignment")

@@ -4,6 +4,7 @@ import com.report.DTOs.AssignmentIterDTO;
 import com.report.FileHandle.FilePutGet;
 import com.report.copyleaks.DTOs.CopyleaksBusinessCheck;
 import com.report.entities.Assignment;
+import com.report.entities.IterationType;
 import com.report.entities.User;
 import com.report.exceptional.UserNotFound;
 import com.report.repository.AssignmentRepo;
@@ -45,7 +46,7 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     @Override
     public AssignmentIteration createIteration(AssignmentIterDTO iteration) {
         AssignmentIteration itr= new AssignmentIteration();
-        itr.setIterationType(iteration.getIterationType());
+        itr.setIterationType(IterationType.valueOf(iteration.getIterationType().toString()));
         itr.setStatus(iteration.getStatus());
         itr.setAssignment(assinment(iteration.getAssignmentId()));
         itr.setSubmittedBy(loggedUser(iteration.getSubmittedBy()));

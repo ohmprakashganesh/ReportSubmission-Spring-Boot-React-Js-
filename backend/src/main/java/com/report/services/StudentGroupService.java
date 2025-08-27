@@ -7,8 +7,13 @@ import com.report.DTOs.StrudentGroupDTO;
 import com.report.DTOs.StudentGroupDetailDTO;
 import com.report.entities.StudentGroup;
 import com.report.response.GroupResponse;
+import com.report.response.StudentGroupResponse;
 
 public interface StudentGroupService {
+
+//    StudentGroupResponse ResponseGroup();
+
+
     StudentGroup createGroup(StrudentGroupDTO group);
     StudentGroup getGroupById(Long id);
     List<StudentGroup> allGroups();

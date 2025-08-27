@@ -6,6 +6,7 @@ import com.report.DTOs.StrudentGroupDTO;
 //import com.report.mapping.MappingCls;
 import com.report.DTOs.StudentGroupDetailDTO;
 import com.report.response.GroupResponse;
+import com.report.response.StudentGroupResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,4 +72,9 @@ public class StudentGroupController {
     public  ResponseEntity<GroupResponse> getAssignmentById(@PathVariable Long id){
         return  new ResponseEntity<>(studentGroupService.getAssignMents(id),HttpStatus.OK);
     }
+
+//    @GetMapping("/studentGroupResponse")
+//    public  ResponseEntity<StudentGroupResponse> getDtoOfStudentGroup (){
+//        return  new ResponseEntity<>(StudentGroupService.getStudentGroups(),HttpStatus.OK);
+//    }
 }

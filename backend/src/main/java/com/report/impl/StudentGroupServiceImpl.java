@@ -12,6 +12,7 @@ import com.report.entities.User;
 import com.report.mapping.MappingCls;
 import com.report.repository.UserRepo;
 import com.report.response.GroupResponse;
+import com.report.response.StudentGroupResponse;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.StudentGroup;
@@ -31,6 +32,13 @@ public class StudentGroupServiceImpl implements StudentGroupService {
         this.userRepo=userRepo;
     }
 
+
+
+//    @Override
+//    public StudentGroupResponse ResponseGroup() {
+//       List< StudentGroup> std= studentGroupRepository.findAll();
+//        MappingCls.studentGrpToDto(std);
+//    }
 
     @Override
     public StudentGroup createGroup(StrudentGroupDTO dto) {
@@ -128,14 +136,9 @@ public class StudentGroupServiceImpl implements StudentGroupService {
           resp.setAssignments(grp.get().getAssignments());
       }
         return resp;
-
-
     }
-
-
     @Override
     public List<StudentGroup> allGroups() {
       return  studentGroupRepository.findAll();
-        
     }
 }

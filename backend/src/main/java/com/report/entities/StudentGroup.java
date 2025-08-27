@@ -28,7 +28,7 @@ public class StudentGroup {
    private List<User> students; // Users with role STUDENT
 
    @ManyToOne
-   @JsonBackReference(value = "supervisor")
+   @JsonManagedReference(value = "supervisor")
    private User supervisor; // User with role SUPERVISOR
 
     @OneToMany(mappedBy = "studentGroup",fetch = FetchType.EAGER)

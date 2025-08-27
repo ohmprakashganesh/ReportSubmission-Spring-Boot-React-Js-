@@ -1,11 +1,15 @@
 package com.report.response;
 
+import com.report.entities.AssignmentIteration;
 import com.report.entities.User;
+import lombok.Data;
 
-public class AllGroupsResponse {
-    private  long id;
-    private  String title;
-    private User  supervisor;
+import java.util.List;
 
-
+@Data
+public class StudentGroupResponse {
+            Long id;
+            String groupName;
+            String supervisorName;
+            List<AssignmentIteration> assignmentIterations;
 }
