@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import Assignment from "./Assignments";
-import Default from "./Dashboard";
-import Dashboard from "./Dashboard";
+import Default from "./Default";
+import Dashboard from "./Default";
 import Groups from "./Groups";
 import Settings from "./Setting";
 import Users from "./Users";
+import { httpClient } from "../../services/Config/Config";
+import { getAllUsers } from "../../services/AdminSer";
 
 const Dash = () => {
+ 
+  
+
     // State to manage the currently active section
     const [activeSection, setActiveSection] = useState('dashboard');
     // State to manage the visibility of the assign users modal
@@ -49,7 +54,7 @@ const Dash = () => {
             case 'settings':
                 return <Settings />;
             default:
-                return <Default />;
+                return <Default  />;
         }
     };
 
