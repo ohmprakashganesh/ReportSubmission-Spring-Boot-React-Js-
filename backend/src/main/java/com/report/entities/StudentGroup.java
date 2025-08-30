@@ -24,11 +24,13 @@ public class StudentGroup {
     private String name;
 
    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
-  @JsonManagedReference (value = "group")
+   @JsonManagedReference (value = "group")
+   @JsonIgnore
    private List<User> students; // Users with role STUDENT
 
    @ManyToOne
    @JsonManagedReference(value = "supervisor")
+   @JsonIgnore
    private User supervisor; // User with role SUPERVISOR
 
     @OneToMany(mappedBy = "studentGroup",fetch = FetchType.EAGER)

@@ -36,17 +36,17 @@ const App = () => {
       role: "STUDENT"
     };
 
-   useEffect(()=>{
-   const fetchGroups= async ()=>{
-      try{
-        const objs= await getAllGroups();
-        setGroups(objs);
-      }catch(error){
-        console.log(error);
-      }
-    };
-    fetchGroups();
-  },[]);
+  //  useEffect(()=>{
+  //  const fetchGroups= async ()=>{
+  //     try{
+  //       const objs= await getAllGroups();
+  //       setGroups(objs);
+  //     }catch(error){
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchGroups();
+  // },[]);
 
   console.log("data after api call", groups);
   useEffect(() => {
@@ -54,6 +54,7 @@ const App = () => {
 
   // Function to switch view to group details (used within 'assignedWork' tab)
   const handleViewGroup = (group) => {
+    console.log(group);
     setSelectedGroup(group);
     setCurrentView('groupDetail');
   };

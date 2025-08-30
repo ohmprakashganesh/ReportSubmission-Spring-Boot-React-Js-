@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getAssignments } from "../../services/Assugnment";
+import { getAssignments, getIterationByUser } from "../../services/Assugnment";
 import { ConstructionIcon } from "lucide-react";
+import { httpClient } from "../../services/Config/Config";
+import { getUser } from "../../services/StudetServ";
 
 //   // Data states
 
@@ -102,96 +104,127 @@ import { ConstructionIcon } from "lucide-react";
 //  export default SubmittedWorks
 
 const SubmittedWorks = () => {
-  const [assignments, setAssignments] = useState([]);
+  // const [assignments, setAssignments] = useState([]);
+  // const[assn,setAssn]= useState([]);
+  const[user,setUser]= useState([]);
 
 //   useEffect(() => {
 //     if (mockAssignments) setAssignments(mockAssignments);
 //   }, [mockAssignments]);
 
-  useEffect(() => {
-    const result = async () => {
-      try {
-        const res = await getAssignments();
-        console.log(res)
-        setAssignments(res);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    result();
-  }, []);
+useEffect(()=>{
+const  fetchUser=async ()=>{
+    try{
+ const data= await getUser(12);
+    setUser(data);
+    console.log("fetched user",data);
+    }catch(error){
+      console.log(error);
+    }
+   
+  };
+  fetchUser();
+},[]);
 
+  // useEffect(()=>{
+  //   const Assigns = async ()=>{
+  //     try{
+  //     const  temp= await getIterationByUser();
+  //     console.log("this is by user", temp);
+  //     setAssn(temp);
+  //     console.log(assn.assignments);
+  //     console.log(assn.students)
+  //     }catch(error){
+  //       console.log(error);
+  //     }
+  //   };
+  //   Assigns();
+  // },[])
 
-  return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>
+  // useEffect(() => {
+  //   const result = async () => {
+  //     try {
+  //       const res = await getAssignments();
+  //       console.log(res)
+  //       setAssignments(res);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   result();
+  // }, []);
 
-      {!assignments || assignments.length === 0 ? (
-        <p className="text-gray-600">You haven't submitted any work yet.</p>
-      ) : (
-        <div className="space-y-6">
-          {assignments.map((assignment) => (
-            <div
-              key={assignment.id}
-              className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm"
-            >
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">
-                {assignment.title}
-              </h3>
-              <p className="text-gray-600 mb-2">{assignment.description}</p>
+return (
+  <div className="p-4 bg-white rounded-lg shadow-md">
+    <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>
 
-              {assignment.iterations.length === 0 ? (
-                <p className="text-gray-500">No submissions yet.</p>
-              ) : (
-                <ul className="space-y-3">
-                  {assignment.iterations.map((sub) => (
-                    <li
-                      key={sub.id}
-                      className="border-b border-gray-100 pb-3 last:border-b-0"
-                    >
-                      <h4 className="text-lg font-medium text-gray-700">
-                        Iteration: {sub.iterationType}
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        <strong>Status:</strong>{" "}
-                        <span
-                          className={`font-bold ${
-                            sub.status === "ACCEPTED"
-                              ? "text-green-600"
-                              : sub.status === "REJECTED"
-                              ? "text-red-600"
-                              : "text-yellow-600"
-                          }`}
+    {!user?.group?.assignments || user.group.assignments.length === 0 ? (
+      <p className="text-gray-600">You haven't submitted any work yet.</p>
+    ) : (
+      <div className="space-y-6">
+        {user.group.assignments.map((assignment) => (
+          <div
+            key={assignment.id}
+            className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm"
+          >
+            <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              {assignment.title}
+            </h3>
+            <p className="text-gray-600 mb-2">{assignment.description}</p>
+
+            {assignment.iterations?.length === 0 ? (
+              <p className="text-gray-500">No submissions yet.</p>
+            ) : (
+              <ul className="space-y-3">
+                {assignment.iterations?.map((sub) => (
+                  <li
+                    key={sub.id}
+                    className="border-b border-gray-100 pb-3 last:border-b-0"
+                  >
+                    <h4 className="text-lg font-medium text-gray-700">
+                      Iteration: {sub.iterationType}
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                      <strong>Status:</strong>{" "}
+                      <span
+                        className={`font-bold ${
+                          sub.status === "ACCEPTED"
+                            ? "text-green-600"
+                            : sub.status === "REJECTED"
+                            ? "text-red-600"
+                            : "text-yellow-600"
+                        }`}
+                      >
+                        {sub.status}
+                      </span>
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      <strong>Submitted By:</strong> {sub.submittedBy?.name} (
+                      {sub.submittedBy?.email})
+                    </p>
+                    {sub.documentUrl && (
+                      <p className="mt-1">
+                        <a
+                          href={`http://localhost:8080/api/files/${sub.documentName}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline text-sm flex items-center"
                         >
-                          {sub.status}
-                        </span>
+                          {sub.documentName || "Download File"}
+                        </a>
                       </p>
-                      <p className="text-sm text-gray-700">
-                        <strong>Submitted By:</strong> {sub.submittedBy.name} (
-                        {sub.submittedBy.email})
-                      </p>
-                      {sub.documentUrl && (
-                        <p className="mt-1">
-                          <a
-                            href={`http://localhost:8080/api/files/${sub.documentName}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline text-sm flex items-center"
-                          >
-                            {sub.documentName || "Download File"}
-                          </a>
-                        </p>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+);
+}
+
 
 export default SubmittedWorks;

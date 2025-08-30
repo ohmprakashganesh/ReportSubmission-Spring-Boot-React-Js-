@@ -41,8 +41,8 @@ public class AssignmentIteration {
     @Enumerated(EnumType.STRING)
     private Status status = Status.SUBMITTED;
 
-
     @ManyToOne
+    @JsonIgnore
     private User submittedBy; // User with role STUDENT
 
     @OneToOne(mappedBy="assignmentIteration", cascade = CascadeType.ALL)

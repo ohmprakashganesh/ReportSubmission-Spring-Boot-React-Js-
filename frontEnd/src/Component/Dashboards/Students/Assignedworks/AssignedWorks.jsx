@@ -210,6 +210,7 @@ const AssignedWorks = ({ assignment, onViewSubmissions, submittedBy }) => {
 
       {showSubmitForm && (
         <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col space-y-3">
+          <div>
           <p>Iteration Type</p>
           <select
             value={iterationType}
@@ -221,6 +222,7 @@ const AssignedWorks = ({ assignment, onViewSubmissions, submittedBy }) => {
             <option value="MID">MIDDLE</option>
             <option value="FINAL">FINAL</option>
           </select>
+          </div>
 
           <h4 className="text-md font-semibold text-gray-700">Upload your task file:</h4>
           <input

@@ -33,9 +33,14 @@ public interface StudentGroupRepo extends  JpaRepository<StudentGroup, Long> {
     @EntityGraph(attributePaths = {"assignments"})
     Optional<StudentGroup> findById(Long id);
 
+    @Query("SELECT u.group FROM User u WHERE u.id = :studentId")
+     List<StudentGroup> findGroupByStudentId(@Param("studentId") Long studentId);
+
+
 //    @Query("SELECT new com.report.dto.StudentGroupResponse(sg.id, sg.name, u.name) " +
 //            "FROM StudentGroup sg JOIN sg.supervisor u")
 //    List<StudentGroupResponse> getGroupsWithSupervisors();
+
 
 
 }

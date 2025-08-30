@@ -2,7 +2,11 @@ package com.report.controller;
 
 import java.util.List;
 
+import com.report.DTOs.StudentDto;
 import com.report.DTOs.UserDTO;
+import com.report.entities.StudentGroup;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +38,12 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/student/{id}")
+    public ResponseEntity<StudentDto> getStudent(@PathVariable Long id) {
+        StudentDto user = userService.getStudetnById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity< List<User>> getAllUsers() {
         List< User> user = userService.getUsers();
@@ -53,6 +63,18 @@ public class UserController {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/groupsOfUser")
+    public ResponseEntity<StudentGroup> groupsOfOfUser(){
+        return  new ResponseEntity<>( userService.getGroupsOfUser(8L), HttpStatus.OK);
+    }
+
+    @GetMapping("/usersByGroup/{id}")
+    public  ResponseEntity<List<User>> usersByGroupId(@PathVariable Long id){
+        return  new ResponseEntity<>(userService.UsersByGroupId(id),HttpStatus.OK);
+
+    }
+
 
 
 

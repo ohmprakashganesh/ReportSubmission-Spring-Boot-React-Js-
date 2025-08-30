@@ -2,6 +2,7 @@ package com.report.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.report.DTOs.GroupWithStdSup;
 import com.report.DTOs.StrudentGroupDTO;
 //import com.report.mapping.MappingCls;
 import com.report.DTOs.StudentGroupDetailDTO;
@@ -35,11 +36,6 @@ public class StudentGroupController {
     }
 
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Optional<StudentGroup>>  getGroupNew(@PathVariable Long id) {
-//        Optional< StudentGroup> group = studentGroupService.findGroupWithStudentsAndSupervisor(id);
-//        return new ResponseEntity<>(group, HttpStatus.OK);
-//    }
 
     //fetch all group
     @GetMapping("/all")
@@ -66,11 +62,21 @@ public class StudentGroupController {
     public  ResponseEntity<StudentGroupDetailDTO> groupWithStdAndSupervisor (@PathVariable Long id ){
         return  new ResponseEntity<>(studentGroupService.findGroupWithStudentsAndSupervisor(id),HttpStatus.OK);
     }
+    @GetMapping("/group/{id}")
+    public  ResponseEntity<GroupWithStdSup> findGroupDto (@PathVariable Long id ){
+        return  new ResponseEntity<>(studentGroupService.findGroupWithStdSup(id),HttpStatus.OK);
+    }
+
 
     //get assignments of single group
     @GetMapping("/assignmentByGroupId/{id}")
     public  ResponseEntity<GroupResponse> getAssignmentById(@PathVariable Long id){
         return  new ResponseEntity<>(studentGroupService.getAssignMents(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/GroupsByUser/{id}")
+    public  ResponseEntity<List<StudentGroup>> GroupsByUserId(Long id){
+        return  new ResponseEntity<>(studentGroupService.findGroupByStudent(id),HttpStatus.OK);
     }
 
 //    @GetMapping("/studentGroupResponse")

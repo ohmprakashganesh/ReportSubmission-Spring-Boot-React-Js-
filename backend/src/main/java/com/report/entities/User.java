@@ -31,14 +31,13 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "fk_user_group", foreignKeyDefinition = "FOREIGN KEY (group_id) REFERENCES student_group(id) ON DELETE SET NULL"))
-    @JsonBackReference (value = "group")
+    @JsonManagedReference (value = "group")
     private StudentGroup group;
 
 
     // Supervisor-only relation
     @OneToMany(mappedBy = "supervisor")
-    @JsonManagedReference(value = "supervisor")
-    @JsonIgnore
+    @JsonBackReference(value = "supervisor")
     private List<StudentGroup> supervisedGroups;
 
     @OneToMany(mappedBy="supervisor")

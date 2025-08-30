@@ -19,4 +19,6 @@ public interface AssignmentIterationService {
 
     AssignmentIteration updateIteration(Long id, AssignmentIteration iteration);
     void deleteIteration(Long id);
+
+    List<AssignmentIteration> findAssignemntsByUser(long l);
 }

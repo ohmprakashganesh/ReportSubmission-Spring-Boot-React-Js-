@@ -20,6 +20,7 @@ import java.util.Optional;
 @RequestMapping("/api/itr")
 @CrossOrigin("*")
 public class AssignmentIterationController {
+
      public User user;
 
 
@@ -34,8 +35,6 @@ public class AssignmentIterationController {
     @PostMapping
     public ResponseEntity<AssignmentIteration> createIteration(@ModelAttribute AssignmentIterDTO iteration) {
         MultipartFile file= iteration.getFile();
-
-
         AssignmentIteration createdIteration = assignmentIterationService.createIteration(iteration);
         return new ResponseEntity<>(createdIteration, HttpStatus.CREATED);
     }
@@ -95,4 +94,12 @@ public class AssignmentIterationController {
         assignmentIterationService.deleteIteration(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/assignmentsByUser")
+    public ResponseEntity <List<AssignmentIteration>> findAssignmentsByUser() {
+       List<AssignmentIteration> assigns= assignmentIterationService.findAssignemntsByUser(1L);
+        return new ResponseEntity<>(assigns,HttpStatus.NO_CONTENT);
+    }
+
+
 }

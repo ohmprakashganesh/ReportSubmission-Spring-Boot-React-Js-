@@ -3,9 +3,12 @@ package com.report.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.report.DTOs.StudentDto;
 import com.report.DTOs.UserDTO;
 import com.report.entities.Role;
+import com.report.entities.StudentGroup;
 import com.report.exceptional.UserNotFound;
+import com.report.mapping.MappingCls;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.User;
@@ -77,6 +80,36 @@ public class UserServiceImpl implements UserService {
         return  user;
     }
 
+    @Override
+    public StudentGroup getGroupsOfUser(Long id) {
+        StudentGroup grp= new StudentGroup();
+        Optional<User> user= userRepository.findById(id);
+       if(user.isPresent()){
+           User usr= user.get();
+           if(usr.getGroup()!= null){
+               System.out.println(usr.getGroup());
+               grp=usr.getGroup();
+           }
+       }else {
+           return null;
+       }
+       return  grp;
+    }
+
+    @Override
+    public List<User> UsersByGroupId(Long id) {
+      return   userRepository.findByGroupId(id);
+    }
+
+    @Override
+    public StudentDto getStudetnById(Long id) {
+        Optional<User> usr= userRepository.findById(id);
+        if(usr.isPresent()){
+          return   MappingCls.userToStudetnDto(usr.get());
+        }else{
+            return  null;
+        }
+    }
 
 
 }

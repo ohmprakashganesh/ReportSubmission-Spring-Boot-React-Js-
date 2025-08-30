@@ -1,42 +1,50 @@
-import React from 'react';
-
-const group = {
-  id: 1,
-  groupName: "AI Research Team",
-  projectName: "Advanced Neural Networks for Image Recognition",
-  submissionDate: "2025-12-15",
-  feedback: "Excellent progress on model accuracy. Consider exploring real-time inference.",
-  status: "In Progress",
-
-  users: [
-    { id: 101, name: "John Doe", email: "john@example.com", role: "STUDENT" },
-    { id: 102, name: "Jane Smith", email: "jane@example.com", role: "STUDENT" },
-    { id: 103, name: "Peter Jones", email: "peter@example.com", role: "STUDENT" },
-    { id: 201, name: "Dr. Emily Clark", email: "emily@example.com", role: "SUPERVISOR" }
-  ],
-
-  assignments: [
-    {
-      id: 301,
-      title: "CNN Model Prototype",
-      description: "Initial prototype using convolutional layers",
-      deadline: "2025-10-01"
-    },
-    {
-      id: 302,
-      title: "Training on Custom Dataset",
-      description: "Train model on proprietary image dataset",
-      deadline: "2025-11-01"
-    }
-  ]
-};
+import React, { useEffect, useState } from 'react';
+import { getGroupStudents } from '../../services/Assugnment';
+import { getSuperviosrByGroupId } from '../../services/SuperviserSer';
 
 const ViewGroup = ({ onClose ,grp}) => {
+ 
+  const [students, setStudents]= useState([]);
+  const[supGroup,setSupervisor]=useState("");
+
+  useEffect(()=>{
+    const studentFun= async()=>{
+      try{
+        const temp= await getGroupStudents(1);
+         setStudents(temp);
+         console.log("students of group", temp);
+
+      }catch(error){
+        console.log(error);
+      }
+    };
+    studentFun();
+
+  },[])
+
+   useEffect(()=>{
+    const superfun= async()=>{
+      try{
+        const temp= await getSuperviosrByGroupId (2);
+         setSupervisor(temp);
+         console.log("superviosr of group", temp);
+
+      }catch(error){
+        console.log(error);
+      }
+    };
+    superfun();
+
+  },[])
+
+
+
+
   console.log("this is grp",grp);
 
 
-  const supervisor = group.users.find(u => u.role === "SUPERVISOR");
-  const students = group.users.filter(u => u.role === "STUDENT");
+  // const supervisor = group.users.find(u => u.role === "SUPERVISOR");
+  // const students = group.users.filter(u => u.role === "STUDENT");
 
   return (
     <div className="bg-gray-300 h-screen bg-gradient-to-tr  backdrop-blur-sm flex w-full items-center justify-center p-4 z-50 overflow-y-auto animate-fadeIn">
@@ -68,20 +76,20 @@ const ViewGroup = ({ onClose ,grp}) => {
               
               <div>
                 <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Supervisor</p>
-                <p className="text-sm font-medium">{grp.supervisor?.name} </p>
+                <p className="text-sm font-medium">{supGroup?.supervisor?.name} </p>
               </div>
               <div>
                 <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Email of Supervisor</p>
-                <p className="text-sm font-medium"><span className="text-black-600">{grp.supervisor?.email}</span></p>
+                <p className="text-sm font-medium"><span className="text-black-600"></span></p>
               </div>
               <div>
                 <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Status</p>
                 <p className={`text-sm font-medium ${
-                  group.status === 'Completed' ? 'text-green-600' :
-                  group.status === 'In Progress' ? 'text-blue-600' :
+                  grp.status === 'Completed' ? 'text-green-600' :
+                  grp.status === 'In Progress' ? 'text-blue-600' :
                   'text-yellow-600'
                 }`}>
-                  {group.status}
+                  {grp.status}
                 </p>
               </div>
             </div>
@@ -93,10 +101,10 @@ const ViewGroup = ({ onClose ,grp}) => {
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
-              Team Members ({grp.students.length})
+              Team Members  ({grp.students?.length || 0})
             </h3>
             <ul className="space-y-2">
-              {grp.students.map(student => (
+              {students?.map(student => (
                 <li key={student.id} className="flex items-center">
                   <div className="bg-purple-100 text-purple-800 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-medium">
                     {student.name.charAt(0)}
@@ -123,12 +131,20 @@ const ViewGroup = ({ onClose ,grp}) => {
                 <div key={assign.id} className="bg-white p-3 rounded-md border border-amber-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-amber-900">{assign.title}</h4>
-                    <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full">
+                    <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1  rounded-full">
                       Due: {assign.deadline}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mt-1">{assign.description}</p>
+                   <div className='flex justify-between '>
+                    <p className='gap-8 flex flex-row'>
+                     <button className='bg-blue-200 rounded-2xl p-1'>total  Submission</button>
+                      <span className='bg-cyan-100 px-5 py-1'>{assign.iterations.length} </span>
+                     </p>
+                     <button className='bg-amber-500 rounded-2xl p-1'>View submission</button>
+                   </div>
                 </div>
+               
               ))}
             </div>
           </div>

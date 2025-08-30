@@ -5,3 +5,13 @@ export const getAssignments= async()=>{
     return res.data;
 
 }
+
+export const getIterationByUser = async()=>{
+    const res= await httpClient.get("/api/users/groupsOfUser");
+    return res.data;
+}
+
+export const getGroupStudents=async (id)=>{
+    const res= await httpClient.get(`api/users/usersByGroup/${id}`)
+    return res.data;
+}

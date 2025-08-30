@@ -3,6 +3,7 @@ package com.report.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.report.DTOs.GroupWithStdSup;
 import com.report.DTOs.StrudentGroupDTO;
 import com.report.DTOs.StudentGroupDetailDTO;
 import com.report.entities.StudentGroup;
@@ -23,4 +24,8 @@ public interface StudentGroupService {
     StudentGroupDetailDTO findGroupWithStudentsAndSupervisor(Long id);
 
     GroupResponse getAssignMents(Long id);
+
+   List<StudentGroup> findGroupByStudent(Long id);
+
+    GroupWithStdSup findGroupWithStdSup(Long id);
 }

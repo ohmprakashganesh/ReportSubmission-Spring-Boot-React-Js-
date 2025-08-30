@@ -24,6 +24,7 @@ public class StrudentGroupDTO {
     private List<Long> stdIds;
     private Long supervisorId;
 
+}
 
 //
 //
@@ -34,4 +35,4 @@ public class StrudentGroupDTO {
 //
 //
 //    private List<Long> assignmentIds;
-}
+

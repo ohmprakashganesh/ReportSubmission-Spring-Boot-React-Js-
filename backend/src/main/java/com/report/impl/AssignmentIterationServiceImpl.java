@@ -105,4 +105,9 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
            System.out.println("successfully deleted");
        }
     }
+
+    @Override
+    public List<AssignmentIteration> findAssignemntsByUser(long l) {
+      return   assignmentIterationRepository.findBySubmittedById(l);
+    }
 }

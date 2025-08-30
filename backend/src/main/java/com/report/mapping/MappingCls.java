@@ -228,9 +228,29 @@ public class MappingCls {
            obj.setSupervisor(sup);
 
           return  obj;
-
-
     }
+
+    public  static StudentDto userToStudetnDto(User user){
+        StudentDto dto= new StudentDto();
+        dto.setEmail(user.getEmail());
+        dto.setName(user.getName());
+        dto.setId(user.getId());
+        List<StudentGroup> list= new ArrayList<>();
+        list.add(user.getGroup());
+        System.out.println(user.getGroup());
+        dto.setGroups(list);
+        return  dto;
+    }
+
+
+
+
+
+
+
+
+
+
 //    public static List< ResponseUser> UserToResponse(List<User> user){
 //        List<ResponseUser> users2=new ArrayList<>();
 //        for (User usr: user){

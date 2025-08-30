@@ -12,4 +12,6 @@ public interface AssignmentIterationRepo extends  JpaRepository<AssignmentIterat
 
     @Query("SELECT a FROM AssignmentIteration a WHERE a.submittedBy = :user")
     List<AssignmentIteration> findByUser(User user);
+
+    List<AssignmentIteration> findBySubmittedById(Long userId);
 }

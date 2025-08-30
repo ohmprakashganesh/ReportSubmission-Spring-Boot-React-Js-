@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.report.DTOs.StrudentGroupDTO;
-import com.report.DTOs.StudentGroupDetailDTO;
+import com.report.DTOs.*;
 import com.report.entities.User;
 //import com.report.mapping.MappingCls;
 import com.report.mapping.MappingCls;
 import com.report.repository.UserRepo;
 import com.report.response.GroupResponse;
-import com.report.response.StudentGroupResponse;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.StudentGroup;
@@ -92,15 +90,23 @@ public class StudentGroupServiceImpl implements StudentGroupService {
                         .orElseThrow(() -> new RuntimeException("Student not found with ID " + stdId)))
                 .collect(Collectors.toList()); // ✅ safe in Java 8+
 
-         gru.setStudents(stds);
+
+
+        for (User usr: stds) {
+            usr.setGroup(gru);
+            userRepo.save(usr);
+        }
+
         Optional<User> sup= userRepo.findById(group.getSupervisorId());
         if(sup.isPresent()){
             gru.setSupervisor(sup.get());
         }
+
+        gru.setStudents(stds);
+
         System.out.println(sup);
         gru.setStudents(stds);
         gru.setAssignments(gru.getAssignments());
-
         return studentGroupRepository.save(gru);
     }
 
@@ -137,6 +143,46 @@ public class StudentGroupServiceImpl implements StudentGroupService {
       }
         return resp;
     }
+
+    @Override
+    public  List<StudentGroup> findGroupByStudent(Long id) {
+     return studentGroupRepository.findGroupByStudentId(id);
+    }
+
+    @Override
+    public GroupWithStdSup findGroupWithStdSup(Long id) {
+       Optional<StudentGroup> gru=studentGroupRepository.findById(id);
+
+
+       List<StudentD> list= new ArrayList<>();
+        GroupWithStdSup obj= new GroupWithStdSup();
+      if(gru.isPresent()){
+          System.out.println("this is from "+ gru.get());
+          StudentGroup group= gru.get();
+
+          obj.setGroupName(group.getName());
+          obj.setId(group.getId());
+
+
+          for(User usr: group.getStudents()){
+              StudentD temp= new StudentD();
+              temp.setEmail(usr.getEmail());
+              temp.setName(usr.getName());
+              temp.setId(usr.getId());
+              list.add(temp);
+          }
+          Supervisord temp2= new Supervisord();
+          temp2.setEmail(gru.get().getSupervisor().getEmail());
+          temp2.setName(gru.get().getSupervisor().getName());
+          temp2.setId(gru.get().getSupervisor().getId());
+          obj.setSupervisor(temp2);
+          obj.setStudents(list);
+
+          return  obj;
+      }
+      return null;
+    }
+
     @Override
     public List<StudentGroup> allGroups() {
       return  studentGroupRepository.findAll();
