@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MyDetails from './MyDetails';
 import SubmittedWorks from './SubmittedWorks';
-import { httpClient } from '../../services/Config/Config';
-import { getAllGroups } from '../../services/SuperviserSer';
 import { Boxes } from 'lucide-react';
 import SummeryBoxs from './Assignedworks/SummeryBoxs';
 import Groups from './Assignedworks/Groups';
 import ChatPlaceholder from './Assignedworks/ChatPlaceholder';
-import AssignedWorks from './Assignedworks/AssignedWorks';
-import SubmissionHistory from './Assignedworks/SubmissionHistory';
 import Navbar from './Assignedworks/Navbar';
 import GroupDetail from './Assignedworks/GroupDetail';
 import Sidebar from './Assignedworks/Sidebar';

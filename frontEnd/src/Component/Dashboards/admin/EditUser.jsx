@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getUser, updateUser } from '../../services/AdminSer'
 import { useNavigate } from 'react-router-dom';
 
-const EditUser = ({uid}) => {
+const EditUser = ({uid,setUpdateId}) => {
   const [user, setUser]=useState('');
  const nav= useNavigate();
  
@@ -183,7 +183,8 @@ useEffect(() => {
             />
             {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
           </div>
-          <div className="md:col-span-2 flex justify-end mt-4">
+          <div className="md:col-span-2 flex mt-4 justify-between" >
+            <button onClick={()=>setUpdateId("") }  className="inline-flex items-center px-10 py-3 border border-transparent  font-medium rounded-md shadow-sm text-black bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 text-2xl focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"> close</button>
             <button
               type="submit"
               className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"

@@ -5,9 +5,9 @@ import RegisterUser from './RegisterUser';
 
 const Users = () => {
     const [fetchedUsers, setFetchedUsers]= useState([]);
-   const [id, setId]=useState('');
-   if(id){
-    console.log(id)
+   const [updateId, setUpdateId]=useState('');
+   if(updateId){
+    console.log(updateId)
    }
 
     useEffect(()=>{
@@ -28,7 +28,7 @@ fetchUsers();
     <section id="users" className="section-content p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen font-sans">
       <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Users</h1>
          
-        { id? <EditUser uid={id} />: <RegisterUser />  }
+        { updateId? <EditUser setUpdateId={setUpdateId} uid={updateId} />: <RegisterUser />  }
       <div className=' font-bold text-3xl text-green-700'>hello mother fucker , are you fine and well doing </div>
      
   
@@ -53,7 +53,7 @@ fetchUsers();
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{data.email}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{data.role}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button onClick={()=>setId(data.id)} className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
+                                    <button onClick={()=>setUpdateId(data.id)} className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
                                     <button className="text-red-600 hover:text-red-900">Delete</button>
                                 </td>
                             </tr>

@@ -3,8 +3,6 @@ import {BrowserRouter, Route, Routes}from 'react-router-dom'
 import Login from '../../Component/LoginRegister/Login'
 import Registar from '../../Component/LoginRegister/Registar'
 import LandPage from '../../Component/landpage/LandPage'
-import DashboardStd from '../../Component/Dashboards/Students/DashboardStd'
-import SupervisorDashboard from '../../Component/Dashboards/supervisors/Main'
 
 import Dash from '../../Component/Dashboards/admin/Dash'
 import DashboardU from '../../Component/Dashboards/supervisors/Dashboard'

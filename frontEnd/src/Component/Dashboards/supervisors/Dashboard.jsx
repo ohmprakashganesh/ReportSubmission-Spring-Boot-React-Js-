@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from '../Navbar';
+import Sidebar1 from './Sidebar1';
 
 // Main App Component
 const DashboardU = () => {
@@ -105,8 +107,9 @@ const DashboardU = () => {
     };
 
     return (
-        <div className="flex h-screen overflow-hidden">
-            <Sidebar currentSection={currentSection} onNavigate={handleNavigate} />
+        <>   <Navbar currentSection={currentSection}  title={getSectionTitle} setCurrentSection={setCurrentSection}/>
+        <div className="sm:flex-row flex h-screen border-t-2  mt-2 overflow-scroll">
+            <Sidebar1 currentSection={currentSection} onNavigate={handleNavigate} />
 
             <main className="flex-1 flex flex-col bg-gray-100 overflow-y-auto">
                 <Header sectionTitle={getSectionTitle()} />
@@ -179,66 +182,12 @@ const DashboardU = () => {
                 />
             )}
         </div>
+        </>
     );
 };
 
 // Sidebar Component
-const Sidebar = ({ currentSection, onNavigate }) => {
-    return (
-        <aside className="w-64 bg-gray-800 text-white flex flex-col p-4 shadow-lg transition-all duration-300 ease-in-out lg:translate-x-0" id="sidebar">
-            <div className="flex items-center mb-6">
-                <i className="fas fa-graduation-cap text-3xl text-blue-400 mr-3"></i>
-                <h1 className="text-2xl font-bold">EduPro</h1>
-            </div>
-            <nav className="flex-1">
-                <ul>
-                    <li className="mb-2">
-                        <a href="#" className={`flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 ${currentSection === 'dashboard' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'}`} onClick={() => onNavigate('dashboard')} data-section="dashboard">
-                            <i className="fas fa-tachometer-alt mr-3"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li className="mb-2">
-                        <a href="#" className={`flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 ${currentSection === 'courses' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'}`} onClick={() => onNavigate('courses')} data-section="courses">
-                            <i className="fas fa-book mr-3"></i>
-                            Courses
-                        </a>
-                    </li>
-                    <li className="mb-2">
-                        <a href="#" className={`flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 ${currentSection === 'groups' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'}`} onClick={() => onNavigate('groups')} data-section="groups">
-                            <i className="fas fa-users mr-3"></i>
-                            Groups
-                        </a>
-                    </li>
-                    <li className="mb-2">
-                        <a href="#" className={`flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 ${currentSection === 'students' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'}`} onClick={() => onNavigate('students')} data-section="students">
-                            <i className="fas fa-user-graduate mr-3"></i>
-                            Students
-                        </a>
-                    </li>
-                    <li className="mb-2">
-                        <a href="#" className={`flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 ${currentSection === 'settings' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'}`} onClick={() => onNavigate('settings')} data-section="settings">
-                            <i className="fas fa-cog mr-3"></i>
-                            Settings
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div className="mt-auto pt-4 border-t border-gray-700">
-                <div className="flex items-center p-3 rounded-lg bg-gray-700">
-                    <img src="https://placehold.co/40x40/007bff/ffffff?text=P" alt="Professor Avatar" className="w-10 h-10 rounded-full mr-3 border-2 border-blue-400" />
-                    <div>
-                        <p className="font-semibold">Dr. Alex Johnson</p>
-                        <p className="text-sm text-gray-400">Professor</p>
-                    </div>
-                </div>
-                <button className="w-full mt-4 py-2 px-4 bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 text-white font-medium">
-                    <i className="fas fa-sign-out-alt mr-2"></i>Logout
-                </button>
-            </div>
-        </aside>
-    );
-};
+
 
 // Header Component
 const Header = ({ sectionTitle }) => {
