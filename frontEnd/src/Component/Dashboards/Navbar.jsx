@@ -56,7 +56,7 @@ export default Navbar;
 // Mobile menu items
 export const Items = ({ currentSection, setCurrentSection }) => {
   return (
-    <div className=" fixed top-16 right-2 z-40 w-[37%] bg-white shadow-lg">
+    <div className=" fixed md:hidden  top-16 right-2 z-40 w-[37%] bg-white shadow-lg">
       <ul className="bg-gray-100 flex-col w-full">
         <li
           onClick={() => setCurrentSection("dashboard")}
