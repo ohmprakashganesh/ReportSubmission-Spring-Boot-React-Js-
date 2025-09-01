@@ -50,12 +50,22 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/students/all")
+    public ResponseEntity< List<User>> getAllStudents() {
+        List< User> user = userService.getAllStudents();
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    @GetMapping("/supervisors/all")
+    public ResponseEntity< List<User>> getAllSupervisor() {
+        List< User> user = userService.getAllSupervisors();
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         User updatedUser = userService.updateUser(id, user);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-
     }
 
     @DeleteMapping("/{id}")
@@ -72,11 +82,16 @@ public class UserController {
     @GetMapping("/usersByGroup/{id}")
     public  ResponseEntity<List<User>> usersByGroupId(@PathVariable Long id){
         return  new ResponseEntity<>(userService.UsersByGroupId(id),HttpStatus.OK);
-
+    }
+    @GetMapping("/usersByRole/{role}")
+    public  ResponseEntity<List<User>> usersByRole(@PathVariable String role){
+        return  new ResponseEntity<>(userService.allUsersByrole(role),HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/SupervisedStudents/{id}")
+    public  ResponseEntity<List<User>> supervisedStudentsBysupervisor(@PathVariable Long id){
+        return  new ResponseEntity<>(userService.allSupervisedStudents(id),HttpStatus.OK);
+    }
 
     //admin controller
 }

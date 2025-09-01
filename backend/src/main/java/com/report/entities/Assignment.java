@@ -1,4 +1,5 @@
 package com.report.entities;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -22,12 +24,14 @@ public class Assignment {
      @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    // private String title;
+
 
     private String description;
 
     private String title;
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JsonBackReference(value = "supervisor-assignment")

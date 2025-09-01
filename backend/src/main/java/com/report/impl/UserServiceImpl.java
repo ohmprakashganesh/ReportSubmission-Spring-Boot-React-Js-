@@ -111,5 +111,32 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<User> getAllSupervisors() {
+      return   userRepository.findByRole(Role.SUPERVISER);
+    }
+
+    @Override
+    public List<User> getAllStudents() {
+       return  userRepository.findByRole(Role.STUDENT);
+    }
+
+    @Override
+    public List<User> allUsersByrole(String role) {
+        if(role.equalsIgnoreCase("STUDENT")){
+            return  userRepository.findByRole(Role.STUDENT);
+        }else if(role.equalsIgnoreCase("superviser")){
+            return  userRepository.findByRole(Role.SUPERVISER);
+        }else{
+            return  null;
+        }
+
+    }
+
+    @Override
+    public List<User> allSupervisedStudents(Long id) {
+        return  userRepository.findStudentsBySupervisorId(id);
+    }
+
 
 }

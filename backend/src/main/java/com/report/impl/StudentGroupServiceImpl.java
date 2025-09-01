@@ -144,10 +144,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
         return resp;
     }
 
-    @Override
-    public  List<StudentGroup> findGroupByStudent(Long id) {
-     return studentGroupRepository.findGroupByStudentId(id);
-    }
+
 
     @Override
     public GroupWithStdSup findGroupWithStdSup(Long id) {
@@ -181,6 +178,11 @@ public class StudentGroupServiceImpl implements StudentGroupService {
           return  obj;
       }
       return null;
+    }
+
+    @Override
+    public List<StudentGroup> findGroupBySupervisor(Long id) {
+        return  studentGroupRepository.findBySupervisorId(id);
     }
 
     @Override

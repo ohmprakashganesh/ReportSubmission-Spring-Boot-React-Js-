@@ -50,3 +50,13 @@ export const updateUser= async(id, user)=>{
     const resp=await httpClient.put(`/api/groups/${id}`,group);
     return resp.data;
  }
+
+ export const getAllStudents=async ()=>{
+    const resp= await httpClient.get("/api/users/students/all");
+    return resp.data;
+    }
+    
+  export const getAllSupervisors=async ()=>{
+    const resp= await httpClient.get("/api/users/supervisors/all")
+    return resp.data;
+    }

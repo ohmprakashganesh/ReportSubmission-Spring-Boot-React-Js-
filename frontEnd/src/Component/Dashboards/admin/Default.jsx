@@ -1,62 +1,123 @@
-import React, { useEffect, useState } from 'react';
-import { getAllUsers } from '../../services/AdminSer';
+import React, { useEffect, useState } from "react";
+import { getAllUsers } from "../../services/AdminSer";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
+
+const COLORS = ["#2563eb", "#16a34a", "#f59e0b", "#dc2626"];
 
 const Default = () => {
-      const [tUsers, setUsers]=useState([]);
-         
-        useEffect(()=>{
-         const  totalUsers= async ()=>{
-                try{
-                    const totalUsers= await getAllUsers();
-                   setUsers(totalUsers);
-                }catch(error){
-                    console.log(error);
-                }
-            };
-            totalUsers();
-        },[]);
-    return (
-        <section id="dashboard" className="section-content">
-            <h1 className="text-4xl font-extrabold text-gray-800 mb-8">Dashboard</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-3">Total Users</h2>
-                    <p className="text-5xl font-bold text-blue-600">{tUsers.length}</p>
-                </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-3">Total Professors</h2>
-                    <p className="text-5xl font-bold text-green-600">{tUsers.filter(user=>user.role=="SUPERVISER").length}</p>
-                </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-3">Active Groups</h2>
-                    <p className="text-5xl font-bold text-purple-600"></p>
-                </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-3">Pending Proposals</h2>
-                    <p className="text-5xl font-bold text-yellow-600">{}</p>
-                </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-3">Approved Proposals</h2>
-                    <p className="text-5xl font-bold text-teal-600">42</p>
-                </div>
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-3">Rejected Proposals</h2>
-                    <p className="text-5xl font-bold text-red-600">5</p>
-                </div>
-            </div>
+  const [tUsers, setUsers] = useState([]);
 
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-8">
-                <h2 className="text-2xl font-semibold text-gray-700 mb-4">Recent User Activity</h2>
-                <ul className="list-disc list-inside space-y-2 text-gray-600">
-                    <li>Student John Doe submitted "Research Proposal on AI" (2 hours ago)</li>
-                    <li>Professor Jane Smith approved "Quantum Computing Project" (1 day ago)</li>
-                    <li>Admin created new group "Group Alpha" (3 days ago)</li>
-                    <li>Student Alice Wonderland updated profile (4 days ago)</li>
-                </ul>
-            </div>
-        </section>
-        
-    );
+  useEffect(() => {
+    const totalUsers = async () => {
+      try {
+        const totalUsers = await getAllUsers();
+        setUsers(totalUsers);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    totalUsers();
+  }, []);
+
+  // Role distribution
+  const roleData = [
+    { name: "Students", value: tUsers.filter((u) => u.role === "STUDENT").length },
+    { name: "Supervisors", value: tUsers.filter((u) => u.role === "SUPERVISER").length },
+    { name: "Admins", value: tUsers.filter((u) => u.role === "ADMIN").length },
+  ];
+
+  // Proposal stats (dummy data for now)
+  const proposalData = [
+    { name: "Pending", value: 18 },
+    { name: "Approved", value: 42 }
+   
+  ];
+
+  return (
+    <section id="dashboard" className="section-content p-6">
+      <h1 className="text-4xl font-extrabold text-gray-800 mb-8">📊 Admin Dashboard</h1>
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <h2 className="text-lg font-semibold text-gray-600 mb-2">Total Users</h2>
+          <p className="text-5xl font-bold text-blue-600">{tUsers.length}</p>
+        </div>
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <h2 className="text-lg font-semibold text-gray-600 mb-2">Total Professors</h2>
+          <p className="text-5xl font-bold text-green-600">
+            {tUsers.filter((u) => u.role === "SUPERVISER").length}
+          </p>
+        </div>
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <h2 className="text-lg font-semibold text-gray-600 mb-2">Active Groups</h2>
+          <p className="text-5xl font-bold text-purple-600">12</p>
+        </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+        <div className="bg-white p-6 rounded-2xl shadow">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">User Roles Distribution</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={roleData}
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                fill="#8884d8"
+                dataKey="value"
+                label
+              >
+                {roleData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Proposals Overview</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={proposalData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="value" fill="#2563eb" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Recent Activity */}
+      <div className="bg-white p-6 rounded-2xl shadow">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Recent User Activity</h2>
+        <div className="space-y-4">
+          <div className="flex items-start space-x-3">
+            <span className="w-3 h-3 rounded-full bg-blue-500 mt-2"></span>
+            <p className="text-gray-600">Student <b>John Doe</b> submitted <i>Research Proposal on AI</i> (2 hours ago)</p>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="w-3 h-3 rounded-full bg-green-500 mt-2"></span>
+            <p className="text-gray-600">Professor <b>Jane Smith</b> approved <i>Quantum Computing Project</i> (1 day ago)</p>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="w-3 h-3 rounded-full bg-purple-500 mt-2"></span>
+            <p className="text-gray-600">Admin created new group <b>Group Alpha</b> (3 days ago)</p>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="w-3 h-3 rounded-full bg-yellow-500 mt-2"></span>
+            <p className="text-gray-600">Student <b>Alice Wonderland</b> updated profile (4 days ago)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Default;

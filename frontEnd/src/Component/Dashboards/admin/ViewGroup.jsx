@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getGroupStudents } from '../../services/Assugnment';
-import { getSuperviosrByGroupId } from '../../services/SuperviserSer';
+import Submissions from './Submissions';
+import { getSuperviosrByGroupId } from '../../services/StudetServ';
 
 const ViewGroup = ({ onClose ,grp}) => {
- 
+
+  const[showSubmissions,setShowSubmissions]=useState('');
+ const[assignment, setAssignment]=useState("");
   const [students, setStudents]= useState([]);
   const[supGroup,setSupervisor]=useState("");
 
@@ -13,36 +16,30 @@ const ViewGroup = ({ onClose ,grp}) => {
         const temp= await getGroupStudents(1);
          setStudents(temp);
          console.log("students of group", temp);
-
       }catch(error){
         console.log(error);
       }
     };
     studentFun();
-
   },[])
-
    useEffect(()=>{
     const superfun= async()=>{
       try{
         const temp= await getSuperviosrByGroupId (2);
          setSupervisor(temp);
          console.log("superviosr of group", temp);
-
       }catch(error){
         console.log(error);
       }
     };
     superfun();
-
   },[])
 
-
-
-
-  console.log("this is grp",grp);
-
-
+   const viewSubmission=(assignment)=>{
+    setShowSubmissions(true)
+    setAssignment(assignment);
+    console.log("this is from view submission",assignment)
+   }
   // const supervisor = group.users.find(u => u.role === "SUPERVISOR");
   // const students = group.users.filter(u => u.role === "STUDENT");
 
@@ -137,11 +134,11 @@ const ViewGroup = ({ onClose ,grp}) => {
                   </div>
                   <p className="text-sm text-gray-600 mt-1">{assign.description}</p>
                    <div className='flex justify-between '>
-                    <p className='gap-8 flex flex-row'>
-                     <button className='bg-blue-200 rounded-2xl p-1'>total  Submission</button>
-                      <span className='bg-cyan-100 px-5 py-1'>{assign.iterations.length} </span>
+                    <p className='md:gap-8   gap-2 flex flex-row'>
+                     <button className='bg-blue-200 p-0 rounded-2xl md:p-1'>total  Submission</button>
+                      <span className='bg-cyan-100 rounded-[50%] p-2 px-4 md:px-5 md:py-1'>{assign.iterations.length} </span>
                      </p>
-                     <button className='bg-amber-500 rounded-2xl p-1'>View submission</button>
+                     <button onClick={()=>viewSubmission(assign)} className='bg-amber-500 rounded-2xl p-1'>View submission</button>
                    </div>
                 </div>
                
@@ -179,6 +176,10 @@ const ViewGroup = ({ onClose ,grp}) => {
           </button>
         </div>
       </div>
+      {showSubmissions &&(
+      <Submissions  assignment={assignment} setShowSubmissions={setShowSubmissions} />
+      )}
+      
     </div>
   );
 };

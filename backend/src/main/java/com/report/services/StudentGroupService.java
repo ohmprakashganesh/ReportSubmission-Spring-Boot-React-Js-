@@ -7,6 +7,7 @@ import com.report.DTOs.GroupWithStdSup;
 import com.report.DTOs.StrudentGroupDTO;
 import com.report.DTOs.StudentGroupDetailDTO;
 import com.report.entities.StudentGroup;
+import com.report.entities.User;
 import com.report.response.GroupResponse;
 import com.report.response.StudentGroupResponse;
 
@@ -25,7 +26,9 @@ public interface StudentGroupService {
 
     GroupResponse getAssignMents(Long id);
 
-   List<StudentGroup> findGroupByStudent(Long id);
 
     GroupWithStdSup findGroupWithStdSup(Long id);
+
+
+    List<StudentGroup> findGroupBySupervisor(Long id);
 }

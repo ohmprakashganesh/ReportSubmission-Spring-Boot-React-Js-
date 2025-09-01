@@ -1,4 +1,5 @@
 package com.report.controller;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -6,6 +7,7 @@ import com.report.DTOs.GroupWithStdSup;
 import com.report.DTOs.StrudentGroupDTO;
 //import com.report.mapping.MappingCls;
 import com.report.DTOs.StudentGroupDetailDTO;
+import com.report.entities.Role;
 import com.report.response.GroupResponse;
 import com.report.response.StudentGroupResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +76,11 @@ public class StudentGroupController {
         return  new ResponseEntity<>(studentGroupService.getAssignMents(id),HttpStatus.OK);
     }
 
-    @GetMapping("/GroupsByUser/{id}")
-    public  ResponseEntity<List<StudentGroup>> GroupsByUserId(Long id){
-        return  new ResponseEntity<>(studentGroupService.findGroupByStudent(id),HttpStatus.OK);
+    @GetMapping("/GroupsBySupervisor/{id}")
+    public  ResponseEntity<List<StudentGroup>> groupsBySupervisorId(@PathVariable Long id){
+        return  new ResponseEntity<>(studentGroupService.findGroupBySupervisor(id),HttpStatus.OK);
     }
+
 
 //    @GetMapping("/studentGroupResponse")
 //    public  ResponseEntity<StudentGroupResponse> getDtoOfStudentGroup (){

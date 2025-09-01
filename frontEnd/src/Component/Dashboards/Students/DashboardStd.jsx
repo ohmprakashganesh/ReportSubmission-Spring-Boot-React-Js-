@@ -592,7 +592,7 @@ const App = () => {
         <div className="flex-grow p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">
           {/* Dashboard Summary */}
           <SummeryBoxs  submissions={submissions} assignments={assignments} />
-          <h3>hello mother fucker</h3>
+         
 
           {/* Dynamic Content based on activeTab */}
           {activeTab === 'myDetails' && <MyDetails student={student} />}

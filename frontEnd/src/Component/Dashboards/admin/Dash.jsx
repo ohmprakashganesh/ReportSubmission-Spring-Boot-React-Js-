@@ -4,9 +4,14 @@ import Default from "./Default";
 import Dashboard from "./Default";
 import Groups from "./Groups";
 import Settings from "./Setting";
-import Users from "./Users";
+import Users from "./Students";
 import { httpClient } from "../../services/Config/Config";
 import { getAllUsers } from "../../services/AdminSer";
+import Students from "./Students";
+import Supervisors from "./Supervisors";
+import Projects from "./Projects";
+import ProjectCategories from "./Projects";
+import ApplicationDomainProjects from "./Projects";
 
 const Dash = () => {
  
@@ -45,8 +50,12 @@ const Dash = () => {
         switch (activeSection) {
             case 'dashboard':
                 return <Dashboard />;
-            case 'users':
-                return <Users />;
+            case 'students':
+                return <Students />;
+                 case 'supervisors':
+                return <Supervisors />;
+                case 'projects':
+                return <ApplicationDomainProjects />
             case 'groups':
                 return <Groups showAssignUsersToGroupModal={showAssignUsersToGroupModal} />;
             case 'proposals':
@@ -74,9 +83,15 @@ const Dash = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="#" className={`flex items-center p-3 rounded-lg ${activeSection === 'users' ? 'bg-gray-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} transition-colors duration-200`} onClick={() => showSection('users')}>
+                            <a href="#" className={`flex items-center p-3 rounded-lg ${activeSection === 'students' ? 'bg-gray-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} transition-colors duration-200`} onClick={() => showSection('students')}>
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.106-1.285-.306-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.106-1.285.306-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                Users
+                                Students
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" className={`flex items-center p-3 rounded-lg ${activeSection === 'supervisors' ? 'bg-gray-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} transition-colors duration-200`} onClick={() => showSection('supervisors')}>
+                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.106-1.285-.306-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.106-1.285.306-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                Supervisors
                             </a>
                         </li>
                         <li>
@@ -89,6 +104,12 @@ const Dash = () => {
                             <a href="#" className={`flex items-center p-3 rounded-lg ${activeSection === 'proposals' ? 'bg-gray-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} transition-colors duration-200`} onClick={() => showSection('proposals')}>
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                                 Proposals
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" className={`flex items-center p-3 rounded-lg ${activeSection === 'projects' ? 'bg-gray-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} transition-colors duration-200`} onClick={() => showSection('projects')}>
+                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                Projects
                             </a>
                         </li>
                         <li>

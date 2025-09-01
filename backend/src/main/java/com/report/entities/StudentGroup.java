@@ -14,7 +14,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"students", "supervisor", "assignments"}) // Exclude cyclic fields
+//@ToString(exclude = {"students", "supervisor", "assignments"}) // Exclude cyclic fields
+@ToString(exclude = {"students", "supervisor"}) // Exclude cyclic fields
 public class StudentGroup {
 
     @Id
@@ -29,8 +30,7 @@ public class StudentGroup {
    private List<User> students; // Users with role STUDENT
 
    @ManyToOne
-   @JsonManagedReference(value = "supervisor")
-   @JsonIgnore
+   @JsonBackReference(value = "supervisor")
    private User supervisor; // User with role SUPERVISOR
 
     @OneToMany(mappedBy = "studentGroup",fetch = FetchType.EAGER)

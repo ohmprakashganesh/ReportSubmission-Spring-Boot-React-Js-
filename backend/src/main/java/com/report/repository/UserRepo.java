@@ -20,5 +20,10 @@ public interface UserRepo extends  JpaRepository<User, Long> {
     List<User> findByGroupId(@Param("groupId") Long groupId);
     int countByRole(Role role);
 
+    @Query("SELECT u FROM User u " +
+            "WHERE u.role = 'STUDENT' " +
+            "AND u.group.supervisor.id = :supervisorId")
+    List<User> findStudentsBySupervisorId(@Param("supervisorId") Long supervisorId);
+
     
 }

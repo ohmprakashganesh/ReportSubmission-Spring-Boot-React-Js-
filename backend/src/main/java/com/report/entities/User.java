@@ -41,7 +41,7 @@ public class User {
     private List<StudentGroup> supervisedGroups;
 
     @OneToMany(mappedBy="supervisor")
-    @JsonManagedReference(value="feedback")
+    @JsonBackReference(value="feedback")
     private List<Feedback> feedbacks;
 
 }
