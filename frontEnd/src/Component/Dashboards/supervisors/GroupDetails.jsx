@@ -1,8 +1,15 @@
 import { useState } from "react";
+import Submissions from "./Submissions";
+import FormAssignment from "./FormAssignment";
+import AssignmentEdit from "./AssignmentEdit";
 
-export const GroupDetails = ({ group, onNavigate }) => {
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
+export const GroupDetails = ({ group,onNavigate }) => {
+  const [selectedAssignment,setSelectedAssignment] = useState(null);
   const [feedbackInputs, setFeedbackInputs] = useState({});
+  const[submissionShow,setSubmissionShow]=useState(false);
+  const[assignment,setAssignment]=useState("");
+  console.log("group from group details",group);
+
 
   // Handle feedback input change
   const handleFeedbackInputChange = (iterationId, value) => {
@@ -27,6 +34,18 @@ export const GroupDetails = ({ group, onNavigate }) => {
       });
     }
   };
+  const handleEdit=(data)=>{
+    setShowEditForm(true);
+    setAssignment(data);
+
+  }
+    const seeSubmission=(assignment)=>{
+    setSubmissionShow(true);
+    setSelectedAssignment(assignment);
+    console.log("this is from view submission",assignment)
+   }
+    const [showForm,setShowForm]=useState(false)
+    const[showEditForm,setShowEditForm]=useState(false);
 
   return (
     <section id="group-details-section" className="content-section">
@@ -57,8 +76,8 @@ export const GroupDetails = ({ group, onNavigate }) => {
           {group.name}
         </h3>
         <div className="space-x-3">
-          <button className="py-2 px-4 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200">
-            <i className="fas fa-edit mr-2"></i>Manage Group
+          <button onClick={()=>setShowForm(true)} className="py-2 px-4 bg-blue-500  text-white text-xl font-serif rounded-lg hover:bg-green-500 transition-colors duration-200">
+            <i className="fas  fa-edit mr-2"></i>Create Assignment
           </button>
         </div>
       </div>
@@ -73,131 +92,50 @@ export const GroupDetails = ({ group, onNavigate }) => {
             id="group-members-list"
             className="list-disc list-inside text-gray-700 space-y-2"
           >
-            {group.members.map((member, index) => (
-              <li key={index}>{member}</li>
-            ))}
-          </ul>
+          </ul> 
         </div>
 
-        {/* Assignments */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h4 className="text-xl font-semibold text-gray-800 mb-4">
-            Assignments
-          </h4>
-          {group.assignments?.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {group.assignments.map((assignment) => (
-                <div
-                  key={assignment.id}
-                  className="bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer"
-                  onClick={() =>
-                    setSelectedAssignment(
-                      selectedAssignment?.id === assignment.id
-                        ? null
-                        : assignment
-                    )
-                  }
-                >
-                  <h5 className="font-bold text-lg text-gray-800 mb-2">
-                    {assignment.title}
-                  </h5>
-                  <p className="text-gray-600 text-sm mb-2">
-                    {assignment.description}
-                  </p>
-                  <p className="text-gray-500 text-xs">
-                    Iterations: {assignment.iterations.length}
-                  </p>
+        {group.assignments?.length > 0 ? (
+          <div className="grid   md:grid-cols-2 lg:grid-cols-2 gap-4">
+              {group.assignments.map(assign => (
+                <div key={assign.id} className="bg-white p-3 min-w-96 rounded-md border border-amber-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+                  <div className="flex justify-between items-start">
+                    <h4 className="font-medium text-amber-900">{assign.title}</h4>
+                    <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1  rounded-full">
+                      Due: {assign.deadline}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">{assign.description}</p>
+                   <div className='flex justify-between '>
+                    <p className='md:gap-8   gap-2 flex flex-row'>
+                     <button className='bg-blue-200 p-0 rounded-2xl md:p-1'>total  Submission</button>
+                      <span className='bg-cyan-100 mr-2 text-center pb-0 max-h-8  px-4 md:px-4 md:py-1'>{assign.iterations.length} </span>
+                     </p>
+                     <div className="flex  gap-2">
+                     <button onClick={()=>seeSubmission(assign)} className='bg-amber-500 max-h-8 rounded-xl p-1 px-2'>View </button>
+                     <button onClick={()=>handleEdit(assign)} className='bg-amber-500 max-h-8  rounded-xl p-1 px-2'>Edit </button>
+                      <button onClick={()=>setDelete()} className='bg-amber-500 max-h-8  rounded-xl p-1 px-2'>Delete </button>
+                       </div>
+
+                   </div>
                 </div>
+               
               ))}
             </div>
-          ) : (
-            <p className="text-gray-600">
-              No assignments available for this group.
-            </p>
-          )}
-        </div>
 
-        {/* Iterations Section */}
-        {selectedAssignment && (
-          <div className="bg-white p-6 rounded-xl shadow-md">
-            <h4 className="text-xl font-bold text-gray-800 mb-4">
-              Iterations for: {selectedAssignment.title}
-            </h4>
-            {selectedAssignment.iterations.map((iteration, index) => (
-              <div
-                key={iteration.id}
-                className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h5 className="text-lg font-semibold text-blue-700">
-                    Iteration {index + 1} ({iteration.iterationType})
-                  </h5>
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      iteration.status === "SUBMITTED"
-                        ? "bg-green-200 text-green-800"
-                        : iteration.status === "IN_PROGRESS"
-                        ? "bg-yellow-200 text-yellow-800"
-                        : iteration.status === "GRADED"
-                        ? "bg-purple-200 text-purple-800"
-                        : "bg-gray-200 text-gray-700"
-                    }`}
-                  >
-                    {iteration.status}
-                  </span>
-                </div>
-
-                <p className="text-gray-700">
-                  <strong>Submitted By:</strong> {iteration.submittedBy.name}
-                </p>
-                <p className="text-gray-700">
-                  <strong>Document:</strong>{" "}
-                  <a
-                    href={iteration.documentUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
-                  >
-                    {iteration.documentName}
-                  </a>
-                </p>
-
-                {/* Feedback */}
-                <div className="mt-3">
-                  <strong className="text-gray-800">Feedback:</strong>
-                  {iteration.feedbacks?.length > 0 ? (
-                    <ul className="mt-2 text-gray-700 list-disc list-inside">
-                      {iteration.feedbacks.map((f, i) => (
-                        <li key={i}>"{f}"</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-gray-500 italic">No feedback yet.</p>
-                  )}
-
-                  <div className="mt-2 flex">
-                    <input
-                      type="text"
-                      value={feedbackInputs[iteration.id] || ""}
-                      onChange={(e) =>
-                        handleFeedbackInputChange(iteration.id, e.target.value)
-                      }
-                      placeholder="Enter feedback..."
-                      className="flex-1 p-2 border rounded-md"
-                    />
-                    <button
-                      onClick={() => handleSubmitFeedback(iteration.id)}
-                      className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                    >
-                      Send
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+            ):<div> not assignment found</div> }
+            
+ 
       </div>
+       {submissionShow &&(
+      <Submissions  assignment={selectedAssignment}   setSubmissionShow={setSubmissionShow} />
+      )}
+      {showForm &&(
+         <FormAssignment setShowForm={setShowForm}/>
+      )}
+      {showEditForm &&(
+         <AssignmentEdit assignment={assignment} setShowEditForm={setShowEditForm}/>
+      )}
     </section>
   );
 };

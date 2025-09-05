@@ -1,4 +1,7 @@
-export const GroupsSection = ({ groupsData, onViewGroup }) => {
+export const GroupsSection = ({ groupsData,groups, onViewGroup }) => {
+    console.log("form group section",groups)
+
+  
     return (
         <section id="groups-section" className="content-section">
             <nav className="text-sm text-gray-500 mb-4">
@@ -15,10 +18,10 @@ export const GroupsSection = ({ groupsData, onViewGroup }) => {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {groupsData.map((group, index) => (
+                        {groups.map((group, index) => (
                             <tr key={index}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{group.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{group.members.join(', ')}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">members hard code</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <button
                                         className="text-blue-600 hover:text-blue-900 mr-2"
@@ -26,8 +29,7 @@ export const GroupsSection = ({ groupsData, onViewGroup }) => {
                                     >
                                         <i className="fas fa-eye"></i> View Group
                                     </button>
-                                    <button className="text-gray-600 hover:text-gray-900 mr-2"><i className="fas fa-edit"></i> Edit</button>
-                                    <button className="text-red-600 hover:text-red-900"><i className="fas fa-trash-alt"></i> Delete</button>
+                                
                                 </td>
                             </tr>
                         ))}

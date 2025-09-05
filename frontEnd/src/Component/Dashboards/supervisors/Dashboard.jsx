@@ -7,12 +7,7 @@ import { GroupsSection } from './GroupSection';
 import { StudentsSection } from './StudentSection';
 import { SettingsSection } from './SettingSection';
 import { CourseDetails } from './CourseDetails';
-import { AssignmentDetails } from './AssignmentDetails';
-import GroupDetail from '../Students/Assignedworks/GroupDetail';
 import { GroupDetails } from './GroupDetails';
-import { AssignTaskModal } from './AssigntaskModal';
-import { ReviewSubmissionModal } from './ReviewSubmissionModal';
-import { httpClient } from '../../services/Config/Config';
 import { getUser } from '../../services/AdminSer';
 import { SupervisedStudents, supervisorKoGroups } from '../../services/SuperviserSer';
 
@@ -53,7 +48,7 @@ const DashboardU = () => {
     useEffect(()=>{
         const fetchUser=async ()=>{
             try{
-                const res= await supervisorKoGroups(4);
+                const res= await supervisorKoGroups(5);
                  setGroups(res);
             }catch(error){
                 console.log(error);
@@ -61,8 +56,6 @@ const DashboardU = () => {
         };
           fetchUser();
      },[]);
-
-    
     // State for managing current section/page
     const [currentSection, setCurrentSection] = useState('dashboard');
     const [currentCourse, setCurrentCourse] = useState(null); // Stores selected course data
@@ -162,7 +155,7 @@ const DashboardU = () => {
             default: return 'Dashboard Overview';
         }
     };
-
+    console.log(groups);
     return (
         <>   <Navbar currentSection={currentSection}  title={getSectionTitle()} setCurrentSection={setCurrentSection}/>
         <div className="sm:flex-row flex h-screen border-t-2  mt-2 overflow-scroll">
@@ -183,12 +176,13 @@ const DashboardU = () => {
                     {currentSection === 'courses' && (
                         <CoursesSection
                             coursesData={coursesData}
-                             
+                            groups={groups}    
                             onViewCourse={course => setComponent('course-details', course)}
                         />
                     )}
                     {currentSection === 'groups' && (
                         <GroupsSection
+                            groups={groups}
                             groupsData={Object.values(groupsData).flat()} // Flatten all groups from all courses
                             onViewGroup={group => setComponent('group-details', group)}
                         />
@@ -250,25 +244,41 @@ const Dashboard = ({ coursesData, dashboardProposals, onViewCourse, onReviewSubm
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-between">
                     <div>
-                        <p className="text-gray-500 text-sm">Total Courses</p>
+                        <p className="text-gray-500 text-sm">Total Assignments</p>
                         <p className="text-3xl font-bold text-gray-800">4</p>
                     </div>
                     <i className="fas fa-book text-5xl text-blue-200"></i>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-between">
                     <div>
-                        <p className="text-gray-500 text-sm">Pending Reviews</p>
+                        <p className="text-gray-500 text-sm">total Groups</p>
                         <p className="text-3xl font-bold text-gray-800">12</p>
                     </div>
                     <i className="fas fa-clipboard-check text-5xl text-green-200"></i>
                 </div>
+                
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-between">
                     <div>
-                        <p className="text-gray-500 text-sm">Upcoming Deadlines</p>
+                        <p className="text-gray-500 text-sm">Total Students</p>
                         <p className="text-3xl font-bold text-gray-800">3</p>
                     </div>
                     <i className="fas fa-calendar-alt text-5xl text-yellow-200"></i>
                 </div>
+                <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-between">
+                    <div>
+                        <p className="text-gray-500 text-sm">Total Reviewed</p>
+                        <p className="text-3xl font-bold text-gray-800">3</p>
+                    </div>
+                    <i className="fas fa-calendar-alt text-5xl text-yellow-200"></i>
+                </div>
+                <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-between">
+                    <div>
+                        <p className="text-gray-500 text-sm">Total Pending</p>
+                        <p className="text-3xl font-bold text-gray-800">3</p>
+                    </div>
+                    <i className="fas fa-calendar-alt text-5xl text-yellow-200"></i>
+                </div>
+                
             </div>
 
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Recently Submitted Proposals</h3>

@@ -18,7 +18,7 @@ const Sidebar1 = ({ currentSection, onNavigate }) => {
                         <a href="#" className={`flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 ${currentSection === 'courses' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-white'}`} 
                         onClick={() => onNavigate('courses')} data-section="courses">
                             <i className="fas fa-book mr-3"></i>
-                            Courses
+                            Assignments
                         </a>
                     </li>
                     <li className="mb-2">
