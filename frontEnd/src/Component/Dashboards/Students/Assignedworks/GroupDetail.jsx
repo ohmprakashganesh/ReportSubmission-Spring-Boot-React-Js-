@@ -6,6 +6,7 @@ import SubmissionHistory from './SubmissionHistory';
     const GroupDetail = ({ group, assignments, onBack, onSubmitAssignment, allSubmissions }) => {
       const [showSubmissionHistory, setShowSubmissionHistory] = useState(false);
       const [selectedAssignmentForHistory, setSelectedAssignmentForHistory] = useState(null);
+      const [assignmentOrg, setAssignmentOrg]=useState([]);
   
       // Function to open submission history modal
       const handleViewSubmissions = (assignment) => {
@@ -43,7 +44,7 @@ import SubmissionHistory from './SubmissionHistory';
           {assignments.length == 0 ? (
             <p className="text-gray-600">No assignments found for this group yet.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
               {assignments.map((assignment) => (
                console.log(assignment.id),
                 <AssignedWorks
@@ -60,6 +61,7 @@ import SubmissionHistory from './SubmissionHistory';
   
           {showSubmissionHistory && selectedAssignmentForHistory && (
             <SubmissionHistory
+             assignmentOrg={assignmentOrg}
               assignment={selectedAssignmentForHistory}
               submissions={allSubmissions.filter(
                 (sub) => sub.assignmentId === selectedAssignmentForHistory.id

@@ -44,8 +44,8 @@ const ViewGroup = ({ onClose ,grp}) => {
   // const students = group.users.filter(u => u.role === "STUDENT");
 
   return (
-    <div className="bg-gray-300 h-screen bg-gradient-to-tr  backdrop-blur-sm flex w-full items-center justify-center p-4 z-50 overflow-y-auto animate-fadeIn">
-     <div className="bg-white rounded-xl h-screen shadow-2xl p-6 w-full max-w-6xl transform transition-all duration-300 scale-100 opacity-100 animate-slideUp">
+    <div className="bg-gray-300 h-screen  bg-gradient-to-tr  backdrop-blur-sm flex w-full items-center justify-center p-4 z-50 overflow-y-auto animate-fadeIn">
+     <div className="bg-white mt-30  rounded-xl h-fit shadow-2xl p-6 w-full max-w-6xl transform transition-all duration-300 scale-100 opacity-100 animate-slideUp">
         <div className="flex mt-10 justify-between items-center mb-6 pb-4 border-b border-gray-700">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">{grp.name}</h2>

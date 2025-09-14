@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Submissions from "./Submissions";
 import FormAssignment from "./FormAssignment";
 import AssignmentEdit from "./AssignmentEdit";
+import { getGroupStudents } from "../../services/Assugnment";
 
 export const GroupDetails = ({ group,onNavigate }) => {
   const [selectedAssignment,setSelectedAssignment] = useState(null);
   const [feedbackInputs, setFeedbackInputs] = useState({});
   const[submissionShow,setSubmissionShow]=useState(false);
   const[assignment,setAssignment]=useState("");
+    const[users,setUsers]=useState("");
+
   console.log("group from group details",group);
 
 
@@ -18,6 +21,21 @@ export const GroupDetails = ({ group,onNavigate }) => {
       [iterationId]: value,
     }));
   };
+
+   useEffect(()=>{
+    const fetchStds= async ()=>{
+      try{
+     const data= await getGroupStudents(group.id);
+     setUsers(data);
+     console.log("this if logged",users);
+
+      }catch(error){
+        console.log(error);
+      }
+    }
+    fetchStds();
+
+  },[]);
 
   // Handle feedback submit
   const handleSubmitFeedback = (iterationId) => {
@@ -88,6 +106,39 @@ export const GroupDetails = ({ group,onNavigate }) => {
           <h4 className="text-xl font-semibold text-gray-800 mb-4">
             Group Members
           </h4>
+    <table className="min-w-full border border-gray-300 rounded-lg shadow-sm text-center">
+  <thead className="bg-green-100">
+    <tr>
+      <th className="px-4 py-2 border-b border-gray-300 font-semibold uppercase text-gray-700">SN</th>
+      <th className="px-4 py-2 border-b border-gray-300 font-semibold uppercase text-gray-700">Name</th>
+      <th className="px-4 py-2 border-b border-gray-300 font-semibold uppercase text-gray-700">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {users?.length > 0 ? (
+      users.map((user, index) => (
+        <tr
+          key={user.id || index}
+          className="bg-white hover:bg-gray-50 transition-colors border-b border-gray-300"
+        >
+          <td className="px-4 py-2">{index + 1}</td>
+          <td className="px-4 py-2">{user.name}</td>
+          <td className="px-4 py-2">{user.email}</td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="3" className="px-4 py-2 text-gray-500">
+          No users found.
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
+
+
+
+
           <ul
             id="group-members-list"
             className="list-disc list-inside text-gray-700 space-y-2"
@@ -95,7 +146,7 @@ export const GroupDetails = ({ group,onNavigate }) => {
           </ul> 
         </div>
 
-        {group.assignments?.length > 0 ? (
+        {/* {group.assignments?.length > 0 ? (
           <div className="grid   md:grid-cols-2 lg:grid-cols-2 gap-4">
               {group.assignments.map(assign => (
                 <div key={assign.id} className="bg-white p-3 min-w-96 rounded-md border border-amber-200 shadow-sm hover:shadow-md transition-shadow duration-200">
@@ -124,17 +175,73 @@ export const GroupDetails = ({ group,onNavigate }) => {
             </div>
 
             ):<div> not assignment found</div> }
-            
- 
+             */}
+{group.assignments?.length > 0 ? (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {group.assignments.map((assign) => (
+      <div
+        key={assign.id}
+        className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 p-5 flex flex-col justify-between"
+      >
+        {/* Header */}
+        <div className="flex justify-between items-start mb-3">
+          <h4 className="text-lg font-semibold text-gray-800">{assign.title}</h4>
+          <span className="bg-gray-100 text-gray-800 text-xs px-3 py-1 rounded-full font-medium">
+            Due: {assign.deadline}
+          </span>
+        </div>
+
+        {/* Description */}
+        <p className="text-gray-600 text-sm mb-4 line-clamp-3">{assign.description}</p>
+
+        {/* Submissions & Actions */}
+        <div className="flex justify-between items-center mt-auto">
+          {/* Iterations */}
+          <div className="flex items-center gap-2">
+            <span className="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">
+              Submissions: {assign.iterations.length}
+            </span>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => seeSubmission(assign)}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
+            >
+              View
+            </button>
+            <button
+              onClick={() => handleEdit(assign)}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => setDelete(assign)}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+) : (
+  <div className="text-center text-gray-500 py-10">
+    No assignments found.
+  </div>
+)}
       </div>
        {submissionShow &&(
       <Submissions  assignment={selectedAssignment}   setSubmissionShow={setSubmissionShow} />
       )}
       {showForm &&(
-         <FormAssignment setShowForm={setShowForm}/>
+         <FormAssignment id={group.id}  setShowForm={setShowForm}/>
       )}
       {showEditForm &&(
-         <AssignmentEdit assignment={assignment} setShowEditForm={setShowEditForm}/>
+         <AssignmentEdit assignment={assignment} id={group.id} setShowEditForm={setShowEditForm}/>
       )}
     </section>
   );

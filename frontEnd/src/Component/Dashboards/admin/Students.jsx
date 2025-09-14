@@ -38,7 +38,7 @@ const Students = () => {
         fetchUsers();
     }, []);
     return (
-        <section id="users" className="section-content p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen font-sans">
+        <section id="users" className="w-full section-content p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen font-sans">
             <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Users</h1>
             {updateId ? <EditUser setUpdateId={setUpdateId} uid={updateId} /> : <RegisterUser />}
             <div className=' font-bold text-3xl text-green-700'>hello mother fucker , are you fine and well doing </div>

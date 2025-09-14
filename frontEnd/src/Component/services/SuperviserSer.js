@@ -17,3 +17,10 @@ export const SupervisedStudents= async (id)=>{
     const obj= await httpClient.get(`/api/users/SupervisedStudents/${id}`);
     return obj.data;
 }
+export const createFeedback= async (group)=>{
+ const resp=await httpClient.post('/api/feedbacks',group);
+    return resp.data;
+}
+
+
+

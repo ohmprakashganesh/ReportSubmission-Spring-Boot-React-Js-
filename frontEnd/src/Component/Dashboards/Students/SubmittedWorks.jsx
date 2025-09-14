@@ -4,113 +4,12 @@ import { ConstructionIcon } from "lucide-react";
 import { httpClient } from "../../services/Config/Config";
 import { getUser } from "../../services/StudetServ";
 
-//   // Data states
 
-//   // Mock student data (as provided by the user)
-
-//  const SubmittedWorks = ({ allAssignments, allSubmissions,mockAssignments, mockSubmissions }) => {
-
-//       const [assignments, setAssignments] = useState([]);
-//       const [submissions, setSubmissions] = useState([]); // All submissions for all assignments
-
-//  useEffect(() => {
-//     setAssignments(mockAssignments);
-//     setSubmissions(mockSubmissions);
-//   }, [mockAssignments, mockSubmissions]);
-
-//      const submissionsByAssignment = allSubmissions.reduce((acc, sub) => {
-//       if (!acc[sub.assignmentId]) {
-//         acc[sub.assignmentId] = [];
-//       }
-//       acc[sub.assignmentId].push(sub);
-//       return acc;
-//     }, {});
-//    return (
-//       <div className="p-4 bg-white rounded-lg shadow-md">
-//         <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>
-//         {Object.keys(submissionsByAssignment).length === 0 ? (
-//           <p className="text-gray-600">You haven't submitted any work yet.</p>
-//         ) : (
-//           <div className="space-y-6">
-//             {Object.entries(submissionsByAssignment).map(([assignmentId, subs]) => {
-//               const assignment = allAssignments.find(a => a.id === assignmentId);
-//               if (!assignment) return null; // Should not happen with consistent data
-
-//               return (
-//                 <div key={assignmentId} className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
-//                   <h3 className="text-xl font-semibold mb-3 text-gray-800">{assignment.name}</h3>
-//                   <ul className="space-y-3">
-//                     {subs.sort((a, b) => a.iteration - b.iteration).map(sub => (
-//                       <li key={sub.id} className="border-b border-gray-100 pb-3 last:border-b-0">
-//                         <h4 className="text-lg font-medium text-gray-700">Iteration {sub.iteration}</h4>
-//                         <p className="text-sm text-gray-600">
-//                           <strong>Submitted On:</strong> {new Date(sub.dateSubmitted).toLocaleString()}
-//                         </p>
-//                         <p className="text-sm">
-//                           <strong>Status:</strong>{' '}
-//                           <span
-//                             className={`font-bold ${
-//                               sub.status === 'Accepted'
-//                                 ? 'text-green-600'
-//                                 : sub.status === 'Rejected'
-//                                 ? 'text-red-600'
-//                                 : 'text-yellow-600'
-//                             }`}
-//                           >
-//                             {sub.status}
-//                           </span>
-//                         </p>
-//                         {sub.feedback && (
-//                           <p className="text-sm text-gray-700">
-//                             <strong>Feedback:</strong> {sub.feedback}
-//                           </p>
-//                         )}
-//                         {sub.fileUrl && (
-//                           <p className="mt-1">
-//                             <a
-//                               href={sub.fileUrl}
-//                               target="_blank"
-//                               rel="noopener noreferrer"
-//                               className="text-blue-600 hover:underline text-sm flex items-center"
-//                             >
-//                               <svg
-//                                 xmlns="http://www.w3.org/2000/svg"
-//                                 className="h-4 w-4 mr-1"
-//                                 viewBox="0 0 20 20"
-//                                 fill="currentColor"
-//                               >
-//                                 <path
-//                                   fillRule="evenodd"
-//                                   d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-//                                   clipRule="evenodd"
-//                                 />
-//                               </svg>
-//                               Download File
-//                             </a>
-//                           </p>
-//                         )}
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </div>
-//               );
-//             })}
-//           </div>
-//         )}
-//       </div>
-//    )
-//  }
-
-//  export default SubmittedWorks
 
 const SubmittedWorks = () => {
-  // const [assignments, setAssignments] = useState([]);
-  // const[assn,setAssn]= useState([]);
+
   const[user,setUser]= useState([]);
 
-//   useEffect(() => {
-//     if (mockAssignments) setAssignments(mockAssignments);
-//   }, [mockAssignments]);
 
 useEffect(()=>{
 const  fetchUser=async ()=>{
@@ -121,39 +20,34 @@ const  fetchUser=async ()=>{
     }catch(error){
       console.log(error);
     }
-   
   };
   fetchUser();
 },[]);
 
-  // useEffect(()=>{
-  //   const Assigns = async ()=>{
-  //     try{
-  //     const  temp= await getIterationByUser();
-  //     console.log("this is by user", temp);
-  //     setAssn(temp);
-  //     console.log(assn.assignments);
-  //     console.log(assn.students)
-  //     }catch(error){
-  //       console.log(error);
-  //     }
-  //   };
-  //   Assigns();
-  // },[])
 
-  // useEffect(() => {
-  //   const result = async () => {
-  //     try {
-  //       const res = await getAssignments();
-  //       console.log(res)
-  //       setAssignments(res);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   result();
-  // }, []);
+const onDelete = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/itr/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
+    if (response.ok) {
+      alert("Item deleted successfully");
+      // Optionally refresh list here
+    } else {
+      const error = await response.text();
+      alert("Error: " + error);
+    }
+  } catch (err) {
+    console.error("Error deleting item:", err);
+  }
+};
+
+
+ 
 return (
   <div className="p-4 bg-white rounded-lg shadow-md">
     <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>
@@ -162,8 +56,10 @@ return (
       <p className="text-gray-600">You haven't submitted any work yet.</p>
     ) : (
       <div className="space-y-6">
-        {user.group.assignments.map((assignment) => (
-          <div
+
+        {user.group.assignments.map((assignment) => ( 
+           assignment?.iterations && assignment.iterations.length >0 &&(
+              <div
             key={assignment.id}
             className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm"
           >
@@ -179,8 +75,10 @@ return (
                 {assignment.iterations?.map((sub) => (
                   <li
                     key={sub.id}
-                    className="border-b border-gray-100 pb-3 last:border-b-0"
+                    className="border-b flex  mb-2 border-gray-500 pb-3 last:border-b-0"
                   >
+                    <div className="w-[80%]">
+
                     <h4 className="text-lg font-medium text-gray-700">
                       Iteration: {sub.iterationType}
                     </h4>
@@ -200,7 +98,7 @@ return (
                     </p>
                     <p className="text-sm text-gray-700">
                       <strong>Submitted By:</strong> {sub.submittedBy?.name} (
-                      {sub.submittedBy?.email})
+                      {sub.submittedBy?.email || "Not found"})
                     </p>
                     {sub.documentUrl && (
                       <p className="mt-1">
@@ -214,12 +112,31 @@ return (
                         </a>
                       </p>
                     )}
+                    <p>{sub?.feedback?.comment}</p>
+                    <p>no feed back yet</p>
+                    </div>
+                    <div>
+                     <div className=" gap-2 w-full  ml-4">
+                 
+                    <button
+                      onClick={() => onDelete(sub.id)}
+                      className="px-3 w-full py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                    </div>
                   </li>
                 ))}
               </ul>
             )}
           </div>
+           )
+          
+          
+        
         ))}
+                 
       </div>
     )}
   </div>

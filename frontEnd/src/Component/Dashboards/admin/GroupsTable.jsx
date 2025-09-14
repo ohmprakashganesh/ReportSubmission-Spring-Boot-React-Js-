@@ -45,70 +45,80 @@ const GroupsTable = () => {
 
   return (
     <>
-      <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-8 relative">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Groups</h2>
+        
+    
+    <div className="bg-white sticky top-24 w-full   p-6 rounded-xl shadow-md border border-gray-200 mb-8 ">
+     <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Groups</h2>
 
-        <div className="">
-          <table className="w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Group Name
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Project Title
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y pl-4 pr-5 flex-wrap divide-gray-200">
-              {groups.length > 0 ? (
-                groups.map((group, ind) => (
-                  <tr key={ind}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {group.name}
-                    </td>
-                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-500">
-                      {group.assignments?.map((assignment) => (
-                        <span key={assignment.id}>{assignment.title} ,</span>
-                      ))}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                      <button
-                        onClick={() => handleReassignClick(group)}
-                        className="text-indigo-600 hover:text-indigo-900 px-3 py-1 rounded-md hover:bg-indigo-50 transition-colors duration-200"
-                      >
-                        Re-Assign
-                      </button>
-                      <button
-                        onClick={() => handleViewClick(group)}
-                        className="text-indigo-600 hover:text-indigo-900 px-3 py-1 rounded-md hover:bg-indigo-50 transition-colors duration-200"
-                      >
-                        View
-                      </button>
-                      <button
-                        onClick={() => handleDeleteGroup(ind)}
-                        className="text-red-600 hover:text-red-900 px-3 py-1 rounded-md hover:bg-red-50 transition-colors duration-200"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">
-                    No groups found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+  {/* ✅ Scrollable wrapper to keep table inside parent */}
+  <div className="overflow-x-auto">
+    <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+      <thead className="bg-gray-50 ">
+        <tr>
+          <th className="px-2 w-[15%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
+            Group Name
+          </th>
+          <th className="px-2 w-[65%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
+            Project Title
+          </th>
+          <th className="  w-[20%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
+            Actions
+          </th>
+        </tr>
+      </thead>
 
-      </div>
+      <tbody className="bg-white divide-y divide-gray-200">
+        {groups.length > 0 ? (
+          groups.map((group, ind) => (
+            <tr
+              key={ind}
+              className="hover:bg-gray-50 transition-colors text-center"
+            >
+              <td className="px-1 py-4 text-sm font-medium text-gray-900">
+                {group.name}
+              </td>
+              <td className="px-1 py-4 text-sm text-gray-500">
+                {group.assignments?.map((assignment) => (
+                  <span key={assignment.id}>{assignment.title}, </span>
+                ))}
+              </td>
+              <td className=" py-4 text-sm font-medium ">
+                <button
+                  onClick={() => handleReassignClick(group)}
+                  className="text-indigo-600 hover:text-indigo-900 px-1 py-1 rounded-md hover:bg-indigo-50 transition-colors"
+                >
+                  Re-Assign
+                </button>
+                <button
+                  onClick={() => handleViewClick(group)}
+                  className="text-indigo-600 hover:text-indigo-900 px-1 py-1 rounded-md hover:bg-indigo-50 transition-colors"
+                >
+                  View
+                </button>
+                <button
+                  onClick={() => handleDeleteGroup(ind)}
+                  className="text-red-600 hover:text-red-900 px-1 py-1 rounded-md hover:bg-red-50 transition-colors"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td
+              colSpan="3"
+              className="px-6 py-4 text-center text-sm text-gray-500"
+            >
+              No groups found
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+
+    </div>
+</div>
 
       {showReassignModal && tempId && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
