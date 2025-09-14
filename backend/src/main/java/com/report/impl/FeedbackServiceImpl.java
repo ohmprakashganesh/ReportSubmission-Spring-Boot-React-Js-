@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.report.entities.Feedback;
 import com.report.repository.FeedbackRepo;
 import com.report.services.FeedbackService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -56,9 +57,28 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackRepository.save(obj);
     }
 
+    @Transactional
     @Override
     public void deleteFeedback(Long id) {
-        feedbackRepository.deleteById(id) ;
-        System.out.println("successfully deleted");
+        feedbackRepository.findById(id).ifPresent(f -> {
+            // Break the foreign key relationships
+            f.setAssignmentIteration(null);
+            f.setSupervisor(null);
+
+            feedbackRepository.save(f);      // persist the nulls
+            feedbackRepository.delete(f);    // now delete works
+            feedbackRepository.flush();
+            // force SQL execution
+            System.out.println("Deleted feedback ID: " + id);
+            feedbackRepository.delete(f);
+
+        });
+    }
+
+
+
+    @Override
+    public Feedback getFeedbackByIterationId(Long id) {
+     return    feedbackRepository.findByAssignmentIterationId(id);
     }
 }

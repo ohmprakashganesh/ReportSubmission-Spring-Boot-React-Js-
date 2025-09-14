@@ -29,4 +29,6 @@ public interface UserService {
     List<User> allUsersByrole(String role);
 
     List<User> allSupervisedStudents(Long id);
+
+    List<User> allStudentsOfGroup(Long id);
 }

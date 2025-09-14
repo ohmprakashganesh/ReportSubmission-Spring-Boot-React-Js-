@@ -38,10 +38,12 @@ public class Feedback {
 
 
     @OneToOne
-    @JsonManagedReference(value = "feed")
+    @JsonBackReference(value = "feed")
+    @JsonIgnore
     private AssignmentIteration assignmentIteration;
 
     @ManyToOne
     @JsonBackReference(value="feedback")
+    @JsonIgnore
     private User supervisor; // User with role SUPERVISOR
 }

@@ -8,4 +8,6 @@ public interface FeedbackService {
     Feedback getFeedbackById(Long id);
     Feedback updateFeedback(Long id, Feedback feedback);
     void deleteFeedback(Long id);
+
+    Feedback getFeedbackByIterationId(Long id);
 }

@@ -9,6 +9,10 @@ import com.report.entities.Assignment;
 import com.report.repository.AssignmentRepo;
 import com.report.services.AssignmentService;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,21 +21,34 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     private final AssignmentRepo assignmentRepository;
     private  final StudentGroupRepo studentGroupRepo;
+    private  final   FileServiceAssignment fileServiceAssignment;
 
   
-    public AssignmentServiceImpl(AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
+    public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
         this.assignmentRepository = assignmentRepository;
+        this.fileServiceAssignment=fileServiceAssignment;
         this.studentGroupRepo=studentGroupRepo;
+
     }
 
+
+//    @Override
+//    public Assignment createAssignment(AssignmentDTO assignment) {
+//        return null;
+//    }
 
     @Override
     public Assignment createAssignment(AssignmentDTO assignment) {
         Assignment obj= new Assignment();
-        System.out.println("thisi is shoeing te "+assignment.toString());
+        System.out.println("this is to show "+assignment.toString());
         System.out.println("are you done ");
         obj.setTitle(assignment.getTitle());
         obj.setDescription(assignment.getDescription());
+        String[] names=fileServiceAssignment.saveFile(assignment.getFile());
+        Path filepath= Paths.get(names[2]);
+        obj.setDocumentName(names[0]);
+        obj.setDocumentUrl(filepath.toString());
+        System.out.println("we are upto file safe ");
 
         if(assignment.getStudentGroupId() !=null){
             Optional<StudentGroup> gru= studentGroupRepo.findById(assignment.getStudentGroupId());
@@ -44,8 +61,6 @@ public class AssignmentServiceImpl implements AssignmentService {
                 obj.setStudentGroup(gru.get());
             }
         }
-
-
         return assignmentRepository.save(obj);
     }
 
@@ -60,11 +75,26 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Assignment updateAssignment(Long id, Assignment assignment) {
+    public Assignment updateAssignment(Long id, AssignmentDTO assignment) {
         Assignment obj= assignmentRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with the id"+id));
         obj.setDescription(assignment.getDescription());
         obj.setTitle(assignment.getTitle());
-        obj.setStudentGroup(obj.getStudentGroup());
+
+
+
+
+
+        if(assignment.getStudentGroupId() !=null){
+            Optional<StudentGroup> gru= studentGroupRepo.findById(assignment.getStudentGroupId());
+            if(gru.isPresent()){
+                obj.setStudentGroup(gru.get());
+            }
+        }else{
+            Optional<StudentGroup> gru= studentGroupRepo.findByName(assignment.getStudentGroupName());
+            if(gru.isPresent()){
+                obj.setStudentGroup(gru.get());
+            }
+        }
 
         return assignmentRepository.save(obj);
     }

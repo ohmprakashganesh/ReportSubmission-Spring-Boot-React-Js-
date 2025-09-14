@@ -28,16 +28,16 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     private  final AssignmentRepo assignmentRepo;
     private final  UserRepo userRepo;
 
-    private final CopyleaksBusinessCheck copyleaksBusinessCheck;
+//    private final CopyleaksBusinessCheck copyleaksBusinessCheck;
 
     private FileService fileService;
 
 
   
-    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository, CopyleaksBusinessCheck copyleaksBusinessCheck, UserRepo userRepo,FileService fileService, AssignmentRepo assignmentRepo) {
+    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository, UserRepo userRepo,FileService fileService, AssignmentRepo assignmentRepo) {
         this.assignmentIterationRepository = assignmentIterationRepository;
         this.userRepo=userRepo;
-        this.copyleaksBusinessCheck=copyleaksBusinessCheck;
+//        this.copyleaksBusinessCheck=copyleaksBusinessCheck;
         this.assignmentRepo=assignmentRepo;
         // this.copyLeaksCheck=copyLeaksCheck;
         this.fileService=fileService;
@@ -55,8 +55,6 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
         itr.setDocumentName(names[0]);
         itr.setDocumentUrl(filepath.toString());
         System.out.println(" upto here file is well ");// important fix
-
-
         return assignmentIterationRepository.save(itr);
     }
 
@@ -100,10 +98,23 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
 
     @Override
     public void deleteIteration(Long id) {
-       if(assignmentIterationRepository.findById(id) != null){
-           assignmentIterationRepository.deleteById(id);
-           System.out.println("successfully deleted");
-       }
+       assignmentIterationRepository.findById(id).ifPresent(f-> {
+
+
+           f.setSubmittedBy(null);
+           f.setFeedback(null);
+           f.setAssignment(null);
+
+
+
+           assignmentIterationRepository.save(f);      // persist the nulls
+           assignmentIterationRepository.delete(f);    // now delete works
+           assignmentIterationRepository.flush();
+           // force SQL execution
+           System.out.println("Deleted feedback ID: " + id);
+           assignmentIterationRepository.delete(f);
+       });
+
     }
 
     @Override

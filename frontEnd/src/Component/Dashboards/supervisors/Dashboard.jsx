@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import Sidebar1 from './Sidebar1';
 import Header from './Header';
-import { CoursesSection } from './CourseSection';
+import { CoursesSection } from './AssignmentSection';
 import { GroupsSection } from './GroupSection';
 import { StudentsSection } from './StudentSection';
 import { SettingsSection } from './SettingSection';
-import { CourseDetails } from './CourseDetails';
 import { GroupDetails } from './GroupDetails';
 import { getUser } from '../../services/AdminSer';
 import { SupervisedStudents, supervisorKoGroups } from '../../services/SuperviserSer';
@@ -193,7 +192,7 @@ const DashboardU = () => {
                     {currentSection === 'settings' && (
                         <SettingsSection />
                     )}
-                    {currentSection === 'course-details' && currentCourse && (
+                    {/* {currentSection === 'course-details' && currentCourse && (
                         <CourseDetails
                             course={currentCourse}
                             assignments={assignmentsData[currentCourse.id] || []}
@@ -204,7 +203,7 @@ const DashboardU = () => {
                             onViewAssignment={assignment => setComponent('assignment-details', assignment)}
                             onViewGroup={group => setComponent('group-details', group)}
                         />
-                    )}
+                    )} */}
                     {currentSection === 'assignment-details' && currentAssignment && (
                         <AssignmentDetails
                             assignment={currentAssignment}

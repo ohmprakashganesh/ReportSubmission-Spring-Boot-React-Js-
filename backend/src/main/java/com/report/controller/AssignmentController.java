@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import com.report.entities.Assignment;
 import com.report.entities.User;
 import com.report.services.AssignmentService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,8 +28,11 @@ public class AssignmentController {
 
     //Post the Assignment
     @PostMapping
-    public ResponseEntity<Assignment> createAssignment(@RequestBody AssignmentDTO assignment) {
+    public ResponseEntity<Assignment> createAssignment(@ModelAttribute AssignmentDTO assignment) {
+        MultipartFile file= assignment.getFile();
         Assignment createdAssignment = assignmentService.createAssignment(assignment);
+
+
         return new ResponseEntity<>(createdAssignment, HttpStatus.CREATED);
     }
     //fetch single  assignment
@@ -44,8 +49,11 @@ public class AssignmentController {
     }
     //update the assignment
     @PutMapping("/{id}")
-    public ResponseEntity<Assignment> updateAssignment(@PathVariable Long id, @RequestBody Assignment assignment) {
+    public ResponseEntity<Assignment> updateAssignment(@PathVariable Long id, @ModelAttribute AssignmentDTO assignment) {
+
         Assignment updatedAssignment = assignmentService.updateAssignment(id, assignment);
+
+
         return new ResponseEntity<>(updatedAssignment, HttpStatus.OK);
     }
 

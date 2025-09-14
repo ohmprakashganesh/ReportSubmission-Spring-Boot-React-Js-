@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -31,7 +32,15 @@ public class Assignment {
     private String title;
 
     @CreationTimestamp
+    @JsonFormat(pattern = "yy/MM/dd:H/m/s")
     private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yy/MM/dd")
+    private LocalDateTime dueDate;
+
+    private String documentUrl;
+
+    private  String documentName;
 
     @ManyToOne
     @JsonBackReference(value = "supervisor-assignment")

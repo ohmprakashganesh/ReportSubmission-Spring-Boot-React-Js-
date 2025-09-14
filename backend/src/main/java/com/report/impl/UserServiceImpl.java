@@ -138,5 +138,10 @@ public class UserServiceImpl implements UserService {
         return  userRepository.findStudentsBySupervisorId(id);
     }
 
+    @Override
+    public List<User> allStudentsOfGroup(Long id) {
+       return  userRepository.findByGroupId(id);
+    }
+
 
 }

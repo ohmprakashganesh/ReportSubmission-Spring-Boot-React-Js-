@@ -93,5 +93,10 @@ public class UserController {
         return  new ResponseEntity<>(userService.allSupervisedStudents(id),HttpStatus.OK);
     }
 
+    @GetMapping("/StudentsOfGroup/{id}")
+    public  ResponseEntity<List<User>> StudentsOfGroup(@PathVariable Long id){
+        return  new ResponseEntity<>(userService.allStudentsOfGroup(id),HttpStatus.OK);
+    }
+
     //admin controller
 }

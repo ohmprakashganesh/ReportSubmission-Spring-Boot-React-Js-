@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const FormAssignment = ({ setShowForm }) => {
+const FormAssignment = ({id, setShowForm }) => {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -22,10 +22,11 @@ const FormAssignment = ({ setShowForm }) => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("topic", topic);
+      formData.append("title", topic);
       formData.append("description", description);
       formData.append("dueDate", dueDate);
       formData.append("file", file);
+      formData.append("studentGroupId",id)
 
       const response = await fetch("http://localhost:8080/api/assignments", {
         method: "POST",

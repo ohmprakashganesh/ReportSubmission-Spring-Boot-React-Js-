@@ -38,8 +38,8 @@ const Submissions = ({ assignment, setShowSubmissions }) => {
                     Iteration {itr.iterationType}
                   </h4>
                   <p className="text-sm text-gray-600 mb-1">
-                    <strong>Submitted On:</strong>{" "}
-                    {new Date(itr.dateSubmitted).toLocaleString()}
+                    <strong>Submitted On:</strong>{itr.createdAt}
+                    
                   </p>
                   <p className="text-sm mb-2">
                     <strong>Status:</strong>{" "}
@@ -56,11 +56,11 @@ const Submissions = ({ assignment, setShowSubmissions }) => {
                     </span>
                   </p>
 
-                  {itr.feedback && (
+                  {itr.feedback ? (
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Feedback:</strong> {itr.feedback}
+                      <strong>Feedback:</strong> {itr.feedback.comments}
                     </p>
-                  )}
+                  ):("NO Feedback Available")}
 
                   {itr.documentName && (
                     <p>

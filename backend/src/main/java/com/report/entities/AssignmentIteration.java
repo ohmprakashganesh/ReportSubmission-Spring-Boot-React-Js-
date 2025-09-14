@@ -2,19 +2,14 @@ package com.report.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -38,6 +33,8 @@ public class AssignmentIteration {
     @ManyToOne
     private Assignment assignment;
 
+
+
     @Enumerated(EnumType.STRING)
     private Status status = Status.SUBMITTED;
 
@@ -45,7 +42,16 @@ public class AssignmentIteration {
     @JsonIgnore
     private User submittedBy; // User with role STUDENT
 
-    @OneToOne(mappedBy="assignmentIteration", cascade = CascadeType.ALL)
-    @JsonBackReference(value = "feed")
+    @OneToOne(mappedBy="assignmentIteration", cascade = CascadeType.ALL, orphanRemoval = true)
+
+            @JsonManagedReference(value = "feed")
     private Feedback feedback;
+
+
+    private LocalDateTime createdAt; // new field to store datetime
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
