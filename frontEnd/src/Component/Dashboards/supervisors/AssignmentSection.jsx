@@ -2,9 +2,8 @@ import axios from "axios";
 import { fetchData } from "pdfjs-dist";
 import { useState } from "react";
 import { createFeedback } from "../../services/SuperviserSer";
-import { httpClient } from "../../services/Config/Config";
 
-export const CoursesSection = ({ groups }) => {
+export const CoursesSection = ({ groups  }) => {
   const allAssignments = groups.flatMap((group) => group.assignments);
   console.log(allAssignments);
   const [submissionShow, setSubmissionShow] = useState(false);

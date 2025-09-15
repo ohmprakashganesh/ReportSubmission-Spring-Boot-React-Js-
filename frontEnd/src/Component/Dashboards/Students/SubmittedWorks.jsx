@@ -6,23 +6,9 @@ import { getUser } from "../../services/StudetServ";
 
 
 
-const SubmittedWorks = () => {
-
-  const[user,setUser]= useState([]);
+const SubmittedWorks = ({user}) => {
 
 
-useEffect(()=>{
-const  fetchUser=async ()=>{
-    try{
- const data= await getUser(12);
-    setUser(data);
-    console.log("fetched user",data);
-    }catch(error){
-      console.log(error);
-    }
-  };
-  fetchUser();
-},[]);
 
 
 const onDelete = async (id) => {

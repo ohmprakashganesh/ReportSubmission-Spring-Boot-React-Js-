@@ -21,6 +21,10 @@ export const createFeedback= async (group)=>{
  const resp=await httpClient.post('/api/feedbacks',group);
     return resp.data;
 }
+export const TotalChecked=async ()=>{
+    const obj= await httpClient.get("/api/feedbacks/totalFeedback");
+    return obj.data;
+}
 
 
 

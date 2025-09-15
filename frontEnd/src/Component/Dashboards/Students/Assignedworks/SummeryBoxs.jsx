@@ -1,16 +1,20 @@
 import React from 'react'
 
-const SummeryBoxs = ({ assignments, submissions}) => {
+const SummeryBoxs = ({ assignments,user, submissions}) => {
+  console.log("summery",user)
        const totalAssignments = assignments.length;
     const totalSubmissions = submissions.length;
     const totalPending = submissions.filter(s => s.status === 'Pending').length;
     const totalAccepted = submissions.filter(s => s.status === 'Accepted').length;
     const totalRejected = submissions.filter(s => s.status === 'Rejected').length;
+
+
+    console.log(totalAccepted, totalPending, totalAccepted, totalRejected);
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         <div className="bg-white p-4 rounded-lg shadow-md text-center">
           <h3 className="text-xl font-semibold text-gray-700">Total Assignments</h3>
-          <p className="text-3xl font-bold text-blue-600">{totalAssignments}</p>
+          <p className="text-3xl font-bold text-blue-600">{}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md text-center">
           <h3 className="text-xl font-semibold text-gray-700">Total Submissions</h3>
