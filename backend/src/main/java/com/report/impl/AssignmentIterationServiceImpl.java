@@ -18,6 +18,7 @@ import com.report.services.AssignmentIterationService;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,9 +79,17 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     }
 
     @Override
-    public List<AssignmentIteration> getIterationByStd(User user) {
-       List<AssignmentIteration> lists= assignmentIterationRepository.findByUser(user);
-       return  lists;
+    public List<AssignmentIteration> getIterationByStd() {
+       Optional<User> user= userRepo.findById(1L);
+        List<AssignmentIteration> lists=new ArrayList<>();
+
+        if(user.isPresent())
+        {
+            return lists= assignmentIterationRepository.findByUser(user.get());
+        }else{
+            return  null;
+        }
+
     }
 
     @Override

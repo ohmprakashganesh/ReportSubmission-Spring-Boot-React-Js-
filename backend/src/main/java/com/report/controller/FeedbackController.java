@@ -22,7 +22,7 @@ public class FeedbackController {
 
     //post the feedback
     @PostMapping
-    public ResponseEntity<Feedback> createFeedback(@RequestBody FeedbackDTO feedback) {
+    public ResponseEntity<Feedback> createFeedback(@ModelAttribute FeedbackDTO feedback) {
         Feedback createdFeedback = feedbackService.createFeedback(feedback);
         return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
     }
@@ -53,4 +53,8 @@ public class FeedbackController {
         feedbackService.deleteFeedback(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+     @GetMapping("/totalFeedback")
+    public  ResponseEntity<String> allFeedbackOfSupervisor(){
+         return new  ResponseEntity<>( feedbackService.getAllFeedbackOfsupervisor(),HttpStatus.OK);
+     }
 }

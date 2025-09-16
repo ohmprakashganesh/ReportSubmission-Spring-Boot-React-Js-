@@ -31,6 +31,10 @@ public class Feedback {
     private Long id;
 
     private String comments;
+
+    private String documentUrl;
+
+    private  String documentName;
     
     @CreationTimestamp
     @Column(updatable = false)

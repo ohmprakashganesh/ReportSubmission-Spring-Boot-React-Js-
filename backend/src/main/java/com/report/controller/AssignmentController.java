@@ -31,8 +31,6 @@ public class AssignmentController {
     public ResponseEntity<Assignment> createAssignment(@ModelAttribute AssignmentDTO assignment) {
         MultipartFile file= assignment.getFile();
         Assignment createdAssignment = assignmentService.createAssignment(assignment);
-
-
         return new ResponseEntity<>(createdAssignment, HttpStatus.CREATED);
     }
     //fetch single  assignment
@@ -50,17 +48,21 @@ public class AssignmentController {
     //update the assignment
     @PutMapping("/{id}")
     public ResponseEntity<Assignment> updateAssignment(@PathVariable Long id, @ModelAttribute AssignmentDTO assignment) {
-
         Assignment updatedAssignment = assignmentService.updateAssignment(id, assignment);
-
-
         return new ResponseEntity<>(updatedAssignment, HttpStatus.OK);
     }
-
     //Delete Assignment
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAssignment(@PathVariable Long id) {
         assignmentService.deleteAssignment(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/assignmentsOfGroup")
+    public ResponseEntity<List<Assignment>> assignmentsOfGroup() {
+     List<Assignment> assignment = assignmentService.assignmentsOfGroup();
+        return new ResponseEntity<>(assignment, HttpStatus.OK);
+    }
+
+
 }

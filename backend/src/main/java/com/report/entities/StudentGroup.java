@@ -24,6 +24,8 @@ public class StudentGroup {
 
     private String name;
 
+    private  Domain domain;
+
    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
    @JsonManagedReference (value = "group")
    @JsonIgnore

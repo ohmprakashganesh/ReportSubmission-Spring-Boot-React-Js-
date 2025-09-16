@@ -12,7 +12,7 @@ public interface AssignmentIterationService {
    Optional< AssignmentIteration> getIterationById(Long id);
 
     List<AssignmentIteration> getIterationAll();
-     List<AssignmentIteration> getIterationByStd(User user);
+     List<AssignmentIteration> getIterationByStd();
 
 
 //    List<AssignmentIteration> getIterationByGroup(User user);

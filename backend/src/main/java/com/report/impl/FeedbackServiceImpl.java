@@ -2,9 +2,11 @@ package com.report.impl;
 
 import com.report.DTOs.FeedbackDTO;
 import com.report.entities.AssignmentIteration;
+import com.report.entities.Status;
 import com.report.entities.User;
 import com.report.repository.AssignmentIterationRepo;
 import com.report.repository.UserRepo;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.Feedback;
@@ -12,24 +14,32 @@ import com.report.repository.FeedbackRepo;
 import com.report.services.FeedbackService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
 
     private  FeedbackRepo feedbackRepository;
+    private  FileServiceFeedback fileServiceFeedback;
     private AssignmentIterationRepo assignmentIterationRepo;
     private UserRepo userRepo;
 
-    public FeedbackServiceImpl(FeedbackRepo feedbackRepository, UserRepo userRepo,AssignmentIterationRepo assignmentIterationRepo) {
+    public FeedbackServiceImpl(FeedbackRepo feedbackRepository, FileServiceFeedback fileServiceFeedback, UserRepo userRepo,AssignmentIterationRepo assignmentIterationRepo) {
         this.feedbackRepository = feedbackRepository;
         this.userRepo=userRepo;
+        this.fileServiceFeedback=fileServiceFeedback;
         this.assignmentIterationRepo=assignmentIterationRepo;
     }
 
     @Override
     public Feedback createFeedback(FeedbackDTO feedback) {
         Feedback feed= new Feedback();
+         String[] names= fileServiceFeedback.saveFile(feedback.getFile());
+        Path filePath= Paths.get(names[2]);
+        feed.setDocumentName(names[0]);
+        feed.setDocumentUrl(filePath.toString());
         feed.setComments(feedback.getComment());
         feed.setSupervisor(getSupervisor(feedback.getSubmittedBy()));
         feed.setAssignmentIteration(getIteration(feedback.getAssignmentId()));
@@ -41,7 +51,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
     public AssignmentIteration getIteration(Long id){
         AssignmentIteration itr = assignmentIterationRepo.findById(id).orElseThrow(()-> new RuntimeException("not found the submitted assignement"));
-        return  itr;
+        itr.setStatus(Status.CHECKED);
+        return assignmentIterationRepo.save(itr);
     }
 
     @Override
@@ -81,4 +92,20 @@ public class FeedbackServiceImpl implements FeedbackService {
     public Feedback getFeedbackByIterationId(Long id) {
      return    feedbackRepository.findByAssignmentIterationId(id);
     }
+
+    @Override
+    public String getAllFeedbackOfsupervisor() {
+          Optional<User> user= userRepo.findById(4L);
+          if(user.isPresent()){
+              return feedbackRepository.countBySupervisorId(user.get()).toString();
+          }else{
+              return  null;
+          }
+
+
+    }
+
+
+
+
 }

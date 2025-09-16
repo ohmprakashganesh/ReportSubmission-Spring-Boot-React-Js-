@@ -2,7 +2,9 @@ package com.report.impl;
 
 import com.report.DTOs.AssignmentDTO;
 import com.report.entities.StudentGroup;
+import com.report.entities.User;
 import com.report.repository.StudentGroupRepo;
+import com.report.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.Assignment;
@@ -11,8 +13,6 @@ import com.report.services.AssignmentService;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +22,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepo assignmentRepository;
     private  final StudentGroupRepo studentGroupRepo;
     private  final   FileServiceAssignment fileServiceAssignment;
-
+    private  final UserRepo userRepo;
   
-    public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
+    public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment,UserRepo userRepo, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
         this.assignmentRepository = assignmentRepository;
         this.fileServiceAssignment=fileServiceAssignment;
+        this .userRepo=userRepo;
         this.studentGroupRepo=studentGroupRepo;
 
     }
@@ -44,6 +45,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         System.out.println("are you done ");
         obj.setTitle(assignment.getTitle());
         obj.setDescription(assignment.getDescription());
+        obj.setDueDate(assignment.getDueDate());
         String[] names=fileServiceAssignment.saveFile(assignment.getFile());
         Path filepath= Paths.get(names[2]);
         obj.setDocumentName(names[0]);
@@ -62,6 +64,19 @@ public class AssignmentServiceImpl implements AssignmentService {
             }
         }
         return assignmentRepository.save(obj);
+    }
+
+    @Override
+    public List<Assignment>  assignmentsOfGroup() {
+      Optional<User> user=  userRepo.findById(12L);
+        if(user.isPresent())
+        {
+         return    assignmentRepository.findBystudentGroup(user.get().getGroup());
+
+        }else{
+            return  null;
+        }
+
     }
 
     @Override
@@ -95,7 +110,6 @@ public class AssignmentServiceImpl implements AssignmentService {
                 obj.setStudentGroup(gru.get());
             }
         }
-
         return assignmentRepository.save(obj);
     }
 

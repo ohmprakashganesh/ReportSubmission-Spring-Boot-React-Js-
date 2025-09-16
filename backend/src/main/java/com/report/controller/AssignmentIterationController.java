@@ -21,7 +21,7 @@ import java.util.Optional;
 @CrossOrigin("*")
 public class AssignmentIterationController {
 
-     public User user;
+
 
 
     private final AssignmentIterationService assignmentIterationService;
@@ -63,12 +63,13 @@ public class AssignmentIterationController {
     @GetMapping("/byStudent")
     public ResponseEntity<List< AssignmentIteration >> getIterationByStudent() {
         try {
-            List<AssignmentIteration> iteration = assignmentIterationService.getIterationByStd(user);
+            List<AssignmentIteration> iteration = assignmentIterationService.getIterationByStd();
             return new ResponseEntity<>(iteration, HttpStatus.OK);
         }catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
 //    getIterationByGroup
 //
 //    @GetMapping("/byAssignment")

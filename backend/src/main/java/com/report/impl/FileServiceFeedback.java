@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-public class FileServiceAssignment {
+public class FileServiceFeedback {
     @Value("${Uploads.assignments}")
     private String path; // This is your base upload path from application.properties
 

@@ -25,6 +25,8 @@ public class User {
     private String email;
     private String password;
 
+    private Domain domain;
+
      @Enumerated (EnumType.STRING)
      private Role role;
 

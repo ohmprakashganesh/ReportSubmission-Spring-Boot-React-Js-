@@ -1,4 +1,5 @@
 package com.report.entities;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,10 +26,7 @@ public class Assignment {
      @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-
-
     private String description;
-
     private String title;
 
     @CreationTimestamp
@@ -36,7 +34,7 @@ public class Assignment {
     private LocalDateTime createdAt;
 
     @JsonFormat(pattern = "yy/MM/dd")
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     private String documentUrl;
 
