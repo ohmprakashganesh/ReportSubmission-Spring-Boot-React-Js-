@@ -10,7 +10,7 @@ import GroupDetail from './Assignedworks/GroupDetail';
 import Sidebar from './Assignedworks/Sidebar';
 import { getUser } from '../../services/StudetServ';
 import Landing from './Assignedworks/Landing';
-import { getIterationByUser } from '../../services/Assugnment';
+import { getAssignmentsOfGroup, IterationsByStudent } from '../../services/Assugnment';
 
 // Main App component that contains the entire dashboard
 
@@ -43,6 +43,44 @@ const App = () => {
 
   //   const[user,setUser]= useState([]);
 
+const [assignmentsB,setAssignmentsB]=useState([]);
+ const [submissionsB,setSubmissionsB]=useState([]);
+const [checked,setChecked]=useState([]);
+const [unChecked,setUnchecked]=useState([]);
+
+
+         useEffect(()=>{
+           const assignmentsOfGroup= async()=>{
+             try{
+               const res= await getAssignmentsOfGroup();
+               setAssignmentsB(res);
+             }catch(error){
+               console.log("not found");
+             }
+       
+           };
+           assignmentsOfGroup();
+       
+         },[]);
+
+
+ useEffect(()=>{
+           const iterationsByUser=async ()=>{
+             try{
+               const res=await IterationsByStudent();
+               setSubmissionsB(res);
+               const temp= res.filter((i)=> i.status==="SUBMITTED");
+               const temp2=res.filter((i)=> i.status==="APPROVED")
+               setChecked(temp2);
+               setUnchecked(temp);
+
+
+             }catch(error){
+               console.log("not found");
+             }
+       
+           };
+           iterationsByUser(); },[]);
 
 useEffect(()=>{
 const  fetchUser=async ()=>{
@@ -56,6 +94,7 @@ const  fetchUser=async ()=>{
   };
   fetchUser();
 },[]);
+
 
  useEffect(()=>{
 const  fetchUser=async ()=>{
@@ -109,6 +148,8 @@ const  fetchUser=async ()=>{
     console.log('Submission simulated successfully!');
   };
 
+
+
   <>
     <Navbar/>
   <Boxes assignments={assignments} submissions={submissions} /> 
@@ -122,11 +163,10 @@ const  fetchUser=async ()=>{
     <ChatPlaceholder/>
    </>
 
- 
 
   return (
     // Tailwind CSS for basic styling and responsiveness
-    <div className="min-h-screen bg-gray-100 font-sans antialiased">
+    <div className="min-h-screen bg-gray-100 m-0 font-sans antialiased">
       {/* Tailwind CSS CDN for quick setup */}
       <script src="https://cdn.tailwindcss.com"></script>
       {/* Google Fonts - Inter */}
@@ -138,20 +178,26 @@ const  fetchUser=async ()=>{
           }
         `}
       </style>
-      <Navbar studentName={user.name} />
-      <div className="max-w-6xl mx-auto p-4 flex flex-col lg:flex-row min-h-[80vh] mt-4">
-
+      <Navbar studentName={user.name} setActiveTab={setActiveTab} activeTab={activeTab}  setCurrentView={setCurrentView} setSelectedGroup={setSelectedGroup} />
+      <div className="w-full  p-4 flex  flex-col lg:flex-row min-h-[80vh]">
         <Sidebar setActiveTab={setActiveTab} activeTab={activeTab}  setCurrentView={setCurrentView} setSelectedGroup={setSelectedGroup}/>
 
         {/* Main Content Area */}
-        <div className="flex-grow p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">
+        <div className="flex-grow mt-12 min-h-screen p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">
           {/* Dashboard Summary */}
-          <SummeryBoxs  submissions={submissions} user={user} assignments={assignments} />
+          <SummeryBoxs  assignments={assignmentsB}
+          submissions={submissionsB}
+           unChecked={unChecked}
+           checked={checked} />
          
 
           {/* Dynamic Content based on activeTab */}
            {activeTab === 'dashboard' && (
-            <Landing allAssignments={assignments} allSubmissions={submissions} user={user} />
+        <Landing 
+      assignments={assignmentsB}
+      submissions={submissionsB}
+      unChecked={unChecked}
+      checked={checked}  />
           )}
           {activeTab === 'myDetails' &&
            <MyDetails user={user} />}

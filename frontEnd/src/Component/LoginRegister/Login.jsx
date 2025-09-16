@@ -25,7 +25,6 @@ const Login = () => {
       newErrors.email = "Please enter a valid email address";
       isValid = false;
     }
-
     // Password validation
     if (!formData.password) {
       newErrors.password = "Password is required";
@@ -34,11 +33,9 @@ const Login = () => {
       newErrors.password = "Password must be at least 6 characters";
       isValid = false;
     }
-
     setErrors(newErrors);
     return isValid;
   };
-
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData(prev => ({

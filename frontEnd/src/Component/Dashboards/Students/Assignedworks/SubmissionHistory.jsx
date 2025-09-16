@@ -35,9 +35,19 @@ const onDelete = async (id) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
       <div className="bg-white rounded-lg p-8 shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
-        <h3 className="text-2xl font-bold mb-6 text-gray-800">
+        <div className=' flex '>
+        <h3 className="text-2xl w-[90%] font-bold mb-6 text-gray-800">
           Submission History for:{assignment.title}
         </h3>
+        <div className='w-[10%] flex    justify-center'>
+          <button
+            onClick={onClose}
+          className=" justify-center max-h-8 text-center font-stretch-condensed   px-8 font-extrabold py-1 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition ease-in-out duration-150"
+        >
+         X
+        </button>
+        </div>
+        </div>
 
         {assignmentSubmissions.length === 0 ? (
           <p className="text-gray-600">
@@ -126,13 +136,13 @@ const onDelete = async (id) => {
             ))}
           </ul>
         )}
-
+{/* 
         <button
           onClick={onClose}
           className="absolute top-4 right-4 px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition ease-in-out duration-150"
         >
           Close
-        </button>
+        </button> */}
       </div>
     </div>
   );

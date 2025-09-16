@@ -1,7 +1,7 @@
 import React from 'react'
 const Sidebar = ({setActiveTab,setCurrentView,setSelectedGroup,activeTab}) => {
   return (
-   <div className="w-full lg:w-64 bg-gray-800 text-white p-6 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none flex flex-col shadow-lg mb-4 lg:mb-0">
+   <div className="w-full mt-12 pl-5 ml-0 md:flex hidden lg:flex   lg:w-64 bg-gray-800 text-white p-6 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none  flex-col shadow-lg mb-4 lg:mb-0">
           <div className="mb-8 text-center">
             <h2 className="text-2xl font-bold">Student Portal</h2>
           </div>
