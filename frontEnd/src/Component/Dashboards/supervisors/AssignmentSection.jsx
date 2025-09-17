@@ -189,7 +189,7 @@ const handleFeedbackDelete = async (id) => {
                 {itr.documentName && (
                   <p className="text-sm mb-2">
                     <a
-                      href={`http://localhost:8080/api/files/${itr.documentName}`}
+                      href={`http://localhost:8080/api/iteration/${itr.documentName}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-indigo-600 hover:underline"
@@ -221,6 +221,7 @@ const handleFeedbackDelete = async (id) => {
 
                 {/* Existing Feedback */}
                 {itr.feedback && (
+                  <div>
                   <div className="mt-2 flex justify-between items-center">
                     <div className="bg-gray-100 text-gray-800 text-sm rounded-md p-2 flex-1">
                       <strong>Feedback:</strong> {itr.feedback.comments}
@@ -232,6 +233,24 @@ const handleFeedbackDelete = async (id) => {
                       Delete
                     </button>
                   </div>
+                    <div className="bg-gray-100 flex justify-between text-gray-800 text-sm rounded-md p-2 flex-1">
+                  
+                    <button
+                      className="mt-2 rounded-lg px-4 py-2 bg-green-600 text-white hover:bg-indigo-700 transition-colors"
+                    >
+                        <a
+                      href={`http://localhost:8080/api/feedback/${itr.feedback.documentName}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white  hover:underline"
+                    >
+                     Download reviewed File
+                    </a>
+                    
+                    </button>
+                   
+                  </div>
+                  </div>
                 )}
               </li>
             ))}
@@ -242,105 +261,4 @@ const handleFeedbackDelete = async (id) => {
   </div>
 );
 
-
-  // return (
-  //   <div className="fixed inset-0 h-screen bg-gray-300 bg-opacity-50 flex justify-center items-center z-30 p-4 mt-10">
-  //     <div className="bg-red-100 rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] relative flex flex-col">
-  //       <div className="sticky top-0 bg-red-200 z-10 px-6 py-4 border-b border-gray-400 flex justify-between items-center">
-  //         <h3 className="text-xl font-bold text-gray-800">
-  //           Submission History for:{" "}
-  //           <span className="text-blue-600">{assignment.title}</span>
-  //         </h3>
-  //         <button
-  //           onClick={() => setSubmissionShow(false)}
-  //           className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
-  //         >
-  //           Close
-  //         </button>
-  //       </div>
-
-  //       <div className="flex-1 overflow-y-auto p-6 space-y-4">
-  //         {assignment.iterations?.length === 0 ? (
-  //           <p className="text-gray-600">No submissions found.</p>
-  //         ) : (
-  //           <ul className="space-y-4">
-  //             {assignment.iterations.map((itr) => (
-  //               <li
-  //                 key={itr.id}
-  //                 className="bg-gray-50 border border-gray-500 rounded-md p-4 shadow-sm"
-  //               >
-  //                 <h4 className="text-lg font-semibold mb-2 text-gray-700">
-  //                   Iteration {itr.iterationType}
-  //                 </h4>
-  //                 <p className="text-sm text-gray-600 mb-1">
-  //                   <strong>Submitted On:</strong> {itr.createdAt}
-  //                 </p>
-  //                 <p className="text-sm mb-2">
-  //                   <strong>Status:</strong>{" "}
-  //                   <span
-  //                     className={`font-bold ${
-  //                       itr.status === "Accepted"
-  //                         ? "text-green-600"
-  //                         : itr.status === "Rejected"
-  //                         ? "text-red-600"
-  //                         : "text-yellow-600"
-  //                     }`}
-  //                   >
-  //                     {itr.status}
-  //                   </span>
-  //                 </p>
-                  
-  //                 {itr.documentName && (
-  //                   <p>
-  //                     <a
-  //                       href={`http://localhost:8080/api/files/${itr.documentName}`}
-  //                       target="_blank"
-  //                       rel="noopener noreferrer"
-  //                       className="text-blue-600 hover:underline text-sm"
-  //                     >
-  //                       Download Submitted File
-  //                     </a>
-  //                   </p>
-  //                 )}
-
-  //                 {!itr.feedback && (
-  //                  <form onSubmit={(e) => handleFeedbackSubmit(e, itr.id)}>
-  //                     <label className="block text-sm font-medium text-gray-700">
-  //                       Feedback
-  //                     </label>
-  //                     <input
-  //                       type="text"
-  //                       value={feedback[itr.id]|| ""}
-  //                       onChange={(e) => handleFeedbackChange(e,itr.id)}
-  //                       className="mt-1 block border-green-600 outline-none  shadow-emerald-400 w-full rounded-lg hover:shadow-emerald-700 shadow-sm"
-  //                       required
-  //                     />
-  //                     <button
-  //                       type="submit"
-  //                       className="mt-2 rounded-xl w-44 h-8 bg-blue-400 text-black text-xl"
-  //                     >
-  //                       Submit
-  //                     </button>
-  //                   </form>
-  //              )}
-
-  //                 {/* The fix is here: access the comments property of the feedback object */}
-  //                 {itr.feedback && (
-  //                   <p className="text-sm  flex justify-between   text-gray-700 mt-2">
-  //                     <p className="w-[90%] bg-red-400 justify-center my-0 py-0"> <strong>Feedback:</strong> {itr.feedback.comments} </p>
-  //                      <div className=" w-[10%] ml-5 md:flex-row  flex-col gap-3 text-wrap overflow-auto ">
-  //                       <p className="underline font-bold text-red-500 cursor-pointer  " onClick={()=>handleFeedbackDelete(itr.feedback.id)}>Delete</p>
-  //                      </div>
-  //                   </p>
-  //                 )}
-  //               </li>
-  //             ))}
-  //           </ul>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 };
-
-;

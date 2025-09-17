@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 public class FileService {
 
 
-    @Value("${Uploads.Documents}")
+    @Value("${Uploads.iteration}")
     private String path; // This is your base upload path from application.properties
 
     public String[] saveFile(MultipartFile file) {

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.report.entities.Feedback;
 import com.report.services.FeedbackService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/feedbacks")
 @CrossOrigin("*")
@@ -23,6 +25,7 @@ public class FeedbackController {
     //post the feedback
     @PostMapping
     public ResponseEntity<Feedback> createFeedback(@ModelAttribute FeedbackDTO feedback) {
+        System.out.println(feedback.getFile().getName());
         Feedback createdFeedback = feedbackService.createFeedback(feedback);
         return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
     }
@@ -34,6 +37,13 @@ public class FeedbackController {
         return new ResponseEntity<>(feedback, HttpStatus.OK);
     }
 
+    //all feedbacks
+    @GetMapping("/all")
+    public ResponseEntity<List<Feedback>> getAllFeedbacks() {
+       List< Feedback> feedback = feedbackService.getAllFeedbacks();
+        return new ResponseEntity<>(feedback, HttpStatus.OK);
+    }
+
 
     @GetMapping("/feedback/{id}")
     public ResponseEntity<Feedback> feedBackByIteration(@PathVariable Long id) {
@@ -42,7 +52,8 @@ public class FeedbackController {
     }
 //update feedback
     @PutMapping("/{id}")
-    public ResponseEntity<Feedback> updateFeedback(@PathVariable Long id, @RequestBody Feedback feedback) {
+    public ResponseEntity<Feedback> updateFeedback(@PathVariable Long id, @ModelAttribute FeedbackDTO feedback) {
+        System.out.println(feedback.getComment() + id);
         Feedback updatedFeedback = feedbackService.updateFeedback(id, feedback);
         return new ResponseEntity<>(updatedFeedback, HttpStatus.OK);
     }

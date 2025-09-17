@@ -36,7 +36,7 @@ public class AssignmentIteration {
 
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.SUBMITTED;
+    private Status status ;
 
     @ManyToOne
     @JsonIgnore

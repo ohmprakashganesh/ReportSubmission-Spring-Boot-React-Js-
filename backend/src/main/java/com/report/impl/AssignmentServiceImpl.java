@@ -68,7 +68,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<Assignment>  assignmentsOfGroup() {
-      Optional<User> user=  userRepo.findById(12L);
+      Optional<User> user=  userRepo.findById(Const.studentId);
         if(user.isPresent())
         {
          return    assignmentRepository.findBystudentGroup(user.get().getGroup());

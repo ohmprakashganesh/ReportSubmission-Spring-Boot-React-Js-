@@ -69,7 +69,6 @@ public class StudentGroupController {
         return  new ResponseEntity<>(studentGroupService.findGroupWithStdSup(id),HttpStatus.OK);
     }
 
-
     //get assignments of single group
     @GetMapping("/assignmentByGroupId/{id}")
     public  ResponseEntity<GroupResponse> getAssignmentById(@PathVariable Long id){
@@ -81,9 +80,4 @@ public class StudentGroupController {
         return  new ResponseEntity<>(studentGroupService.findGroupBySupervisor(id),HttpStatus.OK);
     }
 
-
-//    @GetMapping("/studentGroupResponse")
-//    public  ResponseEntity<StudentGroupResponse> getDtoOfStudentGroup (){
-//        return  new ResponseEntity<>(StudentGroupService.getStudentGroups(),HttpStatus.OK);
-//    }
 }

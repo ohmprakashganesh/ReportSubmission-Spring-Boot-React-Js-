@@ -204,16 +204,16 @@ export const GroupDetails = ({ group,onNavigate }) => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-2">
+          <div className="flex-wrap mx-1 ">
             <button
               onClick={() => seeSubmission(assign)}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
+              className="bg-gray-100 my-1 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
             >
               View
             </button>
             <button
               onClick={() => handleEdit(assign)}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
+              className="bg-gray-100 mr-1 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
             >
               Edit
             </button>

@@ -6,7 +6,8 @@ import com.report.entities.Status;
 import com.report.entities.User;
 import com.report.repository.AssignmentIterationRepo;
 import com.report.repository.UserRepo;
-import org.springframework.http.ResponseEntity;
+import com.report.services.AssignmentIterationService;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.Feedback;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,12 +25,16 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     private  FeedbackRepo feedbackRepository;
     private  FileServiceFeedback fileServiceFeedback;
+    private EntityManager entityManager;
     private AssignmentIterationRepo assignmentIterationRepo;
     private UserRepo userRepo;
+    private AssignmentIterationService assignmentIterationService;
 
-    public FeedbackServiceImpl(FeedbackRepo feedbackRepository, FileServiceFeedback fileServiceFeedback, UserRepo userRepo,AssignmentIterationRepo assignmentIterationRepo) {
+    public FeedbackServiceImpl(FeedbackRepo feedbackRepository,EntityManager entityManager,AssignmentIterationService assignmentIterationService, FileServiceFeedback fileServiceFeedback, UserRepo userRepo,AssignmentIterationRepo assignmentIterationRepo) {
         this.feedbackRepository = feedbackRepository;
         this.userRepo=userRepo;
+        this.entityManager=entityManager;
+        this.assignmentIterationService=assignmentIterationService;
         this.fileServiceFeedback=fileServiceFeedback;
         this.assignmentIterationRepo=assignmentIterationRepo;
     }
@@ -40,8 +46,10 @@ public class FeedbackServiceImpl implements FeedbackService {
         Path filePath= Paths.get(names[2]);
         feed.setDocumentName(names[0]);
         feed.setDocumentUrl(filePath.toString());
+
         feed.setComments(feedback.getComment());
         feed.setSupervisor(getSupervisor(feedback.getSubmittedBy()));
+
         feed.setAssignmentIteration(getIteration(feedback.getAssignmentId()));
         return feedbackRepository.save(feed);
     }
@@ -50,7 +58,7 @@ public class FeedbackServiceImpl implements FeedbackService {
          return  user;
     }
     public AssignmentIteration getIteration(Long id){
-        AssignmentIteration itr = assignmentIterationRepo.findById(id).orElseThrow(()-> new RuntimeException("not found the submitted assignement"));
+        AssignmentIteration itr = assignmentIterationRepo.findById(id).orElseThrow(()-> new RuntimeException("not found the submitted iteration"));
         itr.setStatus(Status.CHECKED);
         return assignmentIterationRepo.save(itr);
     }
@@ -61,10 +69,14 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback updateFeedback(Long id, Feedback feedback) {
+    public Feedback updateFeedback(Long id, FeedbackDTO feedback) {
         Feedback obj= feedbackRepository.findById(id).orElseThrow(()-> new RuntimeException("not found object with id "+ id));
-        obj.setComments(feedback.getComments());
-        obj.setSubmittedAt(feedback.getSubmittedAt());
+        String[] names= fileServiceFeedback.saveFile(feedback.getFile());
+        Path filePath= Paths.get(names[2]);
+        obj.setDocumentName(names[0]);
+        obj.setDocumentUrl(filePath.toString());
+        obj.setComments(feedback.getComment());
+        System.out.println(feedback.getComment());
         return feedbackRepository.save(obj);
     }
 
@@ -78,12 +90,18 @@ public class FeedbackServiceImpl implements FeedbackService {
 
             feedbackRepository.save(f);      // persist the nulls
             feedbackRepository.delete(f);    // now delete works
-            feedbackRepository.flush();
             // force SQL execution
+            entityManager.flush();
             System.out.println("Deleted feedback ID: " + id);
-            feedbackRepository.delete(f);
+             deleteAgain(id);
 
         });
+    }
+    public void deleteAgain(Long id){
+        feedbackRepository.findById(id).ifPresent(f -> {// persist the nulls
+            feedbackRepository.delete(f);    // now delete works
+        });
+
     }
 
 
@@ -105,7 +123,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     }
 
-
+    @Override
+    public List<Feedback> getAllFeedbacks() {
+      return feedbackRepository.findAll();
+    }
 
 
 }

@@ -1,8 +1,6 @@
 package com.report.impl;
 
 import com.report.DTOs.AssignmentIterDTO;
-import com.report.FileHandle.FilePutGet;
-import com.report.copyleaks.DTOs.CopyleaksBusinessCheck;
 import com.report.entities.Assignment;
 import com.report.entities.IterationType;
 import com.report.entities.User;
@@ -80,7 +78,7 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
 
     @Override
     public List<AssignmentIteration> getIterationByStd() {
-       Optional<User> user= userRepo.findById(1L);
+       Optional<User> user= userRepo.findById(Const.studentId);
         List<AssignmentIteration> lists=new ArrayList<>();
 
         if(user.isPresent())

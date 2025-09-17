@@ -18,8 +18,8 @@ copyleaks:
   product: education
 
 Uploads:
-  Documents: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\Documents
-  assignments: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\assignments
+  iteration: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\iteration
+  assignment: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\assignment
   feedback: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\feedback
 
 

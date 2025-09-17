@@ -1,5 +1,6 @@
 package com.report.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -38,7 +39,7 @@ public class Feedback {
     
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime submittedAt;
+    private LocalDate submittedAt;
 
 
     @OneToOne

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { httpClient } from "./Config/Config";
 
 export const getAllGroups=async ()=>{
@@ -17,10 +18,18 @@ export const SupervisedStudents= async (id)=>{
     const obj= await httpClient.get(`/api/users/SupervisedStudents/${id}`);
     return obj.data;
 }
-export const createFeedback= async (group)=>{
- const resp=await httpClient.post('/api/feedbacks',group);
-    return resp.data;
-}
+export const createFeedback = async (formData) => {
+  return await axios.post(
+    "http://localhost:8080/api/feedbacks",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data", // ✅ let axios set boundary automatically
+      },
+    }
+  );
+};
+
 export const TotalChecked=async ()=>{
     const obj= await httpClient.get("/api/feedbacks/totalFeedback");
     return obj.data;

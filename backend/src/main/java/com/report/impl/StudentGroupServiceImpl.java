@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.report.DTOs.*;
+import com.report.entities.Domain;
 import com.report.entities.User;
 //import com.report.mapping.MappingCls;
 import com.report.mapping.MappingCls;
@@ -42,7 +43,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
     public StudentGroup createGroup(StrudentGroupDTO dto) {
         StudentGroup obj = new StudentGroup();
         obj.setName(dto.getGroupName());
-
+        obj.setDomain(Domain.valueOf(dto.getDomain()));
         List<User> stdsObj = new ArrayList<>();
 
         for (Long temp : dto.getStdIds()) {
@@ -77,38 +78,68 @@ public class StudentGroupServiceImpl implements StudentGroupService {
         return studentGroupRepository.findById(id).orElseThrow(() -> new RuntimeException("Group not found"));
     }
 
+
     @Override
     public StudentGroup updateGroup(Long id, StrudentGroupDTO group) {
-        if(group==null){
-            throw  new RuntimeException("object not found ");
-
+        if (group == null) {
+            throw new RuntimeException("object not found");
         }
-        StudentGroup gru= studentGroupRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with id "+id) );
+
+        StudentGroup gru = studentGroupRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("not found with id " + id));
+
         gru.setName(group.getGroupName());
+        gru.setDomain(Domain.valueOf(group.getDomain()));
+
         List<User> stds = group.getStdIds().stream()
                 .map(stdId -> userRepo.findById(stdId)
                         .orElseThrow(() -> new RuntimeException("Student not found with ID " + stdId)))
-                .collect(Collectors.toList()); // ✅ safe in Java 8+
+                .collect(Collectors.toList());
 
-
-
-        for (User usr: stds) {
+        for (User usr : stds) {
             usr.setGroup(gru);
             userRepo.save(usr);
         }
 
-        Optional<User> sup= userRepo.findById(group.getSupervisorId());
-        if(sup.isPresent()){
-            gru.setSupervisor(sup.get());
-        }
+        Optional<User> sup = userRepo.findById(group.getSupervisorId());
+        sup.ifPresent(gru::setSupervisor);
 
         gru.setStudents(stds);
 
-        System.out.println(sup);
-        gru.setStudents(stds);
-        gru.setAssignments(gru.getAssignments());
         return studentGroupRepository.save(gru);
     }
+
+//    public StudentGroup updateGroup(Long id, StrudentGroupDTO group) {
+//        if(group==null){
+//            throw  new RuntimeException("object not found ");
+//
+//        }
+//        StudentGroup gru= studentGroupRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with id "+id) );
+//        gru.setName(group.getGroupName());
+//        gru.setDomain(Domain.valueOf(group.getDomain()));
+//        List<User> stds = group.getStdIds().stream()
+//                .map(stdId -> userRepo.findById(stdId)
+//                        .orElseThrow(() -> new RuntimeException("Student not found with ID " + stdId)))
+//                .collect(Collectors.toList()); // ✅ safe in Java 8+
+//
+//
+//
+//        for (User usr: stds) {
+//            usr.setGroup(gru);
+//            userRepo.save(usr);
+//        }
+//
+//        Optional<User> sup= userRepo.findById(group.getSupervisorId());
+//        if(sup.isPresent()){
+//            gru.setSupervisor(sup.get());
+//        }
+//
+//        gru.setStudents(stds);
+//
+//        System.out.println(sup);
+//        gru.setStudents(stds);
+//        return studentGroupRepository.save(gru);
+//    }
 
     @Override
     public void deleteGroup(Long id) {

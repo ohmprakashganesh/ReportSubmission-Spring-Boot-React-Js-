@@ -23,16 +23,11 @@ public class StrudentGroupDTO {
     private String groupName;
     private List<Long> stdIds;
     private Long supervisorId;
+    private  String domain;
 
 }
-
-//
-//
-//    private List<UserDTO> students; // Users with role STUDENT
-//
-//
-//    private UserDTO supervisor; // User with role SUPERVISOR
-//
-//
-//    private List<Long> assignmentIds;
-
+//{
+//        "comment": "Great job, but could use more detail on the second section.",
+//        "submittedBy": 4,
+//        "assignmentId": 47
+//        }

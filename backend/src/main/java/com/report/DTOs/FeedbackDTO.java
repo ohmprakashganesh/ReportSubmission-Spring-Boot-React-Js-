@@ -13,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,4 +23,5 @@ public class FeedbackDTO {
     private Long submittedBy;
     private Long assignmentId;
     private MultipartFile file;
+    private LocalDate submittedAt;
 }

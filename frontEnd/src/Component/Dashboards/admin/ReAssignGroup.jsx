@@ -1,36 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { createGroup, getStudents, getSupervisors, updateGroup } from '../../services/AdminSer';
 
-// const students = [
-//   { id: 101, name: "John Doe" },
-//   { id: 102, name: "Jane Smith" },
-//   { id: 103, name: "Peter Jones" },
-//   { id: 104, name: "Alice Brown" },
-//   { id: 105, name: "Bob White" },
-//   { id: 106, name: "Charlie Green" },
-//   { id: 107, name: "David Lee" },
-//   { id: 108, name: "Eve White" },
-// ];
-
-// const supervisors = [
-//   { id: 201, name: "Dr. Emily Clark" },
-//   { id: 202, name: "Prof. David Lee" },
-//   { id: 203, name: "Dr. Sarah Kim" },
-//   { id: 204, name: "Dr. Alex Johnson" },
-// ];
+const domain = [
+   {name:"WEB"},
+    {name:"ANDROID"},
+     {name:"IOS"},
+      {name:"DESKTOP"},
+       {name:"IOT"},
+        {name:"GAME"},
+         {name:"CLOUD"}
+];
 
 const ReAssignGroup = ({group, onClose}) => {
   console.log(group,"this is group ")
   const [supervisors, setSupervisors] = useState([]);
   const [students, setStudents] = useState([]);
 
-  const [groupName, setGroupName] = useState('');
+  const [groupName, setGroupName] = useState(group.name);
   const [newSelectedStudents, setNewSelectedStudents] = useState([]);
   const [newSelectedSupervisor, setNewSelectedSupervisor] = useState('');
+    const [newSelectedDomain, setNewSelectedDomain] = useState(group.domain);
+
 
    const closeFun=()=>{
     onClose();
    }
+
    console.log(group.id);
 
   useEffect(() => {
@@ -78,7 +73,8 @@ const ReAssignGroup = ({group, onClose}) => {
   const groupPayload = {
     groupName: groupName,
     stdIds: stdIdsAsNumbers,
-    supervisorId: supervisorIdAsNumber
+    supervisorId: supervisorIdAsNumber,
+    domain:newSelectedDomain
   };
 
   console.log("Ready to send payload:", JSON.stringify(groupPayload));
@@ -146,13 +142,15 @@ const ReAssignGroup = ({group, onClose}) => {
           <p className="mt-1 text-sm text-gray-500">Hold Ctrl (Windows) / Cmd (Mac) to select multiple students.</p>
         </div>
 
-        <div>
+        
+        <div className='flex  gap-5 col-span-2   w-full'>
+          <div className=' w-[48%]'>
           <label htmlFor="supervisorSelect" className="block text-sm font-medium text-gray-700 mb-1">Select Supervisor</label>
           <select
             id="supervisorSelect"
             value={newSelectedSupervisor}
             onChange={(e) => setNewSelectedSupervisor(e.target.value)}
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 border-2  block w-full p-3  border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             required
           >
             {supervisors.map((val) => (
@@ -161,6 +159,24 @@ const ReAssignGroup = ({group, onClose}) => {
               </option>
             ))}
           </select>
+          </div>
+          <div className=' w-[48%]'>
+      <label htmlFor="supervisorSelect" className="block text-sm font-medium text-gray-700 mb-1">Select Domain</label>
+
+          <select
+            id="domainSelect"
+            value={newSelectedDomain}
+            onChange={(e) => setNewSelectedDomain(e.target.value)}
+            className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            required
+          >
+           {domain.map((val, ind) => (
+           <option key={ind} value={val.name}>
+           {val.name}
+           </option>
+            ))}
+          </select>
+          </div>
         </div>
 
         <div className="md:col-span-2 flex justify-end">

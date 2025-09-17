@@ -16,11 +16,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@RequestMapping("/api/files")
+@RequestMapping("/api/iteration")
 @CrossOrigin("*")
 public class FileController {
 
-    @Value("${Uploads.Documents}")
+    @Value("${Uploads.iteration}")
     private  String basePath;
 
     @GetMapping("/{filename}")
