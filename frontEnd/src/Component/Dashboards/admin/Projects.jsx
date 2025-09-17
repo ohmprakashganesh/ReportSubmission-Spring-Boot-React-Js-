@@ -42,5 +42,4 @@ const ApplicationDomainProjects = () => {
     </div>
   );
 };
-
 export default ApplicationDomainProjects;

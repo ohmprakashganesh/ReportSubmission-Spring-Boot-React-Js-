@@ -46,10 +46,10 @@ const AssignedWorks = ({key, assignment, onViewSubmissions, submittedBy }) => {
         </p>
         <p className="mb-4">
           <a
-            href={assignment.pdfUrl}
+            href={`http://localhost:8080/api/assignment/${assignment.documentName}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline text-sm flex items-center"
+            className=" bg-gray-400 w-46 text-black font-bold py-2 px-4  hover:underline text-sm flex items-center"
           >
             View Assignment PDF
           </a>

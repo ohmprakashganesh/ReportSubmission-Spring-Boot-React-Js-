@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { createGroup, getStudents, getSupervisors } from '../../services/AdminSer';
 
-const students = [
-  { id: 101, name: "John Doe" },
-  { id: 102, name: "Jane Smith" },
-  { id: 103, name: "Peter Jones" },
-  { id: 104, name: "Alice Brown" },
-  { id: 105, name: "Bob White" },
-  { id: 106, name: "Charlie Green" },
-  { id: 107, name: "David Lee" },
-  { id: 108, name: "Eve White" },
+const domain = [
+   {name:"WEB"},
+    {name:"ANDROID"},
+     {name:"IOS"},
+      {name:"DESKTOP"},
+       {name:"IOT"},
+        {name:"GAME"},
+         {name:"CLOUD"}
 ];
 
-const supervisors = [
-  { id: 201, name: "Dr. Emily Clark" },
-  { id: 202, name: "Prof. David Lee" },
-  { id: 203, name: "Dr. Sarah Kim" },
-  { id: 204, name: "Dr. Alex Johnson" },
-];
 
 const CreateGroup = () => {
   const [supervisors, setSupervisors] = useState([]);
@@ -27,6 +20,8 @@ const CreateGroup = () => {
   const [groupName, setGroupName] = useState('');
   const [newSelectedStudents, setNewSelectedStudents] = useState([]);
   const [newSelectedSupervisor, setNewSelectedSupervisor] = useState('');
+    const [newSelectedDomain, setNewSelectedDomain] = useState(domain[0].name);
+
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -57,62 +52,7 @@ const CreateGroup = () => {
     setNewSelectedStudents(values);
   };
 
-  // const handleSubmitNewGroup = async (e) => {
-  //   e.preventDefault();
 
-  //   if (!groupName || newSelectedStudents.length === 0 || !newSelectedSupervisor) {
-  //     alert("Please fill in all required fields: Group Name, Students, and Supervisor.");
-  //     return;
-  //   }
-
-  //   const stdIdsAsNumbers = newSelectedStudents.map(id => parseInt(id, 10));
-  //   const supervisorIdAsNumber = parseInt(newSelectedSupervisor, 10);
-
-  //   const groupPayload = {
-  //     groupName: groupName,
-  //     studentIds: stdIdsAsNumbers,
-  //     supervisorId: supervisorIdAsNumber
-  //   };
-  //     console.log("successfully ready to create group"+JSON.stringify(resp));
-
-  //   try{
-  //     const resp= await createGroup(groupPayload);
-  //     console.log("successfully created group"+JSON.stringify(resp));
-  //   }catch(error){
-  //     console.log(error);
-  //   }
-    
-  // }
-
- 
-
-  //   // const supervisor = mockSupervisors.find(s => s.id === supervisorIdAsNumber);
-  //   // const supervisorName = supervisor ? supervisor.name : "Unknown Supervisor";
-
-  //   // const studentNames = stdIdsAsNumbers.map(id => {
-  //   //   const student = mockStudents.find(s => s.id === id);
-  //   //   return student ? student.name : `ID: ${id}`;
-  //   // }).join(', ');
-
-  //   // const newEntry = {
-  //   //   id: data.length > 0 ? Math.max(...data.map(g => g.id)) + 1 : 1,
-  //   //   groupName,
-  //   //   stdIds: stdIdsAsNumbers,
-  //   //   supervisorId: supervisorIdAsNumber,
-  //   //   supervisorName,
-  //   //   projectName: "New Project (To be defined)",
-  //   //   submissionDate: "N/A",
-  //   //   feedback: "No feedback yet.",
-  //   //   status: "Planning Phase",
-  //   //   members: studentNames
-  //   // };
-
-  //   // setData([...data, newEntry]);
-
-  //   setGroupName('');
-  //   setNewSelectedStudents([]);
-  //   setNewSelectedSupervisor('');
-  // };
 
   const handleSubmitNewGroup = async (e) => {
   e.preventDefault();
@@ -121,6 +61,10 @@ const CreateGroup = () => {
     alert("Please fill in all required fields: Group Name, Students, and Supervisor.");
     return;
   }
+if (!newSelectedDomain) {
+  alert("Please select a domain");
+  return;
+}
 
   const stdIdsAsNumbers = newSelectedStudents.map(id => parseInt(id, 10));
   const supervisorIdAsNumber = parseInt(newSelectedSupervisor, 10);
@@ -128,7 +72,8 @@ const CreateGroup = () => {
   const groupPayload = {
     groupName: groupName,
     stdIds: stdIdsAsNumbers,
-    supervisorId: supervisorIdAsNumber
+    supervisorId: supervisorIdAsNumber,
+     domain:newSelectedDomain
   };
 
   console.log("Ready to send payload:", JSON.stringify(groupPayload));
@@ -141,6 +86,7 @@ const CreateGroup = () => {
     setGroupName('');
     setNewSelectedStudents([]);
     setNewSelectedSupervisor('');
+    setNewSelectedDomain("");
     alert("Group created successfully!");
   } catch (error) {
     console.error("Failed to create group:", error);
@@ -184,13 +130,14 @@ const CreateGroup = () => {
           <p className="mt-1 text-sm text-gray-500">Hold Ctrl (Windows) / Cmd (Mac) to select multiple students.</p>
         </div>
 
-        <div>
+        <div className='flex  gap-5 col-span-2   w-full'>
+          <div className=' w-[48%]'>
           <label htmlFor="supervisorSelect" className="block text-sm font-medium text-gray-700 mb-1">Select Supervisor</label>
           <select
             id="supervisorSelect"
             value={newSelectedSupervisor}
             onChange={(e) => setNewSelectedSupervisor(e.target.value)}
-            className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 border-2  block w-full p-3  border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             required
           >
             {supervisors.map((val) => (
@@ -199,6 +146,24 @@ const CreateGroup = () => {
               </option>
             ))}
           </select>
+          </div>
+          <div className=' w-[48%]'>
+      <label htmlFor="supervisorSelect" className="block text-sm font-medium text-gray-700 mb-1">Select Domain</label>
+
+          <select
+            id="domainSelect"
+            value={newSelectedDomain}
+            onChange={(e) => setNewSelectedDomain(e.target.value)}
+            className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            required
+          >
+           {domain.map((val, ind) => (
+           <option key={ind} value={val.name}>
+           {val.name}
+           </option>
+            ))}
+          </select>
+          </div>
         </div>
 
         <div className="md:col-span-2 flex justify-end">

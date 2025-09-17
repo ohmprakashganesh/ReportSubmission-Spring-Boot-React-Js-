@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getUser } from '../../../services/StudetServ';
+import { constUserId } from './const';
 
 const Groups = ({groups,onViewGroup}) => {
   const [user,setUser]=useState([]);
@@ -7,7 +8,7 @@ const Groups = ({groups,onViewGroup}) => {
   useEffect(() => {
   const fetchUser = async () => {
     try {
-      const data = await getUser(12);
+      const data = await getUser(constUserId);
       setUser(data);
     } catch (err) {
       console.error(err);

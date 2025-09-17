@@ -3,12 +3,13 @@ import { getAssignments, getIterationByUser } from "../../services/Assugnment";
 import { ConstructionIcon } from "lucide-react";
 import { httpClient } from "../../services/Config/Config";
 import { getUser } from "../../services/StudetServ";
+import { all } from "axios";
 
 
 
-const SubmittedWorks = ({user}) => {
-
-
+const SubmittedWorks = ({allAssignments,allSubmissions}) => {
+  console.log(allSubmissions)
+    console.log(allAssignments)
 
 
 const onDelete = async (id) => {
@@ -38,12 +39,12 @@ return (
   <div className="p-4 bg-white rounded-lg shadow-md">
     <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>
 
-    {!user?.group?.assignments || user.group.assignments.length === 0 ? (
+    {!allAssignments || allAssignments.length === 0 ? (
       <p className="text-gray-600">You haven't submitted any work yet.</p>
     ) : (
       <div className="space-y-6">
 
-        {user.group.assignments.map((assignment) => ( 
+        {allAssignments.map((assignment) => ( 
            assignment?.iterations && assignment.iterations.length >0 &&(
               <div
             key={assignment.id}
@@ -87,19 +88,36 @@ return (
                       {sub.submittedBy?.email || "Not found"})
                     </p>
                     {sub.documentUrl && (
-                      <p className="mt-1">
+                      <button className="px-3 w-[40%] py-1 bg-green-600 text-white text-sm rounded-md hover:bg-red-700">
                         <a
-                          href={`http://localhost:8080/api/files/${sub.documentName}`}
+                          href={`http://localhost:8080/api/iteration/${sub.documentName}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline text-sm flex items-center"
+                          className=" text-white hover:underline text-sm flex items-center"
                         >
-                          {sub.documentName || "Download File"}
+                          { "Download Submitted file"}
                         </a>
-                      </p>
+                      </button>
                     )}
-                    <p>{sub?.feedback?.comment}</p>
-                    <p>no feed back yet</p>
+
+                    <div className=" mt-4 mb-2 bg-conic-150">
+                    <p>{sub?. feedback?.comments ?(
+                    <p className=" p-2 rounded-xl bg-white ">{sub.feedback.comments}</p>
+                    ):("No feedback available")}</p>
+
+                      {sub?.feedback?.documentUrl ? (
+                      <button className="px-3 w-[40%] py-1 bg-green-600 text-white text-sm rounded-md hover:bg-red-700">
+                        <a
+                          href={`http://localhost:8080/api/feedback/${sub.feedback.documentName}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white hover:underline text-sm flex items-center"
+                        >
+                          {"Download Reviewed file"}
+                        </a>
+                      </button>
+                    ):("not correction file")}
+                    </div>
                     </div>
                     <div>
                      <div className=" gap-2 w-full  ml-4">

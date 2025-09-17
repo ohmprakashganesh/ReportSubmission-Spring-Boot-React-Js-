@@ -11,6 +11,7 @@ import Sidebar from './Assignedworks/Sidebar';
 import { getUser } from '../../services/StudetServ';
 import Landing from './Assignedworks/Landing';
 import { getAssignmentsOfGroup, IterationsByStudent } from '../../services/Assugnment';
+import { constUserId } from './Assignedworks/const';
 
 // Main App component that contains the entire dashboard
 
@@ -21,28 +22,13 @@ const App = () => {
   // States for 'Assigned Work' section
   const [currentView, setCurrentView] = useState('groupList'); // 'groupList' or 'groupDetail'
   const [selectedGroup, setSelectedGroup] = useState(null);
+  const tempId=29;
 
   // Data states
   const [groups, setGroups] = useState([]);
   const [user, setUser]=useState("");
   const [assignments, setAssignments] = useState([]);
   const [submissions, setSubmissions] = useState([]); // All submissions for all assignments
-
-  // Mock student data (as provided by the user)
- 
-
-  // console.log("data after api call", groups);
-  // useEffect(() => {
-  //   const callUser= async ()=>{
-  //     const data= getUser();
-  //     setStudent(data);
-
-  //   };
-  //   callUser();
-  // }, []);
-
-  //   const[user,setUser]= useState([]);
-
 const [assignmentsB,setAssignmentsB]=useState([]);
  const [submissionsB,setSubmissionsB]=useState([]);
 const [checked,setChecked]=useState([]);
@@ -57,14 +43,13 @@ const [unChecked,setUnchecked]=useState([]);
              }catch(error){
                console.log("not found");
              }
-       
            };
            assignmentsOfGroup();
        
          },[]);
 
 
- useEffect(()=>{
+        useEffect(()=>{
            const iterationsByUser=async ()=>{
              try{
                const res=await IterationsByStudent();
@@ -85,7 +70,7 @@ const [unChecked,setUnchecked]=useState([]);
 useEffect(()=>{
 const  fetchUser=async ()=>{
     try{
- const data= await getUser(12);
+ const data= await getUser(constUserId);
     setUser(data);
     console.log("fetched user",data);
     }catch(error){
@@ -99,7 +84,7 @@ const  fetchUser=async ()=>{
  useEffect(()=>{
 const  fetchUser=async ()=>{
     try{
- const data= await getIterationByUser(12);
+ const data= await getIterationByUser(constUserId);
     setSubmissions(data);
     console.log("fetched iterations",data);
     }catch(error){
@@ -158,7 +143,7 @@ const  fetchUser=async ()=>{
    <MyDetails />
   // SubmittedWorks Component: Displays all submitted assignments
   //assignment is passed for task name and their submissions
-   <SubmittedWorks user={user} assignments={assignments} setAssignments={setAssignments} />
+   <SubmittedWorks assignments={assignments} setAssignments={setAssignments} />
     //chat space 
     <ChatPlaceholder/>
    </>
@@ -215,7 +200,7 @@ const  fetchUser=async ()=>{
             )
           )}
           {activeTab === 'submittedWorks' && (
-            <SubmittedWorks allAssignments={assignments} allSubmissions={submissions} />
+            <SubmittedWorks allAssignments={assignmentsB} allSubmissions={submissionsB} />
           )}
           {activeTab === 'chats' && <ChatPlaceholder />}
         </div>

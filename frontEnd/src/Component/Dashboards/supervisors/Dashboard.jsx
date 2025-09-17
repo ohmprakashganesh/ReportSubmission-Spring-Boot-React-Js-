@@ -18,6 +18,7 @@ const DashboardU = () => {
     const[students,setStudents]=useState([]);
     const[groups,setGroups]= useState([]);
     const[totalFeedback,setTotalFeedback]=useState("");
+    const tempId=28;
     
     //total feedback  received 
     useEffect(()=>{
@@ -45,7 +46,7 @@ const DashboardU = () => {
        useEffect(()=>{
         const fetchUser=async ()=>{
             try{
-                const res= await SupervisedStudents (5);
+                const res= await SupervisedStudents (tempId);
                  setStudents(res);
                  console.log("students",students);
             }catch(error){
@@ -58,7 +59,7 @@ const DashboardU = () => {
     useEffect(()=>{
         const fetchUser=async ()=>{
             try{
-                const res= await supervisorKoGroups(5);
+                const res= await supervisorKoGroups(tempId);
                  setGroups(res);
             }catch(error){
                 console.log(error);
