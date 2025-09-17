@@ -2,6 +2,7 @@ package com.report.controller;
 
 import java.util.List;
 
+import com.report.AuthDTOs.AuthResponse;
 import com.report.DTOs.StudentDto;
 import com.report.DTOs.UserDTO;
 import com.report.entities.StudentGroup;
@@ -26,11 +27,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
-        User createdUser = userService.createUser(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
+//        User createdUser = userService.createUser(user);
+//        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+//    }
+
+//    @PostMapping("/register")
+//    public ResponseEntity<AuthResponse> registerUser(@RequestBody UserDTO registerRequest) {
+//        return ResponseEntity.ok(service.register(registerRequest));
+//    }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {

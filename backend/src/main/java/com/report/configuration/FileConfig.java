@@ -11,7 +11,6 @@ public class FileConfig implements WebMvcConfigurer {
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
             registry.addResourceHandler("/api/files/**")
                     .addResourceLocations("file:uploads/");
-            // change to your actual upload folder path
         }
     }
 
