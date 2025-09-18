@@ -7,20 +7,13 @@ import { all } from "axios";
 
 
 
-const SubmittedWorks = ({allAssignments,allSubmissions}) => {
-  console.log(allSubmissions)
+const SubmittedWorks = ({allAssignments}) => {
     console.log(allAssignments)
 
 
 const onDelete = async (id) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/itr/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
+    const response= await httpClient.delete(`/api/itr/${id}`);
     if (response.ok) {
       alert("Item deleted successfully");
       // Optionally refresh list here
@@ -32,9 +25,13 @@ const onDelete = async (id) => {
     console.error("Error deleting item:", err);
   }
 };
+//  const response = await fetch(`http://localhost:8080/api/itr/${id}`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
 
-
- 
 return (
   <div className="p-4 bg-white rounded-lg shadow-md">
     <h2 className="text-2xl font-bold mb-4 text-gray-800">Submitted Works</h2>

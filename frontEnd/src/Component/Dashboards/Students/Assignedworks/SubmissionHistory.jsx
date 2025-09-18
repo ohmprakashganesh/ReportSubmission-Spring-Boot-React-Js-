@@ -2,8 +2,6 @@ import axios from 'axios';
 import React from 'react'
 
 const SubmissionHistory = ({ assignment, onClose }) => {
-
-
   const onDelete = async (id) => {
     try {
       const response = await fetch(`http://localhost:8080/api/itr/${id}`, {
@@ -24,9 +22,6 @@ const SubmissionHistory = ({ assignment, onClose }) => {
       console.error("Error deleting item:", err);
     }
   };
-
-
-
 
   // Use assignment.iterations as the submissions
   const assignmentSubmissions = assignment.iterations || [];

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const Navbar = ({ title, currentSection, setCurrentSection }) => {
+const Navbar = ({ title, currentSection, name ,setCurrentSection }) => {
   const [show, setShow] = useState(false);
 
   const toggle = () => setShow(!show);
@@ -18,8 +18,8 @@ const Navbar = ({ title, currentSection, setCurrentSection }) => {
         </div>
         <div className="hidden md:block">
           <div className="ml-4 flex items-center md:ml-6 space-x-2">
-            <button className="px-4 py-2 border border-[#2563eb] rounded-md text-sm font-medium text-[#2563eb] hover:bg-gray-50">
-              <Link to="/login"> Logout </Link>
+            <button className="px-4 h-14 w-20 py-4 border text-xl font-bold  border-[#2563eb] rounded-full  font-stretch-200% text-[#2563eb] hover:bg-gray-50">
+              <Link to="/login"> {name} </Link>
             </button>
           </div>
         </div>

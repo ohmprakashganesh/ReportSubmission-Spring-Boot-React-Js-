@@ -1,7 +1,9 @@
 import axios from "axios";
 import { fetchData } from "pdfjs-dist";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFeedback } from "../../services/SuperviserSer";
+import { httpClient } from "../../services/Config/Config";
+import { AlignRight } from "lucide-react";
 
 export const CoursesSection = ({ groups  }) => {
   const allAssignments = groups.flatMap((group) => group.assignments);
@@ -17,7 +19,7 @@ export const CoursesSection = ({ groups  }) => {
 
 
   //load all the assignments
-  
+
   return (
     <section id="courses-section" className="content-section">
       <h3 className="text-2xl font-semibold text-gray-800 mb-6">All Courses</h3>
@@ -74,7 +76,8 @@ export default CoursesSection;
 
 
 const Iterations = ({ setSubmissionShow, assignment }) => {
-  const [feedback, setFeedback] = useState({}); // <-- now it's an object
+  const [feedback, setFeedback] = useState({});
+  const fileInputRef= useRef(null) // <-- now it's an object
 
   //this is for creating feedback
   const handleFeedbackChange = (e, itrId) => {
@@ -85,47 +88,38 @@ const Iterations = ({ setSubmissionShow, assignment }) => {
   };
 
   //this is for delete feedback
-const handleFeedbackDelete = async (id) => {
-  try {
-    const response = await fetch(`http://localhost:8080/api/feedbacks/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+ const handleFeedbackDelete = async (id) => {
 
-    if (response.ok) {
-      alert("Item deleted successfully");
-    } else {
-      const error = await response.text();
-      alert("Error: " + error);
-    }
-  } catch (err) {
-    console.error("Error deleting item:", err);
-  }
-};
+    try {
+  const response = await httpClient.delete(`/api/feedbacks/${id}`);
+
+  console.log("Feedback deleted:", response.data);
+  alert("deleted successfully");
+  // Do whatever you want after delete — e.g. refresh list
+} catch (error) {
+  console.error("Delete failed:", error);
+}
+  };
 
 
   
 
-  const handleFeedbackSubmit = async (e, itrId) => {
-    e.preventDefault();
+const handleFeedbackSubmit = async (e, itrId) => {
+  e.preventDefault();
 
-    const msg = feedback[itrId]; // get the feedback of this iteration
-    if (!msg?.trim()) return;
+  const msg = feedback[itrId];
+  if (!msg?.trim()) return;
 
-    const payload = {
-      comment: msg,
-      submittedBy: 4,
-      assignmentId: itrId,  // use real assignment id
-    
-    };
+  if (fileInputRef.current && fileInputRef.current.files[0]) {
+    const formData = new FormData();
+    formData.append("file", fileInputRef.current.files[0]);
+    formData.append("comment", msg);
+    formData.append("submittedBy", 4);       // hardcoded user id for now
+    formData.append("assignmentId", itrId);  // ✅ correct field name
 
     try {
-      console.log(payload);
-      await createFeedback(payload);
+      await createFeedback(formData);
       alert("Feedback submitted successfully!");
-      // clear only this iteration's feedback
       setFeedback(prev => {
         const copy = { ...prev };
         delete copy[itrId];
@@ -135,8 +129,8 @@ const handleFeedbackDelete = async (id) => {
       console.error(error);
       alert("Failed to submit feedback.");
     }
-  };
-
+  }
+};
   return (
   <div className="fixed inset-0 h-screen bg-gray-900 bg-opacity-40 flex justify-center items-center z-30 p-4">
     <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] relative flex flex-col">
@@ -201,24 +195,32 @@ const handleFeedbackDelete = async (id) => {
                 )}
 
                 {/* Feedback Form */}
-                {!itr.feedback && (
-                  <form onSubmit={(e) => handleFeedbackSubmit(e, itr.id)} className="mt-2">
-                    <label className="block text-sm font-medium text-gray-700">Feedback</label>
-                    <input
-                      type="text"
-                      value={feedback[itr.id] || ""}
-                      onChange={(e) => handleFeedbackChange(e, itr.id)}
-                      className="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 shadow-sm"
-                      required
-                    />
-                    <button
-                      type="submit"
-                      className="mt-2 rounded-lg px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
-                    >
-                      Submit
-                    </button>
-                  </form>
-                )}
+                   {!itr.feedback && (
+                      <form onSubmit={(e) => handleFeedbackSubmit(e, itr.id)} className="mt-2">
+                        <label className="block text-sm font-medium text-gray-700">Feedback</label>
+                        <input
+                          type="text"
+                          value={feedback[itr.id] || ""}
+                          onChange={(e) => handleFeedbackChange(e, itr.id)}
+                          className="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 shadow-sm"
+                          required
+                        />
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 
+                     file:rounded-full file:border-0 file:text-sm file:font-semibold 
+                     file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                        />
+
+                        <button
+                          type="submit"
+                          className="mt-2 rounded-lg px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                        >
+                          Submit
+                        </button>
+                      </form>
+                    )}
 
                 {/* Existing Feedback */}
                 {itr.feedback && (

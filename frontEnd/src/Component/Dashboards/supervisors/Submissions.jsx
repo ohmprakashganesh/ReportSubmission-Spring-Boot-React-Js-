@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios'; // Make sure axios is installed
 import { createFeedback } from '../../services/SuperviserSer';
+import { httpClient } from '../../services/Config/Config';
 
 
 const Submissions = ({ setSubmissionShow, assignment }) => {
@@ -17,24 +18,18 @@ const Submissions = ({ setSubmissionShow, assignment }) => {
 
   //this is for delete feedback
   const handleFeedbackDelete = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/feedbacks/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
-      if (response.ok) {
-        alert("Item deleted successfully");
-      } else {
-        const error = await response.text();
-        alert("Error: " + error);
-      }
-    } catch (err) {
-      console.error("Error deleting item:", err);
-    }
+    try {
+  const response = await httpClient.delete(`/api/feedbacks/${id}`);
+
+  console.log("Feedback deleted:", response.data);
+  alert("deleted successfully");
+  // Do whatever you want after delete — e.g. refresh list
+} catch (error) {
+  console.error("Delete failed:", error);
+}
   };
+
 
 
 
@@ -159,19 +154,38 @@ const handleFeedbackSubmit = async (e, itrId) => {
                     )}
 
                     {/* Existing Feedback */}
-                    {itr.feedback && (
-                      <div className="mt-2 flex justify-between items-center">
-                        <div className="bg-gray-100 text-gray-800 text-sm rounded-md p-2 flex-1">
-                          <strong>Feedback:</strong> {itr.feedback.comments}
-                        </div>
-                        <button
-                          onClick={() => handleFeedbackDelete(itr.feedback.id)}
-                          className="ml-3 text-red-500 hover:underline text-sm font-medium"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
+                     {itr.feedback && (
+                  <div>
+                  <div className="mt-2 flex justify-between items-center">
+                    <div className="bg-gray-100 text-gray-800 text-sm rounded-md p-2 flex-1">
+                      <strong>Feedback:</strong> {itr.feedback.comments}
+                    </div>
+                    <button
+                      onClick={() => handleFeedbackDelete(itr.feedback.id)}
+                      className="ml-3 text-red-500 hover:underline text-sm font-medium"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                    <div className="bg-gray-100 flex justify-between text-gray-800 text-sm rounded-md p-2 flex-1">
+                  
+                    <button
+                      className="mt-2 rounded-lg px-4 py-2 bg-green-600 text-white hover:bg-indigo-700 transition-colors"
+                    >
+                        <a
+                      href={`http://localhost:8080/api/feedback/${itr.feedback.documentName}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white  hover:underline"
+                    >
+                     Download reviewed File
+                    </a>
+                    
+                    </button>
+                   
+                  </div>
+                  </div>
+                )}
                   </li>
                 ))}
               </ul>

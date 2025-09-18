@@ -39,20 +39,12 @@ const AssignmentEdit = ({setShowEditForm,assignment,id}) => {
       formData.append("studentGroupId",id)
 
 
-     const resp = await httpClient.put(
-  `/api/assignments/${assignment.id}`,
+     const resp = await httpClient.put(`/api/assignments/${assignment.id}`,
   formData,
   {
     headers: { 'Content-Type': 'multipart/form-data' }
   }
 );
-
-
-      // const response = await fetch(`http://localhost:8080/api/assignments/${assignment.id}`, {
-      //   method: "PUT",
-      //   body: formData,
-      // });
-
       if (resp.status !== 201 && resp.status !==200) throw new Error("Failed to create assignment");
 
       setSuccess("Assignment created successfully!");

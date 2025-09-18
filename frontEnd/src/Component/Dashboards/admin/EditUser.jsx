@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { getUser, updateUser } from '../../services/AdminSer'
 import { useNavigate } from 'react-router-dom';
+import { httpClient } from '../../services/Config/Config';
 
 const EditUser = ({uid,setUpdateId}) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email:'',
+        role: '',
+        password:''
+      });
+      
   const [user, setUser]=useState('');
- const nav= useNavigate();
+//  const nav= useNavigate();
  
 useEffect(() => {
   const fetchUser = async () => {
     try {
       const temp = await getUser(uid);
       setUser(temp);
+
       setFormData({
         name: temp.name || '',
         email: temp.email || '',
@@ -29,12 +38,7 @@ useEffect(() => {
 
       // State to hold form data, initialized with empty strings
       
-     const [formData, setFormData] = useState({
-        name: '',
-        email:'',
-        role: '',
-        password:''
-      });
+   
     
       // State to hold validation errors for each field
       const [errors, setErrors] = useState({});
@@ -102,8 +106,12 @@ useEffect(() => {
     
         setIsSubmitting(true); // Set submitting state to true (for visual feedback)
         try {
-       const resp= await updateUser(uid, formData);
-          
+
+     
+          const resp = await updateUser(uid,formData);
+      
+           if (resp.status !== 201 && resp.status !==200) throw new Error("Failed to create assignment");
+
            // Display success message
           // Simulate a delay for the "Creating User..." button state
           await new Promise(resolve => setTimeout(resolve, 1000));

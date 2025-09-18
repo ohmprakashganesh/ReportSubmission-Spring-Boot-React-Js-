@@ -3,7 +3,7 @@ import { useState } from "react";
 const Sidebar1 = ({ currentSection, onNavigate }) => {
      const handleLogout=()=>{
         localStorage.removeItem("accessToken");
-        onNavigate('login');
+      window.location.href='/login'
      }
     return (
         <aside className="w-64 mt-14  md:block lg:block hidden bg-gray-800 text-white  flex-col p-4 shadow-lg transition-all duration-300 ease-in-out lg:translate-x-0" id="sidebar">

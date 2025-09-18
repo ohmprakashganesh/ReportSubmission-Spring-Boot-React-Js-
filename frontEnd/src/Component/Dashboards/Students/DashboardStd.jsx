@@ -36,6 +36,20 @@ const [checked,setChecked]=useState([]);
 const [unChecked,setUnchecked]=useState([]);
 const [profile,setProfile]=useState("");
 
+           useEffect (()=>{
+            const fetchProfile = async ()=>{
+              try{
+              const res= await getProfile();
+              setProfile(res);
+              console.log("profile",profile)
+                  }catch(error){
+                 console.log("not logged user");
+                  }
+  
+            };
+            fetchProfile();
+           },[])
+  console.log(profile)
 
 
          useEffect(()=>{
@@ -69,18 +83,18 @@ const [profile,setProfile]=useState("");
            iterationsByUser();
            },[]);
 
-useEffect(()=>{
-const  fetchUser=async ()=>{
-    try{
- const data= await getUser(constUserId);
-    setUser(data);
-    console.log("fetched user",data);
-    }catch(error){
-      console.log(error);
-    }
-  };
-  fetchUser();
-},[]);
+// useEffect(()=>{
+// const  fetchUser=async ()=>{
+//     try{
+//  const data= await getUser(constUserId);
+//     setUser(data);
+//     console.log("fetched user",data);
+//     }catch(error){
+//       console.log(error);
+//     }
+//   };
+//   fetchUser();
+// },[]);
 
 
  useEffect(()=>{
@@ -187,7 +201,7 @@ const  fetchUser=async ()=>{
       checked={checked}  />
           )}
           {activeTab === 'myDetails' &&
-           <MyDetails user={user} />}
+           <MyDetails />}
           {activeTab === 'assignedWork' && (
             currentView === 'groupList' ? (
               <Groups groups={groups} onViewGroup={handleViewGroup} />

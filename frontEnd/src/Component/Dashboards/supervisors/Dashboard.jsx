@@ -30,7 +30,7 @@ const DashboardU = () => {
     const [reviewModalData, setReviewModalData] = useState({ groupName: '', assignmentName: '' });
     const tempId=28;
     
-    //total feedback  received 
+    //total feedback  given by supervisor
     useEffect(()=>{
         const total = async ()=>{
             const data=await TotalChecked();
@@ -141,7 +141,7 @@ const DashboardU = () => {
     };
     console.log("total groups are",groups);
     return (
-        <>   <Navbar currentSection={currentSection}  title={getSectionTitle()} setCurrentSection={setCurrentSection}/>
+        <>   <Navbar currentSection={currentSection}  name={user.name}  title={getSectionTitle()} setCurrentSection={setCurrentSection}/>
         <div className="sm:flex-row   flex h-screen border-t-2   overflow-scroll">
             <Sidebar1 currentSection={currentSection} onNavigate={setComponent} />
 

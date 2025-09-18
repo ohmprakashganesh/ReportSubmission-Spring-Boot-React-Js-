@@ -1,6 +1,6 @@
 import React from "react";
 
-export const UserProfile = ({setShowProfile,uid,user}) => {
+export const UserProfile = ({setShowProfile,user}) => {
   const closeFun = () => {
     setShowProfile(false);
     console.log("Close clicked!");

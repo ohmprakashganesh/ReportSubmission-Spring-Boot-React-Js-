@@ -41,10 +41,15 @@ export const getStudents= async()=>{
 
 }
 
-export const updateUser= async(id, user)=>{
-    const resp= await httpClient.put(`/api/users/${id}`,user);
-    return resp.data;
-}
+export const updateUser = async (id, user) => {
+  const resp = await httpClient.put(`/api/users/${id}`, user, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return resp.data;
+};
+
 
  export const updateGroup=async(id,group)=>{
     const resp=await httpClient.put(`/api/groups/${id}`,group);

@@ -1,29 +1,39 @@
 
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { httpClient } from '../../../services/Config/Config';
+import { getProfile } from '../../../services/SuperviserSer';
 
 const AssignedWorks = ({assignment, onViewSubmissions }) => {
   const [showSubmitForm, setShowSubmitForm] = useState(false);
   const [iterationType, setIterationType] = useState("PRE");
   const fileInputRef = useRef(null);
+  const [profile,setProfile]=useState("");
+  
+    useEffect (()=>{
+              const fetchProfile = async ()=>{
+                try{
+                const res= await getProfile();
+                setProfile(res);
+                    }catch(error){
+                   console.log("not logged user");
+                    }
+    };
+              fetchProfile();
+             },[])
+
+
 
   const handleFileSubmit = async () => {
     if (fileInputRef.current && fileInputRef.current.files[0]) {
       const formData = new FormData();
       formData.append("file", fileInputRef.current.files[0]);
-      formData.append("submittedBy", 1); 
+      formData.append("submittedBy", profile.id); 
       formData.append("assignmentId", assignment.id);
       formData.append("status", "SUBMITTED");
       formData.append("iterationType", iterationType);
-
       try {
-        // const response = await axios.post("http://localhost:8080/api/itr", formData, {
-        //   headers: { "Content-Type": "multipart/form-data" },
-        // });
-
-
           const response = await httpClient.post('/api/itr',formData,
               {
                 headers: {
@@ -108,7 +118,7 @@ const AssignedWorks = ({assignment, onViewSubmissions }) => {
               className="outline-1 hover:outline-blue-200 bg-gray-300 p-1 rounded"
             >
               <option value="PRE">PRE</option>
-              <option value="MID">MIDDLE</option>
+              <option value="MIDDLE">MIDDLE</option>
               <option value="FINAL">FINAL</option>
             </select>
           </div>
