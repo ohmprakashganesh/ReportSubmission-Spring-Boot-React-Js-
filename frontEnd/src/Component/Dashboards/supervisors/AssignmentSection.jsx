@@ -16,7 +16,8 @@ export const CoursesSection = ({ groups  }) => {
   };
 
 
-  //load all the courses
+  //load all the assignments
+  
   return (
     <section id="courses-section" className="content-section">
       <h3 className="text-2xl font-semibold text-gray-800 mb-6">All Courses</h3>

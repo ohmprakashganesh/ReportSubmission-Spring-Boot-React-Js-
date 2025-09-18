@@ -1,40 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import Sidebar1 from './Sidebar1';
-import Header from './Header';
 import { CoursesSection } from './AssignmentSection';
 import { GroupsSection } from './GroupSection';
 import { StudentsSection } from './StudentSection';
 import { SettingsSection } from './SettingSection';
 import { GroupDetails } from './GroupDetails';
 import { getUser } from '../../services/AdminSer';
-import { SupervisedStudents, supervisorKoGroups, TotalChecked } from '../../services/SuperviserSer';
+import { getProfile, SupervisedStudents, supervisorKoGroups, TotalChecked } from '../../services/SuperviserSer';
+
 
 // Main App Component
 const DashboardU = () => {
-
 
     const [user,setUser]=useState("");
     const[students,setStudents]=useState([]);
     const[groups,setGroups]= useState([]);
     const[totalFeedback,setTotalFeedback]=useState("");
+    
+    // State for managing current section/page
+    const [currentSection, setCurrentSection] = useState('dashboard');
+    const [currentCourse, setCurrentCourse] = useState(null); // Stores selected course data
+    const [currentAssignment, setCurrentAssignment] = useState(null); // Stores selected assignment data
+    const [currentGroup, setCurrentGroup] = useState(null); // Stores selected group data
+
+    // State for modal visibility
+    const [showAssignTaskModal, setShowAssignTaskModal] = useState(false);
+    const [showReviewSubmissionModal, setShowReviewSubmissionModal] = useState(false);
+    const [reviewModalData, setReviewModalData] = useState({ groupName: '', assignmentName: '' });
     const tempId=28;
     
     //total feedback  received 
     useEffect(()=>{
-        const total= async ()=>{
+        const total = async ()=>{
             const data=await TotalChecked();
             setTotalFeedback(data);
-
         }
         total();
-
     },[])
+
 //fetching the supervisor
      useEffect(()=>{
         const fetchUser=async ()=>{
             try{
-                const res= await getUser(4);
+                const res= await getProfile();
                  setUser(res);
             }catch(error){
                 console.log(error);
@@ -42,6 +51,7 @@ const DashboardU = () => {
         };
           fetchUser();
      },[]);
+
 //fetching supervised students
        useEffect(()=>{
         const fetchUser=async ()=>{
@@ -61,6 +71,7 @@ const DashboardU = () => {
             try{
                 const res= await supervisorKoGroups(tempId);
                  setGroups(res);
+                 console.log(groups);
             }catch(error){
                 console.log(error);
             }
@@ -70,62 +81,19 @@ const DashboardU = () => {
      
 //collecting all assignments of all groups
    const allAssignments = groups.flatMap((group) => group.assignments);
+     console.log( "all assignments",allAssignments);
 
-
-    // State for managing current section/page
-    const [currentSection, setCurrentSection] = useState('dashboard');
-    const [currentCourse, setCurrentCourse] = useState(null); // Stores selected course data
-    const [currentAssignment, setCurrentAssignment] = useState(null); // Stores selected assignment data
-    const [currentGroup, setCurrentGroup] = useState(null); // Stores selected group data
-
-    // State for modal visibility
-    const [showAssignTaskModal, setShowAssignTaskModal] = useState(false);
-    const [showReviewSubmissionModal, setShowReviewSubmissionModal] = useState(false);
-    const [reviewModalData, setReviewModalData] = useState({ groupName: '', assignmentName: '' });
+    
 
     // Dummy Data (replace with actual data fetching in a real application)
-    const coursesData = [
-        { id: 'cs101', name: 'CS101 - Introduction to Programming', semester: 'Fall 2025', students: 25, assignments: 3, pendingReviews: 5 },
-        { id: 'mgt201', name: 'MGT201 - Business Management Principles', semester: 'Fall 2025', students: 30, assignments: 2, pendingReviews: 7 },
-        { id: 'hist101', name: 'HIST101 - World History I', semester: 'Fall 2025', students: 40, assignments: 1, pendingReviews: 0 },
-    ];
+   
 
-    const assignmentsData = {
-        'cs101': [
-            { id: 'project-alpha', name: 'Project Alpha - Group Project', dueDate: 'October 15, 2025, 11:59 PM', submissionsReceived: 10, totalSubmissions: 12, reviewsCompleted: 5, totalReviews: 10, description: "This project requires groups to develop a Python application that simulates a simple library management system. The application should allow users to add books, borrow books, return books, and view available books. Focus on clean code, proper data structures, and user-friendly command-line interface.", points: 100, submissionType: "File Upload (ZIP)", assignedTo: "All Groups", rubric: "Project Alpha Rubric" },
-            { id: 'homework-1', name: 'Homework 1 - Individual', dueDate: 'September 30, 2025, 11:59 PM', submissionsReceived: 25, totalSubmissions: 25, reviewsCompleted: 25, totalReviews: 25, description: "Complete exercises from Chapter 3.", points: 50, submissionType: "Text Entry", assignedTo: "All Students", rubric: null },
-        ],
-        'mgt201': [
-            { id: 'midterm-report', name: 'Midterm Report', dueDate: 'October 20, 2025, 11:59 PM', submissionsReceived: 15, totalSubmissions: 30, reviewsCompleted: 0, totalReviews: 15, description: "Prepare a report on current business trends.", points: 75, submissionType: "File Upload (PDF)", assignedTo: "All Students", rubric: null },
-        ],
-        'hist101': [
-            { id: 'research-proposal', name: 'Research Proposal', dueDate: 'November 1, 2025, 11:59 PM', submissionsReceived: 30, totalSubmissions: 40, reviewsCompleted: 20, totalReviews: 30, description: "Submit a proposal for your research topic.", points: 25, submissionType: "File Upload (DOCX)", assignedTo: "All Students", rubric: null },
-        ]
-    };
+   
 
-    const groupsData = {
-        'cs101': [
-            { name: 'Team A', members: ['John Doe', 'Jane Smith', 'Robert Brown'], projects: [{ name: 'Project Alpha', status: 'Submitted', assignmentId: 'project-alpha', courseId: 'cs101' }, { name: 'Quiz 1', status: 'Graded', assignmentId: 'quiz-1', courseId: 'cs101' }] },
-            { name: 'Team C', members: ['Charlie Day', 'Dee Reynolds'], projects: [{ name: 'Project Alpha', status: 'Submitted Late', assignmentId: 'project-alpha', courseId: 'cs101' }] },
-        ],
-        'mgt201': [
-            { name: 'Team B', members: ['Alice Green', 'Bob White'], projects: [{ name: 'Midterm Report', status: 'Submitted', assignmentId: 'midterm-report', courseId: 'mgt201' }] },
-        ],
-    };
+  
 
-    const studentsData = [
-        { id: 'S001', name: 'John Doe', email: 'john.doe@example.com', group: 'Team A', courses: ['CS101', 'MGT201'] },
-        { id: 'S002', name: 'Jane Smith', email: 'jane.smith@example.com', group: 'Team A', courses: ['CS101'] },
-        { id: 'S003', name: 'Alice Green', email: 'alice.green@example.com', group: 'Team B', courses: ['MGT201'] },
-        { id: 'S004', name: 'Bob White', email: 'bob.white@example.com', group: 'Team B', courses: ['MGT201'] },
-        { id: 'S005', name: 'Robert Brown', email: 'robert.brown@example.com', group: 'Team A', courses: ['CS101'] },
-    ];
-
-    const dashboardProposals = [
-        { groupName: 'Team A', assignment: 'Project Alpha (CS101)', submittedOn: 'Oct 14, 2025, 10:30 PM', status: 'Submitted' },
-        { groupName: 'Team B', assignment: 'Midterm Report (MGT201)', submittedOn: 'Oct 15, 2025, 09:00 AM', status: 'Submitted' },
-        { groupName: 'Team D', assignment: 'Research Proposal (HIST101)', submittedOn: 'Oct 13, 2025, 03:00 PM', status: 'Reviewed' },
-    ];
+   
+    
 
     // Handlers for navigation
     const setComponent = (section, data = null) => {
@@ -171,7 +139,7 @@ const DashboardU = () => {
             default: return 'Dashboard Overview';
         }
     };
-    console.log(groups);
+    console.log("total groups are",groups);
     return (
         <>   <Navbar currentSection={currentSection}  title={getSectionTitle()} setCurrentSection={setCurrentSection}/>
         <div className="sm:flex-row   flex h-screen border-t-2   overflow-scroll">
@@ -183,18 +151,15 @@ const DashboardU = () => {
                 <div className="p-6 flex-1 overflow-y-auto">
                     {currentSection === 'dashboard' && (
                         <Dashboard
-                            coursesData={coursesData}
                             totalFeedback={totalFeedback}
                             groups={groups}
                             students={students}
-                            dashboardProposals={dashboardProposals}
                             onViewCourse={course => setComponent('course-details', course)}
                             onReviewSubmission={openReviewSubmissionModal}
                         />
                     )}
                     {currentSection === 'courses' && (
                         <CoursesSection
-                            coursesData={coursesData}
                             groups={groups}    
                             onViewCourse={course => setComponent('course-details', course)}
                         />
@@ -202,7 +167,6 @@ const DashboardU = () => {
                     {currentSection === 'groups' && (
                         <GroupsSection
                             groups={groups}
-                            groupsData={Object.values(groupsData).flat()} // Flatten all groups from all courses
                             onViewGroup={group => setComponent('group-details', group)}
                         />
                     )}
@@ -311,9 +275,6 @@ const Dashboard = ({ students, totalFeedback, groups, dashboardProposals, onRevi
                 </div>
                 
             </div>
-
-
-
             <DashboardCharts iterations={iterations}  totalFeedback={totalFeedback} Assignments={Assignments} groups={groups} students={students} />
 
         </section>

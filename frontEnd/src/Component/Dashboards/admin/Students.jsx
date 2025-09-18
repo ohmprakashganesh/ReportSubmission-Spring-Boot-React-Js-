@@ -41,11 +41,10 @@ const Students = () => {
         <section id="users" className="w-full section-content p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen font-sans">
             <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Users</h1>
             {updateId ? <EditUser setUpdateId={setUpdateId} uid={updateId} /> : <RegisterUser />}
-            <div className=' font-bold text-3xl text-green-700'>hello mother fucker , are you fine and well doing </div>
 
             {/* User List Table */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Users</h2>
+                <h2 className="text-4xl  font-bold text-green-700 mb-4">All Users</h2>
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">

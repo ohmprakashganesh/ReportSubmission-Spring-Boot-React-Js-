@@ -120,7 +120,7 @@ const handleFeedbackSubmit = async (e, itrId) => {
                     {itr.documentName && (
                       <p className="text-sm mb-2">
                         <a
-                          href={`http://localhost:8080/api/files/${itr.documentName}`}
+                          href={`http://localhost:8080/api/iteration/${itr.documentName}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-indigo-600 hover:underline"

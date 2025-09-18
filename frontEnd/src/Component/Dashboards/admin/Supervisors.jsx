@@ -40,9 +40,6 @@ fetchUsers();
       <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Users</h1>
          
         { updateId? <EditUser setUpdateId={setUpdateId} uid={updateId} />: <RegisterUser />  }
-      <div className=' font-bold text-3xl text-green-700'>hello mother fucker , are you fine and well doing </div>
-     
-  
 
             {/* User List Table */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">

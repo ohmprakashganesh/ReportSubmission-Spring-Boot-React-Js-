@@ -12,7 +12,7 @@ export const GroupDetails = ({ group,onNavigate }) => {
     const[users,setUsers]=useState("");
 
   console.log("group from group details",group);
-
+ console.log("gorup id is ", group.id);
 
   // Handle feedback input change
   const handleFeedbackInputChange = (iterationId, value) => {
@@ -52,11 +52,13 @@ export const GroupDetails = ({ group,onNavigate }) => {
       });
     }
   };
+
   const handleEdit=(data)=>{
     setShowEditForm(true);
     setAssignment(data);
 
   }
+  
     const seeSubmission=(assignment)=>{
     setSubmissionShow(true);
     setSelectedAssignment(assignment);

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { httpClient } from '../../services/Config/Config';
 
 const FormAssignment = ({id, setShowForm }) => {
+  console.log("group is is ",id);
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -28,13 +30,22 @@ const FormAssignment = ({id, setShowForm }) => {
       formData.append("file", file);
       formData.append("studentGroupId",id)
 
-      const response = await fetch("http://localhost:8080/api/assignments", {
-        method: "POST",
-        body: formData,
-      });
+      // const response = await fetch("http://localhost:8080/api/assignments", {
+      //   method: "POST",
+      //   body: formData,
+      // });
 
-      if (!response.ok) throw new Error("Failed to create assignment");
-
+       const response = await httpClient.post('/api/assignments',formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    );
+    
+  if (response.status !== 201 && response.status !== 200) {
+    throw new Error("Failed to create assignment");
+  }
       setSuccess("Assignment created successfully!");
       setTopic("");
       setDescription("");

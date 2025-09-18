@@ -5,6 +5,7 @@ import { UserProfile } from "./UserProfile";
 export const StudentsSection = ({ studentsData }) => {
     const[showProfile, setShowProfile]=useState(false)
     const[user,setUser]=useState("")
+    
     const viewProfile=(data)=>{
         setShowProfile(true);
         setUser(data);

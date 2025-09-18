@@ -2,8 +2,9 @@
 
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
+import { httpClient } from '../../../services/Config/Config';
 
-const AssignedWorks = ({key, assignment, onViewSubmissions, submittedBy }) => {
+const AssignedWorks = ({assignment, onViewSubmissions }) => {
   const [showSubmitForm, setShowSubmitForm] = useState(false);
   const [iterationType, setIterationType] = useState("PRE");
   const fileInputRef = useRef(null);
@@ -18,9 +19,24 @@ const AssignedWorks = ({key, assignment, onViewSubmissions, submittedBy }) => {
       formData.append("iterationType", iterationType);
 
       try {
-        const response = await axios.post("http://localhost:8080/api/itr", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        // const response = await axios.post("http://localhost:8080/api/itr", formData, {
+        //   headers: { "Content-Type": "multipart/form-data" },
+        // });
+
+
+          const response = await httpClient.post('/api/itr',formData,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              }
+            );
+            
+          if (response.status !== 201 && response.status !== 200) {
+            throw new Error("Failed to create assignment");
+          }
+
+         
 
         console.log("Upload success:", response.data);
         alert("Submission uploaded successfully!");

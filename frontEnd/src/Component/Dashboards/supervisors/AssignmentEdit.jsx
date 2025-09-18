@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { httpClient } from '../../services/Config/Config';
 
 const AssignmentEdit = ({setShowEditForm,assignment,id}) => {
     console.log("form edit",assignment);
@@ -16,7 +17,7 @@ const AssignmentEdit = ({setShowEditForm,assignment,id}) => {
             setDescription(assignment.description);
             setDueDate(assignment.dueDate);
         }
-      },[assignment]);
+      },[assignment.id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,12 +37,23 @@ const AssignmentEdit = ({setShowEditForm,assignment,id}) => {
       formData.append("dueDate", dueDate);
       formData.append("file", file);
       formData.append("studentGroupId",id)
-      const response = await fetch(`http://localhost:8080/api/assignments/${assignment.id}`, {
-        method: "PUT",
-        body: formData,
-      });
 
-      if (!response.ok) throw new Error("Failed to create assignment");
+
+     const resp = await httpClient.put(
+  `/api/assignments/${assignment.id}`,
+  formData,
+  {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }
+);
+
+
+      // const response = await fetch(`http://localhost:8080/api/assignments/${assignment.id}`, {
+      //   method: "PUT",
+      //   body: formData,
+      // });
+
+      if (resp.status !== 201 && resp.status !==200) throw new Error("Failed to create assignment");
 
       setSuccess("Assignment created successfully!");
       setTopic("");

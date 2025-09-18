@@ -1,4 +1,10 @@
+import { useState } from "react";
+
 const Sidebar1 = ({ currentSection, onNavigate }) => {
+     const handleLogout=()=>{
+        localStorage.removeItem("accessToken");
+        onNavigate('login');
+     }
     return (
         <aside className="w-64 mt-14  md:block lg:block hidden bg-gray-800 text-white  flex-col p-4 shadow-lg transition-all duration-300 ease-in-out lg:translate-x-0" id="sidebar">
             <div className="flex items-center mb-6">
@@ -46,7 +52,9 @@ const Sidebar1 = ({ currentSection, onNavigate }) => {
             </nav>
             <div className="mt-auto pt-4 border-t border-gray-700">
                
-                <button className="w-full mt-4 py-2 px-4 bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 text-white font-medium">
+                <button 
+                onClick={()=>handleLogout()} 
+                className="w-full mt-4 py-2 px-4 bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200 text-white font-medium">
                     <i className="fas fa-sign-out-alt mr-2"></i>Logout
                 </button>
             </div>

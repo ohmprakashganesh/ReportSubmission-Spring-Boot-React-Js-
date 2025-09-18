@@ -11,26 +11,30 @@ export const getAllGroups=async ()=>{
 export const supervisorKoGroups= async (id)=>{
     const obj= await httpClient.get(`/api/groups/GroupsBySupervisor/${id}`);
     return obj.data;
-
 }
-//all students of of particular supervisor
+
+export const getProfile = async ()=>{
+    const obj= await httpClient.get("/api/users/profile");
+    return obj.data;
+}
+
+//all students of of particular supervisor  (by supervisor id)
 export const SupervisedStudents= async (id)=>{
     const obj= await httpClient.get(`/api/users/SupervisedStudents/${id}`);
     return obj.data;
 }
 export const createFeedback = async (formData) => {
-  return await axios.post(
-    "http://localhost:8080/api/feedbacks",
-    formData,
+
+  return httpClient.post(`/api/feedbacks`,formData,
     {
-      headers: {
-        "Content-Type": "multipart/form-data", // ✅ let axios set boundary automatically
-      },
-    }
-  );
+   "Content-Type": "multipart/form-data"
+  }
+);
+ 
 };
 
-export const TotalChecked=async ()=>{
+
+export const TotalChecked = async ()=>{
     const obj= await httpClient.get("/api/feedbacks/totalFeedback");
     return obj.data;
 }

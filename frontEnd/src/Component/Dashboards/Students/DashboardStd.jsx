@@ -12,6 +12,7 @@ import { getUser } from '../../services/StudetServ';
 import Landing from './Assignedworks/Landing';
 import { getAssignmentsOfGroup, IterationsByStudent } from '../../services/Assugnment';
 import { constUserId } from './Assignedworks/const';
+import { getProfile } from '../../services/SuperviserSer';
 
 // Main App component that contains the entire dashboard
 
@@ -33,6 +34,8 @@ const [assignmentsB,setAssignmentsB]=useState([]);
  const [submissionsB,setSubmissionsB]=useState([]);
 const [checked,setChecked]=useState([]);
 const [unChecked,setUnchecked]=useState([]);
+const [profile,setProfile]=useState("");
+
 
 
          useEffect(()=>{
@@ -47,8 +50,6 @@ const [unChecked,setUnchecked]=useState([]);
            assignmentsOfGroup();
        
          },[]);
-
-
         useEffect(()=>{
            const iterationsByUser=async ()=>{
              try{
@@ -63,9 +64,10 @@ const [unChecked,setUnchecked]=useState([]);
              }catch(error){
                console.log("not found");
              }
-       
-           };
-           iterationsByUser(); },[]);
+            };
+
+           iterationsByUser();
+           },[]);
 
 useEffect(()=>{
 const  fetchUser=async ()=>{
@@ -140,7 +142,7 @@ const  fetchUser=async ()=>{
   <Boxes assignments={assignments} submissions={submissions} /> 
   // --- Sidebar Components ---
   // myDetails 
-   <MyDetails />
+   <MyDetails profile={profile} />
   // SubmittedWorks Component: Displays all submitted assignments
   //assignment is passed for task name and their submissions
    <SubmittedWorks assignments={assignments} setAssignments={setAssignments} />
