@@ -1,10 +1,26 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'; // Make sure axios is installed
-import { createFeedback } from '../../services/SuperviserSer';
+import { createFeedback, getProfile } from '../../services/SuperviserSer';
 import { httpClient } from '../../services/Config/Config';
 
 
 const Submissions = ({ setSubmissionShow, assignment }) => {
+      const[user , setUser]=useState([]);
+
+useEffect(() => {
+  const func = async () => {
+    const res = await getProfile();
+    setUser(res);
+    console.log("Fetched profile:", res); // ✅ this works
+  };
+  func();
+}, []);
+
+useEffect(() => {
+  console.log("User state updated:", user);
+}, [user]);
+
+       
   const [feedback, setFeedback] = useState({}); // <-- now it's an object
   const fileInputRef = useRef(null);
 
@@ -43,11 +59,13 @@ const handleFeedbackSubmit = async (e, itrId) => {
     const formData = new FormData();
     formData.append("file", fileInputRef.current.files[0]);
     formData.append("comment", msg);
-    formData.append("submittedBy", 4);       // hardcoded user id for now
+    formData.append("submittedBy", user.id);       // hardcoded user id for now
     formData.append("assignmentId", itrId);  // ✅ correct field name
 
     try {
+
       await createFeedback(formData);
+
       alert("Feedback submitted successfully!");
       setFeedback(prev => {
         const copy = { ...prev };

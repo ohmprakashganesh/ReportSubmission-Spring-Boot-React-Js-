@@ -11,6 +11,11 @@ const GroupsTable = () => {
   // const [selectedGroup, setSelectedGroup] = useState(null);
   const [tempId, setTempId] = useState(null);
 
+   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+
+
+
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -43,6 +48,29 @@ const GroupsTable = () => {
     // }
   };
 
+
+
+  //sorting  logic here 
+
+ 
+  const sortedGroups = () => {
+    if (!sortConfig.key) return [...groups];
+    return [...groups].sort((a, b) => {
+      const valA = (a[sortConfig.key] || '').toString().toLowerCase();
+      const valB = (b[sortConfig.key] || '').toString().toLowerCase();
+      if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
   return (
     <>
         
@@ -50,16 +78,27 @@ const GroupsTable = () => {
     <div className="bg-white sticky top-24 w-full   p-6 rounded-xl shadow-md border border-gray-200 mb-8 ">
      <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Groups</h2>
 
+
   {/* ✅ Scrollable wrapper to keep table inside parent */}
   <div className="overflow-x-auto">
     <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
       <thead className="bg-gray-50 ">
         <tr>
-          <th className="px-2 w-[15%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
+          <th className="px-2 w-[15%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"  onClick={() => handleSort('name')}>
             Group Name
+            <span> {sortConfig.key === 'name' ? (
+              sortConfig.direction === 'asc' ? ' 🔼' : ' 🔽'
+            ) : (
+              ' ↕️'
+            )}</span>
           </th>
-          <th className="px-2 w-[65%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
-            Project Title
+          <th className="px-2 w-[65%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"  onClick={() => handleSort('domain')}>
+            Project Domain
+            <span> {sortConfig.key === 'domain' ? (
+              sortConfig.direction === 'asc' ? ' 🔼' : ' 🔽'
+            ) : (
+              ' ↕️'
+            )}</span>
           </th>
           <th className="  w-[20%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
             Actions
@@ -68,19 +107,17 @@ const GroupsTable = () => {
       </thead>
 
       <tbody className="bg-white divide-y divide-gray-200">
-        {groups.length > 0 ? (
-          groups.map((group, ind) => (
+        {sortedGroups().length > 0 ? (
+          sortedGroups().map((group, ind) => (
             <tr
-              key={ind}
+              key={group.id /* better use id not ind */}
               className="hover:bg-gray-50 transition-colors text-center"
             >
               <td className="px-1 py-4 text-sm font-medium text-gray-900">
                 {group.name}
               </td>
               <td className="px-1 py-4 text-sm text-gray-500">
-                {group.assignments?.map((assignment) => (
-                  <span key={assignment.id}>{assignment.title}, </span>
-                ))}
+                {group.domain}
               </td>
               <td className=" py-4 text-sm font-medium ">
                 <button

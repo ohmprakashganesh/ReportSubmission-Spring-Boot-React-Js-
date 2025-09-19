@@ -10,6 +10,14 @@ const Supervisors = () => {
        const [showProfile,setShowProfile]=useState("")
     const [fetchedUsers, setFetchedUsers]= useState([]);
    const [updateId, setUpdateId]=useState('');
+         const [nameFilter, setNameFilter] = useState("");
+     const [emailFilter, setEmailFilter] = useState("");
+
+     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+
+   
+
+
    if(updateId){
     console.log(updateId)
    }
@@ -32,9 +40,34 @@ const Supervisors = () => {
         console.log(error);
     }
 };     
-
 fetchUsers();
     },[]);
+    
+
+  const filteredUsers = fetchedUsers.filter(user => {
+    const matchesName = user.name.toLowerCase().includes(nameFilter.toLowerCase());
+    const matchesEmail = user.email.toLowerCase().includes(emailFilter.toLowerCase());
+    return matchesName && matchesEmail;
+  });
+
+     const sortedUsers = () => {
+    if (!sortConfig.key) return [...filteredUsers];
+    return [...filteredUsers].sort((a, b) => {
+      const valA = (a[sortConfig.key] || '').toString().toLowerCase();
+      const valB = (b[sortConfig.key] || '').toString().toLowerCase();
+      if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
   return (
     <section id="users" className="section-content p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen font-sans">
       <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Users</h1>
@@ -48,14 +81,30 @@ fetchUsers();
                                <table className="min-w-full divide-y divide-gray-200">
                                    <thead className="bg-gray-50">
                                        <tr>
-                                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">Name</th>
-                                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                           <th
+                onClick={() => handleSort('name')}
+                className="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+              >
+                Name    {sortConfig.key === 'name' ? (
+              sortConfig.direction === 'asc' ? ' 🔼' : ' 🔽'
+            ) : (
+              ' ↕️')}
+              </th>
+              <th
+                onClick={() => handleSort('email')}
+                className="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Email    {sortConfig.key === 'email' ? (
+              sortConfig.direction === 'asc' ? ' 🔼' : ' 🔽'
+            ) : (
+              ' ↕️')}
+              </th>
                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">Actions</th>
                                        </tr>
                                    </thead>
                                    <tbody className="bg-white divide-y divide-gray-200">
-                                       {fetchedUsers.map((data, ind) => (
+                                       {sortedUsers().map((data, ind) => (
                                            <tr key={ind}>
                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{data.name}</td>
                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{data.email}</td>

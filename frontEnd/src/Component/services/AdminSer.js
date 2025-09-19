@@ -3,7 +3,7 @@ import { httpClient } from "./Config/Config";
 
 //user related task 
 export const createUser=async (user)=>{
-    const resp= await httpClient.post('/api/users',user);
+    const resp= await httpClient.post('/auth/register',user);
     return resp.data;
 }
 

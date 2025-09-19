@@ -10,10 +10,15 @@ const ViewGroup = ({ onClose ,grp}) => {
   const [students, setStudents]= useState([]);
   const[supGroup,setSupervisor]=useState("");
 
+
+
+  console.log("this is group",grp)
+
   useEffect(()=>{
+    //students of of particular group
     const studentFun= async()=>{
       try{
-        const temp= await getGroupStudents(1);
+        const temp= await getGroupStudents(grp.id);
          setStudents(temp);
          console.log("students of group", temp);
       }catch(error){
@@ -22,10 +27,12 @@ const ViewGroup = ({ onClose ,grp}) => {
     };
     studentFun();
   },[])
+
+  //super visor by group id 
    useEffect(()=>{
     const superfun= async()=>{
       try{
-        const temp= await getSuperviosrByGroupId (2);
+        const temp= await getSuperviosrByGroupId (grp.id);
          setSupervisor(temp);
          console.log("superviosr of group", temp);
       }catch(error){
@@ -48,8 +55,7 @@ const ViewGroup = ({ onClose ,grp}) => {
     {/* Header */}
     <div className="flex flex-col md:flex-row mt-4 md:mt-10 justify-between items-start md:items-center mb-6 pb-4 border-b border-gray-300 gap-4">
       <div>
-        <h2 className="text-2xl font-bold text-gray-800">{grp.name}</h2>
-        <p className="text-sm text-gray-500 mt-1">{grp.description}</p>
+        <h2 className="text-2xl font-bold text-gray-800">Detail of Group</h2>
       </div>
       <button
         onClick={onClose}
@@ -71,7 +77,7 @@ const ViewGroup = ({ onClose ,grp}) => {
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
-          Group Information
+          Group Information 
         </h3>
         <div className="space-y-4">
           <div>
@@ -83,12 +89,9 @@ const ViewGroup = ({ onClose ,grp}) => {
             <p className="text-sm font-medium">{supGroup?.supervisor?.email}</p>
           </div>
           <div>
-            <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Status</p>
-            <p className={`text-sm font-medium ${
-              grp.status === 'Completed' ? 'text-green-600' :
-              grp.status === 'In Progress' ? 'text-blue-600' : 'text-yellow-600'
-            }`}>
-              {grp.status}
+            <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">Domain</p>
+            <p className="text-sm font-medium ">
+              {grp.domain}
             </p>
           </div>
         </div>
