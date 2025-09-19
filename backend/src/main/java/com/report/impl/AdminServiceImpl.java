@@ -25,7 +25,6 @@ public class AdminServiceImpl  implements AdminService {
         return  repo.findByRole(Role.SUPERVISER);
 
     }
-
     @Override
     public int getTotalStudetns() {
         return  repo.countByRole(Role.STUDENT);

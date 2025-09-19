@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequestMapping("/api/admin")
-@CrossOrigin("*")
 public class AdminController {
-
-
     private AdminService adminService;
     private StudentGroupService group;
 
@@ -33,7 +31,6 @@ public class AdminController {
     //all groups  (create , update , delete)
     //total students
     //total supervisor
-
 
     @GetMapping("/students")
     public ResponseEntity<List<User>> getStudents(){

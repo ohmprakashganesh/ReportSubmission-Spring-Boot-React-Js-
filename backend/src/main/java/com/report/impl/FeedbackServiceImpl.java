@@ -1,6 +1,7 @@
 package com.report.impl;
 
 import com.report.DTOs.FeedbackDTO;
+import com.report.authServices.LoggedUser;
 import com.report.entities.AssignmentIteration;
 import com.report.entities.Status;
 import com.report.entities.User;
@@ -28,11 +29,13 @@ public class FeedbackServiceImpl implements FeedbackService {
     private EntityManager entityManager;
     private AssignmentIterationRepo assignmentIterationRepo;
     private UserRepo userRepo;
+    private LoggedUser loggedUser;
     private AssignmentIterationService assignmentIterationService;
 
-    public FeedbackServiceImpl(FeedbackRepo feedbackRepository,EntityManager entityManager,AssignmentIterationService assignmentIterationService, FileServiceFeedback fileServiceFeedback, UserRepo userRepo,AssignmentIterationRepo assignmentIterationRepo) {
+    public FeedbackServiceImpl(FeedbackRepo feedbackRepository,LoggedUser loggedUser,EntityManager entityManager,AssignmentIterationService assignmentIterationService, FileServiceFeedback fileServiceFeedback, UserRepo userRepo,AssignmentIterationRepo assignmentIterationRepo) {
         this.feedbackRepository = feedbackRepository;
         this.userRepo=userRepo;
+        this.loggedUser=loggedUser;
         this.entityManager=entityManager;
         this.assignmentIterationService=assignmentIterationService;
         this.fileServiceFeedback=fileServiceFeedback;
@@ -113,7 +116,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public String getAllFeedbackOfsupervisor() {
-          Optional<User> user= userRepo.findById(4L);
+          Optional<User> user= userRepo.findById(loggedUser.getLoggedUser().getId());
           if(user.isPresent()){
               return feedbackRepository.countBySupervisorId(user.get()).toString();
           }else{

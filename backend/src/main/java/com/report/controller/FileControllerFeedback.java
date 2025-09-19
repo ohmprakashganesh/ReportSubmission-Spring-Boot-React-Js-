@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/feedback")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class FileControllerFeedback {
 
     @Value("${Uploads.feedback}")

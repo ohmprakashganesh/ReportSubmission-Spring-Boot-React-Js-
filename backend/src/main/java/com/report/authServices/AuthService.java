@@ -56,6 +56,7 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(),
                             loginRequest.getPassword()
+
                     )
             );
         } catch (BadCredentialsException e) {
@@ -66,7 +67,6 @@ public class AuthService {
             throw new RuntimeException("Authentication error: " + e.getMessage());
         }
 
-
         var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
         var accessToken = jwtService.generateToken(user);
         var refreshToken = refreshTokenService.createRefreshToken(loginRequest.getEmail());
@@ -76,6 +76,7 @@ public class AuthService {
                 .refreshToken(refreshToken.getRefreshToken())
                 .name(user.getName())
                 .email(user.getEmail())
+                .role(user.getRole())
                 .build();
     }
 

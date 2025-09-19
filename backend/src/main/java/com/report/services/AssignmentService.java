@@ -18,4 +18,8 @@ public interface AssignmentService {
     List<Assignment>  getAssignmentAll();
     Assignment updateAssignment(Long id, AssignmentDTO assignment);
     void deleteAssignment(Long id);
+
+    List<Assignment> searchAssignmentsByName(String name);
+
+    List<Assignment> sortAssignmentsByName(String name);
 }

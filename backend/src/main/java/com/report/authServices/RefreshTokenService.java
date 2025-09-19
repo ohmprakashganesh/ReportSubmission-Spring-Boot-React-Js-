@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.report.entities.RefreshToken;
 import com.report.entities.User;
+import com.report.exceptional.UserNotFound;
 import com.report.repository.RefreshTokenRepo;
 import com.report.repository.UserRepo;
 import org.springframework.stereotype.Service;
@@ -14,22 +15,25 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class RefreshTokenService {
+        private final UserRepo userRepository;
 
-    private final UserRepo userRepository;
-    private final RefreshTokenRepo refreshTokenRepository;
+        private final RefreshTokenRepo refreshTokenRepository;
 
-    public RefreshToken createRefreshToken(String username) {
-        Optional <User>  opt = userRepository.findByEmail(username);
-        if(opt.isPresent()){
-            User user=opt.get();
+        public RefreshTokenService(UserRepo userRepository, RefreshTokenRepo refreshTokenRepository) {
+            this.userRepository = userRepository;
+            this.refreshTokenRepository = refreshTokenRepository;
+        }
 
-            RefreshToken refreshToken=user.getRefreshToken();
+        public RefreshToken createRefreshToken(String username) {
+            User user = userRepository.findByEmail(username)
+                    .orElseThrow(() -> new UserNotFound("User not found with email : " + username));
 
-            if(refreshToken == null){
-                long refreshTokenValidity=30*100000;
-                refreshToken=RefreshToken.builder()
+            RefreshToken refreshToken = user.getRefreshToken();
+
+            if (refreshToken == null) {
+                long refreshTokenValidity = 30 * 100000;
+                refreshToken = RefreshToken.builder()
                         .refreshToken(UUID.randomUUID().toString())
                         .expirationTime(Instant.now().plusMillis(refreshTokenValidity))
                         .user(user)
@@ -37,23 +41,19 @@ public class RefreshTokenService {
 
                 refreshTokenRepository.save(refreshToken);
             }
+
             return refreshToken;
         }
-        else{
-            return null;
+
+        public RefreshToken verifyRefreshToken(String refreshToken) {
+            RefreshToken refToken = refreshTokenRepository.findByRefreshToken(refreshToken)
+                    .orElseThrow(() -> new RuntimeException("Refresh token not found!"));
+
+            if (refToken.getExpirationTime().compareTo(Instant.now()) < 0) {
+                refreshTokenRepository.delete(refToken);
+                throw new RuntimeException("Refresh Token expired");
+            }
+
+            return refToken;
         }
-
     }
-
-    public RefreshToken verifyRefreshToken(String refreshToken){
-        RefreshToken refToken= refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(()-> new RuntimeException());
-
-        if(refToken.getExpirationTime().compareTo(Instant.now())<0){
-            refreshTokenRepository.delete(refToken);
-            throw new RuntimeException("Refresh Token expired");
-        }
-        return refToken;
-
-
-    }
-}

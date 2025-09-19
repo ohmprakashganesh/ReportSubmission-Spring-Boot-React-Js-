@@ -6,8 +6,13 @@ import com.report.AuthDTOs.AuthResponse;
 import com.report.DTOs.StudentDto;
 import com.report.DTOs.UserDTO;
 import com.report.entities.StudentGroup;
+import com.report.repository.UserRepo;
+import com.report.services.UserProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,28 +22,27 @@ import com.report.services.UserService;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RequestMapping("/api/users")
-@CrossOrigin("*")
 public class UserController {
 
     private  UserService userService;
+    private UserRepo userRepo;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,UserRepo userRepo) {
         this.userService = userService;
+        this.userRepo=userRepo;
     }
 
-//    @PostMapping
-//    public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
-//        User createdUser = userService.createUser(user);
-//        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-//    }
+    @GetMapping("/profile")
+    @Transactional
+    public ResponseEntity <User> getLoggedUser(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String email= authentication.getName();
+        User user= userRepo.findByEmail(email).orElseThrow(()-> new RuntimeException("user not found"));
+        return ResponseEntity.ok(user);
 
-//    @PostMapping("/register")
-//    public ResponseEntity<AuthResponse> registerUser(@RequestBody UserDTO registerRequest) {
-//        return ResponseEntity.ok(service.register(registerRequest));
-//    }
-
-
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
@@ -71,8 +75,8 @@ public class UserController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.updateUser(id, user);
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
+        UserDTO updatedUser = userService.updateUser(id, user);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 

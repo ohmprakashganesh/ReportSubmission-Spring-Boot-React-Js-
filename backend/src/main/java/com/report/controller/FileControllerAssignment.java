@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/assignment")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class FileControllerAssignment {
 
     @Value("${Uploads.assignment}")

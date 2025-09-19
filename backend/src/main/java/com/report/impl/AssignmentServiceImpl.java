@@ -1,6 +1,7 @@
 package com.report.impl;
 
 import com.report.DTOs.AssignmentDTO;
+import com.report.authServices.LoggedUser;
 import com.report.entities.StudentGroup;
 import com.report.entities.User;
 import com.report.repository.StudentGroupRepo;
@@ -23,11 +24,13 @@ public class AssignmentServiceImpl implements AssignmentService {
     private  final StudentGroupRepo studentGroupRepo;
     private  final   FileServiceAssignment fileServiceAssignment;
     private  final UserRepo userRepo;
+    private final LoggedUser loggedUser;
   
-    public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment,UserRepo userRepo, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
+    public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment,LoggedUser loggedUse,UserRepo userRepo, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
         this.assignmentRepository = assignmentRepository;
         this.fileServiceAssignment=fileServiceAssignment;
         this .userRepo=userRepo;
+        this.loggedUser=loggedUse;
         this.studentGroupRepo=studentGroupRepo;
 
     }
@@ -68,7 +71,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<Assignment>  assignmentsOfGroup() {
-      Optional<User> user=  userRepo.findById(Const.studentId);
+      Optional<User> user=  userRepo.findById(loggedUser.getLoggedUser().getId());
         if(user.isPresent())
         {
          return    assignmentRepository.findBystudentGroup(user.get().getGroup());
@@ -117,6 +120,16 @@ public class AssignmentServiceImpl implements AssignmentService {
     public void deleteAssignment(Long id) {
         assignmentRepository.deleteById(id);
         System.out.println("successfully deleted");
+    }
+
+    @Override
+    public List<Assignment> searchAssignmentsByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Assignment> sortAssignmentsByName(String name) {
+        return null;
     }
 
 

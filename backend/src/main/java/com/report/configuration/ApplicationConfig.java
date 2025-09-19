@@ -1,6 +1,7 @@
 package com.report.configuration;
 
 import com.report.repository.UserRepo;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class ApplicationConfig {
-    private final UserRepo userRepository;
 
+    private final UserRepo userRepository;
 
     public ApplicationConfig(UserRepo userRepository) {
         this.userRepository = userRepository;

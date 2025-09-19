@@ -20,7 +20,7 @@ import com.report.services.StudentGroupService;
 
 @RestController
 @RequestMapping("/api/groups")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class StudentGroupController {
 
     private final StudentGroupService studentGroupService;
@@ -31,7 +31,13 @@ public class StudentGroupController {
         this.studentGroupService = studentGroupService;
 //        this.mapper=mapper;
     }
-//post the student in group
+
+    @GetMapping("/GroupsBySupervisor/{id}")
+    public  ResponseEntity<List<StudentGroup>> groupsBySupervisorId(@PathVariable Long id){
+        return  new ResponseEntity<>(studentGroupService.findGroupBySupervisor(id),HttpStatus.OK);
+    }
+
+    //post the student in group
     @PostMapping
     public ResponseEntity<StudentGroup> createGroup(@RequestBody StrudentGroupDTO group) {
         return new ResponseEntity<>(studentGroupService.createGroup(group), HttpStatus.CREATED);
@@ -75,9 +81,5 @@ public class StudentGroupController {
         return  new ResponseEntity<>(studentGroupService.getAssignMents(id),HttpStatus.OK);
     }
 
-    @GetMapping("/GroupsBySupervisor/{id}")
-    public  ResponseEntity<List<StudentGroup>> groupsBySupervisorId(@PathVariable Long id){
-        return  new ResponseEntity<>(studentGroupService.findGroupBySupervisor(id),HttpStatus.OK);
-    }
 
 }

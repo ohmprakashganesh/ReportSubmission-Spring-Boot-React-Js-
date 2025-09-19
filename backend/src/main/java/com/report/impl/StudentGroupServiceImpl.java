@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.report.DTOs.*;
+import com.report.authServices.LoggedUser;
 import com.report.entities.Domain;
 import com.report.entities.User;
 //import com.report.mapping.MappingCls;
@@ -25,8 +26,11 @@ public class StudentGroupServiceImpl implements StudentGroupService {
     private  final MappingCls mapper;
     private  final UserRepo userRepo;
 
-    public StudentGroupServiceImpl(UserRepo userRepo, StudentGroupRepo studentGroupRepository,MappingCls mapper) {
+    private  final LoggedUser loggedUser;
+
+    public StudentGroupServiceImpl(UserRepo userRepo,LoggedUser loggedUser, StudentGroupRepo studentGroupRepository,MappingCls mapper) {
         this.studentGroupRepository = studentGroupRepository;
+        this.loggedUser=loggedUser;
         this.mapper=mapper;
         this.userRepo=userRepo;
     }
@@ -109,38 +113,6 @@ public class StudentGroupServiceImpl implements StudentGroupService {
         return studentGroupRepository.save(gru);
     }
 
-//    public StudentGroup updateGroup(Long id, StrudentGroupDTO group) {
-//        if(group==null){
-//            throw  new RuntimeException("object not found ");
-//
-//        }
-//        StudentGroup gru= studentGroupRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with id "+id) );
-//        gru.setName(group.getGroupName());
-//        gru.setDomain(Domain.valueOf(group.getDomain()));
-//        List<User> stds = group.getStdIds().stream()
-//                .map(stdId -> userRepo.findById(stdId)
-//                        .orElseThrow(() -> new RuntimeException("Student not found with ID " + stdId)))
-//                .collect(Collectors.toList()); // ✅ safe in Java 8+
-//
-//
-//
-//        for (User usr: stds) {
-//            usr.setGroup(gru);
-//            userRepo.save(usr);
-//        }
-//
-//        Optional<User> sup= userRepo.findById(group.getSupervisorId());
-//        if(sup.isPresent()){
-//            gru.setSupervisor(sup.get());
-//        }
-//
-//        gru.setStudents(stds);
-//
-//        System.out.println(sup);
-//        gru.setStudents(stds);
-//        return studentGroupRepository.save(gru);
-//    }
-
     @Override
     public void deleteGroup(Long id) {
        Optional< User> usr= userRepo.findById(id);
@@ -213,7 +185,27 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
     @Override
     public List<StudentGroup> findGroupBySupervisor(Long id) {
-        return  studentGroupRepository.findBySupervisorId(id);
+        return  studentGroupRepository.findBySupervisorId(loggedUser.getLoggedUser().getId());
+    }
+
+    @Override
+    public List<StudentGroup> sortGroupByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<StudentGroup> searchGroupByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<StudentGroup> sortGroupByDomain(String name) {
+        return null;
+    }
+
+    @Override
+    public List<StudentGroup> searchGroupByDomain(String name) {
+        return null;
     }
 
     @Override

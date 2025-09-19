@@ -1,5 +1,6 @@
 package com.report.repository;
 
+import com.report.entities.Domain;
 import com.report.response.StudentGroupResponse;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,6 +37,19 @@ public interface StudentGroupRepo extends  JpaRepository<StudentGroup, Long> {
      List<StudentGroup> findBySupervisorId(Long supervisorId);
 
 
+    List<StudentGroup> findAllByOrderByNameAsc();
+
+    List<StudentGroup> findAllByOrderByNameDesc();
+
+    List<StudentGroup> findAllByOrderByDomainAsc();
+
+    List<StudentGroup> findAllByOrderByDomainDesc();
+
+
+//    @Query("SELECT sg FROM StudentGroup sg WHERE UPPER(sg.domain) LIKE UPPER(CONCAT(:domain, '%'))")
+//    List<StudentGroup> findByDomainStartingWith(@Param("domain") String domain);
+
+    List<StudentGroup> findByDomain(Domain domain);
 
 
 //    @Query("SELECT new com.report.dto.StudentGroupResponse(sg.id, sg.name, u.name) " +

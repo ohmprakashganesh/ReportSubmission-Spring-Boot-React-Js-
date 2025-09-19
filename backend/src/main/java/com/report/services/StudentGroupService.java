@@ -31,4 +31,12 @@ public interface StudentGroupService {
 
 
     List<StudentGroup> findGroupBySupervisor(Long id);
+
+    List<StudentGroup> sortGroupByName(String name);
+
+    List<StudentGroup> searchGroupByName(String name);
+
+    List<StudentGroup> sortGroupByDomain(String name);
+
+    List<StudentGroup> searchGroupByDomain(String name);
 }

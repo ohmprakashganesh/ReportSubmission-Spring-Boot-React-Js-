@@ -1,6 +1,7 @@
 package com.report.impl;
 
 import com.report.DTOs.AssignmentIterDTO;
+import com.report.authServices.LoggedUser;
 import com.report.entities.Assignment;
 import com.report.entities.IterationType;
 import com.report.entities.User;
@@ -26,6 +27,7 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     private  final AssignmentIterationRepo assignmentIterationRepository;
     private  final AssignmentRepo assignmentRepo;
     private final  UserRepo userRepo;
+     private  final LoggedUser loggedUser;
 
 //    private final CopyleaksBusinessCheck copyleaksBusinessCheck;
 
@@ -33,9 +35,10 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
 
 
   
-    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository, UserRepo userRepo,FileService fileService, AssignmentRepo assignmentRepo) {
+    public AssignmentIterationServiceImpl(AssignmentIterationRepo assignmentIterationRepository,LoggedUser loggedUser, UserRepo userRepo,FileService fileService, AssignmentRepo assignmentRepo) {
         this.assignmentIterationRepository = assignmentIterationRepository;
         this.userRepo=userRepo;
+        this.loggedUser=loggedUser;
 //        this.copyleaksBusinessCheck=copyleaksBusinessCheck;
         this.assignmentRepo=assignmentRepo;
         // this.copyLeaksCheck=copyLeaksCheck;
@@ -78,7 +81,7 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
 
     @Override
     public List<AssignmentIteration> getIterationByStd() {
-       Optional<User> user= userRepo.findById(Const.studentId);
+       Optional<User> user= userRepo.findById(loggedUser.getLoggedUser().getId());
         List<AssignmentIteration> lists=new ArrayList<>();
 
         if(user.isPresent())

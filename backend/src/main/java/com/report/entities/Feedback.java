@@ -44,7 +44,6 @@ public class Feedback {
 
     @OneToOne
     @JsonBackReference(value = "feed")
-    @JsonIgnore
     private AssignmentIteration assignmentIteration;
 
     @ManyToOne

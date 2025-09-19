@@ -12,7 +12,7 @@ import com.report.response.ResponseUser;
 public interface UserService {
     User createUser(UserDTO user);
     User getUserById(Long id);
-    User updateUser(Long id, User user);
+    UserDTO updateUser(Long id, UserDTO user);
     void deleteUser(Long id);
      List< User> getUsers();
 
@@ -31,4 +31,11 @@ public interface UserService {
     List<User> allSupervisedStudents(Long id);
 
     List<User> allStudentsOfGroup(Long id);
+
+
+
+
+
+
+
 }

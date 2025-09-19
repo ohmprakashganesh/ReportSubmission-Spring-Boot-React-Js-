@@ -2,9 +2,11 @@ package com.report.configuration;
 
 
 import com.report.authServices.AuthFilterService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,7 +14,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
+
+
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    //method security for preauthorize,postauthorize,rolesallowed
 
     private final AuthenticationProvider authenticationProvider;
     private final AuthFilterService authFilterService;
@@ -28,9 +30,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/register", "/user/login")
+                        .requestMatchers("/auth/login/**",
+                                "/auth/register/**",
+                                "/api/feedback/**",
+                                "/api/assignment/**",
+                                "/api/iteration/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -41,4 +49,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
+
 }

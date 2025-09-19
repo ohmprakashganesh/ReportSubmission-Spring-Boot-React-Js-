@@ -18,16 +18,14 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/itr")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class AssignmentIterationController {
 
     private final AssignmentIterationService assignmentIterationService;
-
 //    @Autowired
 //    public AssignmentIterationController(AssignmentIterationService assignmentIterationService) {
 //        this.assignmentIterationService = assignmentIterationService;
 //    }
-
     //submitting the Assignment
     @PostMapping
     public ResponseEntity<AssignmentIteration> createIteration(@ModelAttribute AssignmentIterDTO iteration) {

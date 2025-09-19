@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.report.DTOs.StudentDto;
 import com.report.DTOs.UserDTO;
+import com.report.authServices.LoggedUser;
 import com.report.entities.Role;
 import com.report.entities.StudentGroup;
 import com.report.exceptional.UserNotFound;
@@ -20,9 +21,11 @@ import com.report.services.UserService;
 public class UserServiceImpl implements UserService {
     
     private final  UserRepo userRepository;
+    private  final LoggedUser loggedUser;
   
-    public UserServiceImpl(UserRepo userRepository) {
+    public UserServiceImpl(UserRepo userRepository,LoggedUser loggedUser) {
         this.userRepository = userRepository;
+        this.loggedUser=loggedUser;
     }
 
 
@@ -32,20 +35,10 @@ public class UserServiceImpl implements UserService {
         User usr= new User();
 
         usr.setRole(Role.valueOf(user.getRole()));
-
-//        if(user.getRole().equalsIgnoreCase("STUDENT")){
-//            usr.setRole(Role.STUDENT);
-//        }
-//        if(user.getRole().equalsIgnoreCase("SUPERVISER"))
-//        {
-//            usr.setRole(Role.SUPERVISER);
-//        }
         usr.setName(user.getName());
         usr.setPassword(user.getPassword());
         usr.setEmail(user.getEmail());
         System.out.println(usr);
-
-
         return   userRepository.save(usr);
     }
 
@@ -55,18 +48,33 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFound("User not found"));
     }
 
+
     @Override
-    public User updateUser(Long id, User temp) {
+    public UserDTO updateUser(Long id, UserDTO temp) {
         if (!userRepository.existsById(id)) {
             throw new UserNotFound("User not found");
         }
-
         Optional<User> updated = userRepository.findById(id);
-        User user= updated.get();
-        user.setName(temp.getName());
-        user.setRole(temp.getRole());
-        user.setGroup(temp.getGroup());
-        return userRepository.save(user);
+        System.out.println(updated + "this object is for update"+ updated);
+        if(updated.isPresent())
+        {
+            User user= updated.get();
+            user.setName(temp.getName());
+            user.setRole(Role.valueOf(temp.getRole()));
+            user.setEmail(temp.getEmail());
+             User usr= userRepository.save(user);
+             UserDTO dto= new UserDTO();
+             dto.setId(usr.getId());
+             dto.setName(usr.getName());
+             dto.setRole(usr.getRole().toString());
+             dto.setEmail(usr.getEmail());
+             return  dto;
+
+        }else{
+            throw new UserNotFound("user not found");
+        }
+
+
     }
 
     @Override
@@ -135,13 +143,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> allSupervisedStudents(Long id) {
-        return  userRepository.findStudentsBySupervisorId(id);
+        return  userRepository.findStudentsBySupervisorId(loggedUser.getLoggedUser().getId());
     }
 
     @Override
     public List<User> allStudentsOfGroup(Long id) {
        return  userRepository.findByGroupId(id);
     }
+
+
+
+
+
 
 
 }

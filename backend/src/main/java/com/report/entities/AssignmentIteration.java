@@ -43,8 +43,7 @@ public class AssignmentIteration {
     private User submittedBy; // User with role STUDENT
 
     @OneToOne(mappedBy="assignmentIteration", cascade = CascadeType.ALL, orphanRemoval = true)
-
-            @JsonManagedReference(value = "feed")
+    @JsonManagedReference(value = "feed")
     private Feedback feedback;
 
 
