@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getGroups } from '../../services/AdminSer';
 import ReAssignGroup from './ReAssignGroup';
 import ViewGroup from './ViewGroup';
+import { User } from 'lucide-react';
 
 const GroupsTable = () => {
   const [groups, setGroups] = useState([]);
@@ -10,6 +11,8 @@ const GroupsTable = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   // const [selectedGroup, setSelectedGroup] = useState(null);
   const [tempId, setTempId] = useState(null);
+        const [nameFilter, setNameFilter] = useState("");
+    const [domainFilter, setDomainFilter] = useState("");
 
    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -28,6 +31,8 @@ const GroupsTable = () => {
     };
     fetchGroups();
   }, []);
+
+  console.log(groups);
 
   const handleReassignClick = (group) => {
     setTempId(group.id);
@@ -51,11 +56,17 @@ const GroupsTable = () => {
 
 
   //sorting  logic here 
+ const filteredGroups = groups.filter(group => {
+  const matchesName = (group.name || '').toLowerCase().includes(nameFilter.toLowerCase());
+  const matchesDomain = (group.domain || '').toLowerCase().includes(domainFilter.toLowerCase());
+  return matchesName && matchesDomain;
+});
+
 
  
   const sortedGroups = () => {
-    if (!sortConfig.key) return [...groups];
-    return [...groups].sort((a, b) => {
+    if (!sortConfig.key) return [...filteredGroups];
+    return [...filteredGroups].sort((a, b) => {
       const valA = (a[sortConfig.key] || '').toString().toLowerCase();
       const valB = (b[sortConfig.key] || '').toString().toLowerCase();
       if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
@@ -73,6 +84,25 @@ const GroupsTable = () => {
   };
   return (
     <>
+    {sortedGroups &&(
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+  <input
+    type="text"
+    placeholder="Search by name..."
+    value={nameFilter}
+    onChange={(e) => setNameFilter(e.target.value)}
+    className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-1/3"
+  />
+  <input
+    type="text"
+    placeholder="Search by email..."
+    value={domainFilter}
+    onChange={(e) => setDomainFilter(e.target.value)}
+    className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-1/3"
+  />
+</div>
+    )}
+ 
         
     
     <div className="bg-white sticky top-24 w-full   p-6 rounded-xl shadow-md border border-gray-200 mb-8 ">

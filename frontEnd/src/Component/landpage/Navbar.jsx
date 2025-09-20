@@ -19,7 +19,6 @@ const Navbar = () => {
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6 space-x-2">
                 <button className="px-4 py-2 border border-[#2563eb] rounded-md text-sm font-medium text-[#2563eb] hover:bg-gray-50"> <Link to="/login"> Login </Link></button>
-                <button className="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-[#2563eb] hover:bg-blue-700"> <Link to="/signup"> Sign Up </Link>   </button>
               </div>
             </div>
             {/* Mobile menu button */}

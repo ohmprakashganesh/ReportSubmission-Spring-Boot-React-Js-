@@ -81,6 +81,7 @@ const Login = () => {
     
 
       localStorage.setItem("accessToken",data.accessToken);
+      localStorage.setItem("role",data.role);
      
       if(response ){
         console.log(data.accessToken);

@@ -12,7 +12,6 @@ const Supervisors = () => {
    const [updateId, setUpdateId]=useState('');
          const [nameFilter, setNameFilter] = useState("");
      const [emailFilter, setEmailFilter] = useState("");
-
      const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
    
@@ -73,6 +72,22 @@ fetchUsers();
       <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Users</h1>
          
         { updateId? <EditUser setUpdateId={setUpdateId} uid={updateId} />: <RegisterUser />  }
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+  <input
+    type="text"
+    placeholder="Search by name..."
+    value={nameFilter}
+    onChange={(e) => setNameFilter(e.target.value)}
+    className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-1/3"
+  />
+  <input
+    type="text"
+    placeholder="Search by email..."
+    value={emailFilter}
+    onChange={(e) => setEmailFilter(e.target.value)}
+    className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-1/3"
+  />
+</div>
 
             {/* User List Table */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">

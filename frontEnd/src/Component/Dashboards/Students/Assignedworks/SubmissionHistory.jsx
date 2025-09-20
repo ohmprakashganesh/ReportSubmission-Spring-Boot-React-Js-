@@ -1,27 +1,23 @@
 import axios from 'axios';
 import React from 'react'
+import { httpClient } from '../../../services/Config/Config';
 
 const SubmissionHistory = ({ assignment, onClose }) => {
+ 
   const onDelete = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/itr/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        alert("Item deleted successfully");
-        // Optionally refresh list here
-      } else {
-        const error = await response.text();
-        alert("Error: " + error);
+      try {
+        const response = await httpClient.delete(`/api/itr/${id}`);
+        if (response.status === 200 || response.status === 204) {
+          alert("Item deleted successfully");
+          // Optionally refresh list here
+        } else {
+          const error = await response.text();
+          alert("Error: " + error);
+        }
+      } catch (err) {
+        console.error("Error deleting item:", err);
       }
-    } catch (err) {
-      console.error("Error deleting item:", err);
-    }
-  };
+    };
 
   // Use assignment.iterations as the submissions
   const assignmentSubmissions = assignment.iterations || [];

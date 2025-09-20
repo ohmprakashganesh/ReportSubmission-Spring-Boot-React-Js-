@@ -2,7 +2,8 @@
 import './App.css'
 
 import { BrowserRouter } from 'react-router-dom'
-import RouteHandling from './assets/routes/RouteHandling'
+import RouteHandling from './Component/routes/RouteHandling'
+
 
 function App() {
 

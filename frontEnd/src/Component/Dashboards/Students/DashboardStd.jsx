@@ -8,22 +8,22 @@ import ChatPlaceholder from './Assignedworks/ChatPlaceholder';
 import Navbar from './Assignedworks/Navbar';
 import GroupDetail from './Assignedworks/GroupDetail';
 import Sidebar from './Assignedworks/Sidebar';
-import { getUser } from '../../services/StudetServ';
 import Landing from './Assignedworks/Landing';
-import { getAssignmentsOfGroup, IterationsByStudent } from '../../services/Assugnment';
+import { getAssignmentsOfGroup, getIterationByUser, IterationsByStudent } from '../../services/Assugnment';
 import { constUserId } from './Assignedworks/const';
 import { getProfile } from '../../services/SuperviserSer';
 
 // Main App component that contains the entire dashboard
 
 const App = () => {
+
   // State for overall navigation (sidebar tabs)
-  const [activeTab, setActiveTab] = useState('assignedWork'); // 'assignedWork', 'submittedWorks', 'myDetails', 'chats'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'assignedWork', 'submittedWorks', 'myDetails', 'chats'
 
   // States for 'Assigned Work' section
   const [currentView, setCurrentView] = useState('groupList'); // 'groupList' or 'groupDetail'
   const [selectedGroup, setSelectedGroup] = useState(null);
-  const tempId=29;
+
 
   // Data states
   const [groups, setGroups] = useState([]);
@@ -45,11 +45,10 @@ const [profile,setProfile]=useState("");
                   }catch(error){
                  console.log("not logged user");
                   }
-  
             };
             fetchProfile();
            },[])
-  console.log(profile)
+        console.log(profile)
 
 
          useEffect(()=>{
@@ -61,16 +60,17 @@ const [profile,setProfile]=useState("");
                console.log("not found");
              }
            };
-           assignmentsOfGroup();
-       
-         },[]);
+           assignmentsOfGroup(); 
+         },[localStorage.getItem("token")]);
+
+
         useEffect(()=>{
            const iterationsByUser=async ()=>{
              try{
                const res=await IterationsByStudent();
                setSubmissionsB(res);
                const temp= res.filter((i)=> i.status==="SUBMITTED");
-               const temp2=res.filter((i)=> i.status==="APPROVED")
+               const temp2=res.filter((i)=> i.status==="CHECKED")
                setChecked(temp2);
                setUnchecked(temp);
 
@@ -79,27 +79,14 @@ const [profile,setProfile]=useState("");
                console.log("not found");
              }
             };
-
            iterationsByUser();
-           },[]);
+           },[localStorage.getItem("token")]);
 
-// useEffect(()=>{
-// const  fetchUser=async ()=>{
-//     try{
-//  const data= await getUser(constUserId);
-//     setUser(data);
-//     console.log("fetched user",data);
-//     }catch(error){
-//       console.log(error);
-//     }
-//   };
-//   fetchUser();
-// },[]);
-
-
+           //fetch all the submitted tasks of students
  useEffect(()=>{
 const  fetchUser=async ()=>{
     try{
+      if(localStorage.getItem("token"))return ;
  const data= await getIterationByUser(constUserId);
     setSubmissions(data);
     console.log("fetched iterations",data);
@@ -108,7 +95,7 @@ const  fetchUser=async ()=>{
     }
   };
   fetchUser();
-},[]);
+},[localStorage.getItem("token")]);
 
 
   // Function to switch view to group details (used within 'assignedWork' tab)
@@ -185,11 +172,14 @@ const  fetchUser=async ()=>{
 
         {/* Main Content Area */}
         <div className="flex-grow mt-12 min-h-screen p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">
-          {/* Dashboard Summary */}
-          <SummeryBoxs  assignments={assignmentsB}
+          {activeTab==="chats"?(
+            <ChatPlaceholder />
+          ):( <SummeryBoxs  assignments={assignmentsB}
           submissions={submissionsB}
            unChecked={unChecked}
-           checked={checked} />
+           checked={checked} />)}
+          {/* Dashboard Summary */}
+         
          
 
           {/* Dynamic Content based on activeTab */}
@@ -218,7 +208,6 @@ const  fetchUser=async ()=>{
           {activeTab === 'submittedWorks' && (
             <SubmittedWorks allAssignments={assignmentsB} allSubmissions={submissionsB} />
           )}
-          {activeTab === 'chats' && <ChatPlaceholder />}
         </div>
       </div>
     </div>

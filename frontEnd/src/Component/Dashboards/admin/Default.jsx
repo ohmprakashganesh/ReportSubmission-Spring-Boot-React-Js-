@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllUsers } from "../../services/AdminSer";
+import { getAllUsers, getGroups } from "../../services/AdminSer";
 import {
   PieChart,
   Pie,
@@ -13,12 +13,15 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
-import { getProfile } from "../../services/SuperviserSer";
 
 const COLORS = ["#2563eb", "#16a34a", "#f59e0b", "#dc2626"];
 
 const Default = () => {
+
+
   const [tUsers, setUsers] = useState([]);
+    const [groups, setGroups] = useState([]);
+
 
   useEffect(() => {
     const totalUsers = async () => {
@@ -31,6 +34,20 @@ const Default = () => {
     };
     totalUsers();
   }, []);
+
+
+   useEffect(() => {
+      const fetchGroups = async () => {
+        try {
+          const response = await getGroups();
+          setGroups(response);
+        } catch (error) {
+          console.error('Error fetching groups:', error);
+          // Consider adding error state handling here
+        }
+      };
+      fetchGroups();
+    }, []);
 
   // Role distribution
   const roleData = [
@@ -77,7 +94,7 @@ const Default = () => {
           <h2 className="text-lg font-semibold text-gray-600 mb-2">
             Active Groups
           </h2>
-          <p className="text-5xl font-bold text-purple-600">12</p>
+          <p className="text-5xl font-bold text-purple-600">{groups.length}</p>
         </div>
       </div>
 

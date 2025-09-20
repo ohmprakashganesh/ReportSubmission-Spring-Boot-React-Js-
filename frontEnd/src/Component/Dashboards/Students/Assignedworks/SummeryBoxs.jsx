@@ -2,47 +2,9 @@
 const SummeryBoxs = ({assignments,submissions,unChecked,checked}) =>
          {
 
-// const [assignments,setAssignments]=useState([]);
-//  const [submissions,setSubmissions]=useState([]);
-// const [checked,setChecked]=useState([]);
-// const [unChecked,setUnchecked]=useState([]);
-//          useEffect(()=>{
-//            const assignmentsOfGroup= async()=>{
-//              try{
-//                const res= await getAssignmentsOfGroup();
-//                setAssignments(res);
-//              }catch(error){
-//                console.log("not found");
-//              }
-       
-//            };
-//            assignmentsOfGroup();
-       
-//          },[]);
-
-
-//            useEffect(()=>{
-//            const iterationsByUser=async ()=>{
-//              try{
-//                const res=await IterationsByStudent();
-//                setSubmissions(res);
-//                const temp= res.filter((i)=> i.status==="SUBMITTED");
-//                const temp2=res.filter((i)=> i.status==="APPROVED")
-//                setChecked(temp2);
-//                setUnchecked(temp);
-
-
-//              }catch(error){
-//                console.log("not found");
-//              }
-       
-//            };
-//            iterationsByUser();
-       
-//          },[]);
-
-//       console.log(assignments,submissions,)
-    
+    console.log(assignments,submissions,)
+    console.log(unChecked);
+    console.log(checked);
     return (
       <div className="grid grid-cols-1 mt-4 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         <div className="bg-white p-4 rounded-lg shadow-md text-center">
