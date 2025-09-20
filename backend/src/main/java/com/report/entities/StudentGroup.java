@@ -1,4 +1,5 @@
 package com.report.entities;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -26,6 +27,9 @@ public class StudentGroup {
 
 
     private  Domain domain;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages;
 
    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
    @JsonBackReference (value = "group")
