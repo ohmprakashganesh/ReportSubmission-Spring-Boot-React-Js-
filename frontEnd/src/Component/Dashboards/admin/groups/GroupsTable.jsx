@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getGroups } from '../../services/AdminSer';
+import { deleteGroup, getGroups } from '../../../services/AdminSer';
 import ReAssignGroup from './ReAssignGroup';
 import ViewGroup from './ViewGroup';
 import { User } from 'lucide-react';
@@ -13,6 +13,7 @@ const GroupsTable = () => {
   const [tempId, setTempId] = useState(null);
         const [nameFilter, setNameFilter] = useState("");
     const [domainFilter, setDomainFilter] = useState("");
+    const[supervisorFilter,setSupervisorFilter]=useState("");
 
    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -46,11 +47,12 @@ const GroupsTable = () => {
     setShowViewModal(true);
   };
 
-  const handleDeleteGroup = (ind) => {
-    // if (window.confirm(`Are you sure you want to delete group "${groupName}"?`)) {
-    //   // Add your delete logic here
-    //   console.log('Deleting group:', ind);
-    // }
+  const handleDeleteGroup =async (ind) => {
+    if (window.confirm(`Are you sure you want to delete group "${groupName}"?`)) {
+      // Add your delete logic here
+      const deleteItem= await deleteGroup(ind);
+      console.log('Deleting group:', ind);
+    }
   };
 
 
@@ -59,7 +61,8 @@ const GroupsTable = () => {
  const filteredGroups = groups.filter(group => {
   const matchesName = (group.name || '').toLowerCase().includes(nameFilter.toLowerCase());
   const matchesDomain = (group.domain || '').toLowerCase().includes(domainFilter.toLowerCase());
-  return matchesName && matchesDomain;
+  const matchSupervisor=(group.supervisor.name|| '').toLowerCase().includes(supervisorFilter.toLowerCase());
+  return matchesName && matchesDomain && matchSupervisor;
 });
 
 
@@ -100,11 +103,15 @@ const GroupsTable = () => {
     onChange={(e) => setDomainFilter(e.target.value)}
     className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-1/3"
   />
+   <input
+    type="text"
+    placeholder="Search by supervisor..."
+    value={supervisorFilter}
+    onChange={(e) => setSupervisorFilter(e.target.value)}
+    className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 w-full sm:w-1/3"
+  />
 </div>
     )}
- 
-        
-    
     <div className="bg-white sticky top-24 w-full   p-6 rounded-xl shadow-md border border-gray-200 mb-8 ">
      <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Groups</h2>
 
@@ -114,23 +121,19 @@ const GroupsTable = () => {
     <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
       <thead className="bg-gray-50 ">
         <tr>
-          <th className="px-2 w-[15%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"  onClick={() => handleSort('name')}>
+          <th className="px-2 w-[25%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"  onClick={() => handleSort('name')}>
             Group Name
-            <span> {sortConfig.key === 'name' ? (
-              sortConfig.direction === 'asc' ? ' 🔼' : ' 🔽'
-            ) : (
-              ' ↕️'
-            )}</span>
+          
           </th>
-          <th className="px-2 w-[65%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"  onClick={() => handleSort('domain')}>
+          <th className="px-2 w-[25%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"  onClick={() => handleSort('domain')}>
             Project Domain
-            <span> {sortConfig.key === 'domain' ? (
-              sortConfig.direction === 'asc' ? ' 🔼' : ' 🔽'
-            ) : (
-              ' ↕️'
-            )}</span>
+           
           </th>
-          <th className="  w-[20%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
+           <th className="px-2 w-[25%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b"  onClick={() => handleSort('domain')}>
+            Supervisor Name
+           
+          </th>
+          <th className="  w-[25%] py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">
             Actions
           </th>
         </tr>
@@ -144,11 +147,15 @@ const GroupsTable = () => {
               className="hover:bg-gray-50 transition-colors text-center"
             >
               <td className="px-1 py-4 text-sm font-medium text-gray-900">
-                {group.name}
+                {group.name} 
               </td>
               <td className="px-1 py-4 text-sm text-gray-500">
                 {group.domain}
               </td>
+               <td className="px-1 py-4 text-sm text-gray-500">
+              {group.supervisor.name}
+              </td>
+
               <td className=" py-4 text-sm font-medium ">
                 <button
                   onClick={() => handleReassignClick(group)}
@@ -211,16 +218,16 @@ const GroupsTable = () => {
       )}
 
       {/* View Modal */}
-      {showViewModal && tempId && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-xl shadow-2xl w-full  max-h-[90vh] flex flex-col">
-            <ViewGroup
-              git={tempId}
-              grp={group}
-              onClose={() => {
-                setShowViewModal(false);
-                setTempId(null);
-              }}
+   {showViewModal && tempId && (
+  <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] overflow-y-auto relative">
+      <ViewGroup
+        git={tempId}
+        grp={group}
+        onClose={() => {
+          setShowViewModal(false);
+          setTempId(null);
+        }}
             />
           </div>
         </div>

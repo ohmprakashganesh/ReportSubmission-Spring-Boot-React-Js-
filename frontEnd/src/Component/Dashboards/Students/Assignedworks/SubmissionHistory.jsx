@@ -24,8 +24,8 @@ const SubmissionHistory = ({ assignment, onClose }) => {
   console.log("this is checking all iteration ", assignmentSubmissions);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-lg p-8 shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+    <div className="fixed inset-0 bg-white  flex justify-center items-center z-50 p-4">
+      <div className="bg-white rounded-lg p-8 shadow-2xl w-full   max-h-[90vh] overflow-y-auto relative">
         <div className=' flex '>
           <h3 className="text-2xl w-[90%] font-bold mb-6 text-gray-800">
             Submission History for:{assignment.title}
@@ -35,7 +35,7 @@ const SubmissionHistory = ({ assignment, onClose }) => {
               onClick={onClose}
               className=" justify-center max-h-8 text-center font-stretch-condensed   px-8 font-extrabold py-1 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition ease-in-out duration-150"
             >
-              X
+              Close
             </button>
           </div>
         </div>
@@ -45,11 +45,11 @@ const SubmissionHistory = ({ assignment, onClose }) => {
             No submissions found for this assignment yet.
           </p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-x-4 space-y-4 grid grid-cols-2  ">
             {assignmentSubmissions.map((sub) => (
               <li
                 key={sub.id}
-                className="bg-gray-50 border border-gray-200 rounded-md p-4 shadow-sm"
+                className="  border shadow-md border-gray-200 rounded-md p-4 "
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
@@ -136,7 +136,7 @@ const SubmissionHistory = ({ assignment, onClose }) => {
 
                     <button
                       onClick={() => onDelete(sub.id)}
-                      className="px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700"
+                      className="px-3 py-1 bg-red-300 text-black text-sm rounded-md hover:bg-red-700"
                     >
                       Delete
                     </button>

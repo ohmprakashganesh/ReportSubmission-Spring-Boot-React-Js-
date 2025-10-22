@@ -29,19 +29,24 @@ export const features = [
 export const workingSteps = [
   {
     step: 1,
-    title: "Upload Your Report",
+    title: "Get Project From Supervisor",
     description:
-      "Simply drag and drop your report file or browse to select it from your device."
+      "Receive the Project Title , assigned to your group"
+  }, {
+    step: 2,
+    title: "submit Your Report",
+    description:
+      "simply  fill the sections for uploading the report ,upload docx of Project "
   },
   {
-    step: 2,
-    title: "AI Processing",
+    step: 3,
+    title: "Check for the feedback and tracking",
     description:
       "Our system analyzes your report for completeness, formatting, and content quality."
   },
   {
-    step: 3,
-    title: "Submit & Track",
+    step: 4,
+    title: "view feedback and perform",
     description:
       "Finalize your submission and track its status in real-time through your dashboard."
   }

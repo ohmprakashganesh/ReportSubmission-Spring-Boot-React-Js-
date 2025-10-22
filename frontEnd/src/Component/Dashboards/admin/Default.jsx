@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllUsers, getGroups } from "../../services/AdminSer";
+import { getAllUsers, getGroups, getStudents, getSupervisors, totalUsers } from "../../services/AdminSer";
 import {
   PieChart,
   Pie,
@@ -21,13 +21,32 @@ const Default = () => {
 
   const [tUsers, setUsers] = useState([]);
     const [groups, setGroups] = useState([]);
+    const [total,setTotal]=useState(0);
+     const [supervisors,setSupervisors]=useState([]);
+    const [std,setStds]=useState([]);
+
+    useEffect (()=>{
+      const fetchData= async ()=>{
+        const [totalD,stuD,Supd]= await Promise.all([
+          totalUsers(),    
+          getStudents(),
+            getSupervisors(),
+        
+        ]);
+        setTotal(totalD),
+        setSupervisors(Supd),
+        setStds(stuD)
+      }
+      fetchData();
+    },[])
+
 
 
   useEffect(() => {
     const totalUsers = async () => {
       try {
-        const totalUsers = await getAllUsers();
-        setUsers(totalUsers);
+        const allUsers = await getAllUsers();
+       setUsers(allUsers);
       } catch (error) {
         console.log(error);
       }
@@ -53,13 +72,12 @@ const Default = () => {
   const roleData = [
     {
       name: "Students",
-      value: tUsers.filter((u) => u.role === "STUDENT").length,
+      value: std.length,
     },
     {
       name: "Supervisors",
-      value: tUsers.filter((u) => u.role === "SUPERVISER").length,
-    },
-    { name: "Admins", value: tUsers.filter((u) => u.role === "ADMIN").length },
+      value: supervisors.length,
+    }
   ];
 
   // Proposal stats (dummy data for now)
@@ -70,33 +88,44 @@ const Default = () => {
 
   return (
     <section id="dashboard" className="section-content p-6">
-      <h1 className="text-4xl font-extrabold text-gray-800 mb-8">
+      {totalUsers && supervisors && std ?(
+        <>
+          <h1 className="text-4xl font-extrabold text-gray-800 mb-8">
         📊 Admin Dashboard
       </h1>
-
-      {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
           <h2 className="text-lg font-semibold text-gray-600 mb-2">
             Total Users
           </h2>
-          <p className="text-5xl font-bold text-blue-600">{tUsers.length}</p>
+          <p className="text-5xl font-bold text-blue-600">{supervisors.length+ std.length}</p>
         </div>
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
           <h2 className="text-lg font-semibold text-gray-600 mb-2">
             Total Professors
           </h2>
           <p className="text-5xl font-bold text-green-600">
-            {tUsers.filter((u) => u.role === "SUPERVISER").length}
+            {supervisors.length}
+            {/* {tUsers.filter((u) => u.role === "SUPERVISER").length} */}
           </p>
         </div>
         <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
           <h2 className="text-lg font-semibold text-gray-600 mb-2">
-            Active Groups
+            Total students
+          </h2>
+          <p className="text-5xl font-bold text-blue-600">{std.length}</p>
+        </div>
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <h2 className="text-lg font-semibold text-gray-600 mb-2">
+            Total Groups
           </h2>
           <p className="text-5xl font-bold text-purple-600">{groups.length}</p>
         </div>
       </div>
+        </>
+
+      ):<div>Loading</div>}
+    
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createGroup, getStudents, getSupervisors, updateGroup } from '../../services/AdminSer';
+import { createGroup, getStudents, getSupervisors } from '../../../services/AdminSer';
 
 const domain = [
    {name:"WEB"},
@@ -11,22 +11,17 @@ const domain = [
          {name:"CLOUD"}
 ];
 
-const ReAssignGroup = ({group, onClose}) => {
-  console.log(group,"this is group ")
+
+const CreateGroup = () => {
   const [supervisors, setSupervisors] = useState([]);
   const [students, setStudents] = useState([]);
+  const [data, setData] = useState([]); // Store all groups created
 
-  const [groupName, setGroupName] = useState(group.name);
+  const [groupName, setGroupName] = useState('');
   const [newSelectedStudents, setNewSelectedStudents] = useState([]);
   const [newSelectedSupervisor, setNewSelectedSupervisor] = useState('');
-    const [newSelectedDomain, setNewSelectedDomain] = useState(group.domain);
+    const [newSelectedDomain, setNewSelectedDomain] = useState(domain[0].name);
 
-
-   const closeFun=()=>{
-    onClose();
-   }
-
-   console.log(group.id);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -51,13 +46,13 @@ const ReAssignGroup = ({group, onClose}) => {
     fetchSupervisors();
   }, []);
 
-
   const handleNewStudentChange = (e) => {
     const selectedOptions = Array.from(e.target.selectedOptions);
     const values = selectedOptions.map(option => option.value);
     setNewSelectedStudents(values);
   };
- 
+
+
 
   const handleSubmitNewGroup = async (e) => {
   e.preventDefault();
@@ -66,6 +61,10 @@ const ReAssignGroup = ({group, onClose}) => {
     alert("Please fill in all required fields: Group Name, Students, and Supervisor.");
     return;
   }
+if (!newSelectedDomain) {
+  alert("Please select a domain");
+  return;
+}
 
   const stdIdsAsNumbers = newSelectedStudents.map(id => parseInt(id, 10));
   const supervisorIdAsNumber = parseInt(newSelectedSupervisor, 10);
@@ -74,41 +73,30 @@ const ReAssignGroup = ({group, onClose}) => {
     groupName: groupName,
     stdIds: stdIdsAsNumbers,
     supervisorId: supervisorIdAsNumber,
-    domain:newSelectedDomain
+     domain:newSelectedDomain
   };
 
   console.log("Ready to send payload:", JSON.stringify(groupPayload));
 
   try {
-      // const resp= await updateUser(uid, formData);
-    const resp = await updateGroup(group.id, groupPayload);
-    alert("group updated successfully")
-    console.log("Successfully updated group:", JSON.stringify(resp));
+    const resp = await createGroup(groupPayload);
+    console.log("Successfully created group:", JSON.stringify(resp));
 
     // Optionally reset form after success
     setGroupName('');
     setNewSelectedStudents([]);
     setNewSelectedSupervisor('');
+    setNewSelectedDomain("");
     alert("Group created successfully!");
   } catch (error) {
     console.error("Failed to create group:", error);
     alert("Failed to create group. Please try again.");
   }
 }
+
   return (
     <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-8">
-     
-       <div className="relative flex  justify-between items-center p-4">
-  <h2 className="text-2xl font-semibold  text-black">Update the Group-Assign</h2>
-  <button
-    onClick={closeFun}
-    className="absolute bg-gray-600 px-2 rounded-md top-2 right-4 text-red-800 hover:text-gray-200 text-2xl font-bold"
-    aria-label="Close"
-  >
-    &times;
-  </button>
-</div>
-
+      <h2 className="text-2xl font-semibold text-gray-700 mb-4">Create New Student Group</h2>
       <form onSubmit={handleSubmitNewGroup} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="groupName" className="block text-sm font-medium text-gray-700 mb-1">Group Name</label>
@@ -142,7 +130,6 @@ const ReAssignGroup = ({group, onClose}) => {
           <p className="mt-1 text-sm text-gray-500">Hold Ctrl (Windows) / Cmd (Mac) to select multiple students.</p>
         </div>
 
-        
         <div className='flex  gap-5 col-span-2   w-full'>
           <div className=' w-[48%]'>
           <label htmlFor="supervisorSelect" className="block text-sm font-medium text-gray-700 mb-1">Select Supervisor</label>
@@ -184,11 +171,11 @@ const ReAssignGroup = ({group, onClose}) => {
             type="submit"
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
           >
-           update group
+            Create Group
           </button>
         </div>
       </form>
     </div>
   );
 };
-export default ReAssignGroup;
+export default CreateGroup;

@@ -12,6 +12,7 @@ const GroupDetail = ({ group, assignments, onBack, onSubmitAssignment, allSubmis
   // Open submission history modal
   const handleViewSubmissions = (assignment) => {
     setSelectedAssignmentForHistory(assignment);
+    console.log( "this is from assigned work",assignment);
     setShowSubmissionHistory(true);
   };
 
@@ -92,7 +93,7 @@ const GroupDetail = ({ group, assignments, onBack, onSubmitAssignment, allSubmis
       {showSubmissionHistory && selectedAssignmentForHistory && (
         <SubmissionHistory
           assignment={selectedAssignmentForHistory}
-          submissions={allSubmissions.filter(
+          submissions={selectedAssignmentForHistory.iterations.filter(
             (sub) => sub.assignmentId === selectedAssignmentForHistory.id
           )}
           onClose={handleCloseSubmissionHistory}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { createUser, getAllSupervisors, getAllUsers } from '../../services/AdminSer';
-import EditUser from './EditUser';
-import RegisterUser from './RegisterUser';
-import { UserProfile } from './Profile';
+import { createUser, deleteUser, getAllSupervisors, getAllUsers } from '../../../services/AdminSer';
+import EditUser from '../EditUser';
+import RegisterUser from '../RegisterUser';
+import SupervisorProfile from './Profile';
+
 
 const Supervisors = () => {
           const [user,setUser]=useState("");
@@ -13,15 +14,12 @@ const Supervisors = () => {
          const [nameFilter, setNameFilter] = useState("");
      const [emailFilter, setEmailFilter] = useState("");
      const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-
-   
-
+       const [updateState,setUpdateState]=useState(false)
 
    if(updateId){
     console.log(updateId)
    }
-
-       const viewProfile =(tid,usr)=> {
+        const viewProfile =(tid,usr)=> {
            setUid(tid);
            setUser(usr);
            setShowProfile(true);
@@ -40,8 +38,16 @@ const Supervisors = () => {
     }
 };     
 fetchUsers();
-    },[]);
-    
+    },[updateState]);
+
+    const handleDelete= async(id)=>{
+      const data=await deleteUser(id);
+       setUpdateState(!updateState);
+      alert("successfully deleted user with id"+ id)
+     
+    }
+
+
 
   const filteredUsers = fetchedUsers.filter(user => {
     const matchesName = user.name.toLowerCase().includes(nameFilter.toLowerCase());
@@ -71,7 +77,7 @@ fetchUsers();
     <section id="users" className="section-content p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen font-sans">
       <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">Manage Users</h1>
          
-        { updateId? <EditUser setUpdateId={setUpdateId} uid={updateId} />: <RegisterUser />  }
+        { updateId? <EditUser setUpdateId={setUpdateId} updateState={updateState} setUpdateState={setUpdateState} uid={updateId} />: <RegisterUser updateStatus={updateState} setUpdateState={setUpdateState} />  }
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
   <input
     type="text"
@@ -128,7 +134,7 @@ fetchUsers();
                                                    <button onClick={() => setUpdateId(data.id)} className="text-indigo-600 hover:text-indigo-900 mr-3">Edit</button>
                                                    <button onClick={() => viewProfile(data.id,data)} className="text-indigo-600 hover:text-indigo-900 mr-3">view Profile</button>
            
-                                                   <button className="text-red-600 hover:text-red-900">Delete</button>
+                                                   <button onClick={() => handleDelete(data.id)}  className="text-red-600 hover:text-red-900">Delete</button>
                                                </td>
                                            </tr>
                                        ))}
@@ -139,7 +145,7 @@ fetchUsers();
                        { showProfile&& uid && (
                            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
                                <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl p-6">
-                                   <UserProfile
+                                   <SupervisorProfile
                                        uid={uid}
                                        user={user}
                                        setShowProfile={setShowProfile}

@@ -3,7 +3,7 @@ import { getUser, updateUser } from '../../services/AdminSer'
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../services/Config/Config';
 
-const EditUser = ({uid,setUpdateId}) => {
+const EditUser = ({uid,updateState,setUpdateId,setUpdateState}) => {
     const [formData, setFormData] = useState({
         name: '',
         email:'',
@@ -107,10 +107,10 @@ useEffect(() => {
         setIsSubmitting(true); // Set submitting state to true (for visual feedback)
         try {
 
-     
           const resp = await updateUser(uid,formData);
+          setUpdateState(!updateState);
       
-           if (resp.status !== 201 && resp.status !==200) throw new Error("Failed to create assignment");
+           if (!resp) throw new Error("Failed to create assignment");
 
            // Display success message
           // Simulate a delay for the "Creating User..." button state

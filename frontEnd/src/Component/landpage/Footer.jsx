@@ -4,7 +4,7 @@ import { footerData } from "../Constants";
 const Footer = () => {
   return (
     <footer className="bg-gray-800">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:pt-16 pb-8 lg:px-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           {/* Company Info Section */}
           <div className="space-y-8 xl:col-span-1">
@@ -42,7 +42,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright Section */}
-        <div className="mt-12 border-t border-gray-700 pt-8">
+        <div className="mt-2 border-t h-[50px] border-gray-700 py-6 flex items-center justify-center">
           <p className="text-base text-gray-400 text-center">
             &copy; 2023 SmartReport. All rights reserved.
           </p>

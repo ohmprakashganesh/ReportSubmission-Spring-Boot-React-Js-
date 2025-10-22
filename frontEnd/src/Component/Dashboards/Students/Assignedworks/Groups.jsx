@@ -17,9 +17,6 @@ const Groups = ({groups,onViewGroup}) => {
   };
   fetchUser();
 }, []);
-
-
-
      return (
       <div className="p-4 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">Your Groups</h2>

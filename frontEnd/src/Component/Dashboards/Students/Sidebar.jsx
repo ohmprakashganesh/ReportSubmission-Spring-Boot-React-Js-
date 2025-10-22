@@ -29,7 +29,7 @@ const Sidebar = ({setActiveTab,setCurrentView,setSelectedGroup,activeTab}) => {
                     activeTab === 'myDetails' ? 'bg-blue-600' : 'hover:bg-gray-700'
                   }`}
                 >
-                  My Details
+                 Personal Info
                 </button>
               </li>
               <li>
@@ -39,7 +39,7 @@ const Sidebar = ({setActiveTab,setCurrentView,setSelectedGroup,activeTab}) => {
                     activeTab === 'assignedWork' ? 'bg-blue-600' : 'hover:bg-gray-700'
                   }`}
                 >
-                  Assigned Work
+                  Assigned Groups
                 </button>
               </li>
               <li>
@@ -49,7 +49,7 @@ const Sidebar = ({setActiveTab,setCurrentView,setSelectedGroup,activeTab}) => {
                     activeTab === 'submittedWorks' ? 'bg-blue-600' : 'hover:bg-gray-700'
                   }`}
                 >
-                  Submitted Works
+                  History
                 </button>
               </li>
               <li>

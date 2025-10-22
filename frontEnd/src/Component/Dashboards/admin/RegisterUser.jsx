@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { createUser } from '../../services/AdminSer';
 
-const RegisterUser = () => {
+const RegisterUser = ({setUpdateState,updateState}) => {
        const [id, setId]=useState('');
      
       // State to hold form data, initialized with empty strings
@@ -85,6 +85,7 @@ const RegisterUser = () => {
                 role: formData.role,
                 password: formData.password
             });
+            setUpdateState(!updateState);
           // Log the form data to the console instead of making an API call
           console.log(response);
           setSubmissionMessage('user created successfully '); // Display success message

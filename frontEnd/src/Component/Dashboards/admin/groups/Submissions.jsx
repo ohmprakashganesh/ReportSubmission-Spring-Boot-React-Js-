@@ -1,7 +1,7 @@
 
 // export default Submissions;
 import React from 'react';
-import { httpClient } from '../../services/Config/Config';
+import { httpClient } from '../../../services/Config/Config';
 
 const Submissions = ({ assignment, setShowSubmissions }) => {
   console.log("this submissions ", assignment.iterations);
@@ -18,7 +18,6 @@ const Submissions = ({ assignment, setShowSubmissions }) => {
     console.error("Delete failed:", error);
   }
     };
-
   return (
     <div className="fixed inset-0  z-50 flex items-center  justify-center bg-black bg-opacity-40 p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[100vh] flex flex-col overflow-hidden">

@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MyDetails from './MyDetails';
-import SubmittedWorks from './SubmittedWorks';
+import SubmittedWorks from '../Students/submittedWorks/SubmittedWorks';
 import { Boxes } from 'lucide-react';
-import SummeryBoxs from './Assignedworks/SummeryBoxs';
+import SummeryBoxs from './SummeryBoxs';
 import Groups from './Assignedworks/Groups';
 import ChatPlaceholder from './Assignedworks/ChatPlaceholder';
-import Navbar from './Assignedworks/Navbar';
+import Navbar from './Navbar';
 import GroupDetail from './Assignedworks/GroupDetail';
-import Sidebar from './Assignedworks/Sidebar';
-import Landing from './Assignedworks/Landing';
+import Sidebar from './Sidebar';
+import Landing from './Landing';
 import { getAssignmentsOfGroup, getIterationByUser, IterationsByStudent } from '../../services/Assugnment';
 import { constUserId } from './Assignedworks/const';
 import { getProfile } from '../../services/SuperviserSer';
@@ -141,8 +141,6 @@ const  fetchUser=async ()=>{
   <>
     <Navbar/>
   <Boxes assignments={assignments} submissions={submissions} /> 
-  // --- Sidebar Components ---
-  // myDetails 
    <MyDetails profile={profile} />
   // SubmittedWorks Component: Displays all submitted assignments
   //assignment is passed for task name and their submissions
@@ -172,7 +170,7 @@ const  fetchUser=async ()=>{
 
         {/* Main Content Area */}
         <div className="flex-grow mt-12 min-h-screen p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">
-          {activeTab==="chats"?(
+          {/* {activeTab==="chats"?(
             <ChatPlaceholder />
           ):( <SummeryBoxs  assignments={assignmentsB}
           submissions={submissionsB}
@@ -180,16 +178,24 @@ const  fetchUser=async ()=>{
            checked={checked} />)}
           {/* Dashboard Summary */}
          
-         
+          
 
           {/* Dynamic Content based on activeTab */}
            {activeTab === 'dashboard' && (
+            <>
+             <SummeryBoxs  assignments={assignmentsB}
+          submissions={submissionsB}
+           unChecked={unChecked}
+           checked={checked} />
+
         <Landing 
       assignments={assignmentsB}
       submissions={submissionsB}
       unChecked={unChecked}
       checked={checked}  />
+      </>
           )}
+          
           {activeTab === 'myDetails' &&
            <MyDetails />}
           {activeTab === 'assignedWork' && (

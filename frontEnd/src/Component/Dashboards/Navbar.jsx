@@ -16,10 +16,10 @@ const Navbar = ({ title, currentSection, name ,setCurrentSection }) => {
         <div className="text-3xl font-bold">
           {title}
         </div>
-        <div className="hidden md:block">
-          <div className="ml-4 flex items-center md:ml-6 space-x-2">
-            <button className="px-4 h-14 w-20 py-4 border text-xl font-bold  border-[#2563eb] rounded-full  font-stretch-200% text-[#2563eb] hover:bg-gray-50">
-              <Link to="/login"> {name} </Link>
+        <div className="hidden text-white md:block">
+          <div className="ml-4 pb-4 flex items-center md:ml-6 space-x-2">
+            <button className="px-6 h-8 w-20 text-gray-900 bg-white py-2 border text-xl font-bold  rounded-md  font-stretch-200%  hover:bg-gray-50">
+              <Link to="/login"> {name} hello </Link>
             </button>
           </div>
         </div>

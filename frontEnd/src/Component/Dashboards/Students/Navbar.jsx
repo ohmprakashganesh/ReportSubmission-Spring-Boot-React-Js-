@@ -13,7 +13,7 @@ const Navbar = ({ studentName, setActiveTab, setCurrentView, setSelectedGroup, a
             onMouseEnter={() => setToggle(true)}
             className="p-2 rounded-md   text-gray-600 transition"
           >
-<Menu className="w-6 h-6 text-green-300 block md:hidden" />
+             <Menu className="w-6 h-6 text-green-300 block md:hidden" />
                </button>  
                   <div className='md:hidden lg:hidden top-14 left-0 right-0  absolute  w-full'>
 

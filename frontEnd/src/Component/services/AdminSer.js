@@ -18,6 +18,11 @@ export const getGroups = async ()=>{
     const resp= await httpClient.get(`/api/groups/all`);
     return resp.data;
 }
+
+export const getGroupsBySuperviserName = async ()=>{
+    const resp= await httpClient.get(`/api/groups/all`);
+    return resp.data;
+}
  
 
 
@@ -30,6 +35,16 @@ export const getUser= async(id)=>{
     const resp= await httpClient.get(`/api/users/${id}`);
     return resp.data;
 }
+export const deleteUser= async (id)=>{
+  const resp= await httpClient.delete(`/api/users/${id}`)
+  return resp.data;
+
+}
+export const deleteGroup= async (id)=>{
+  const resp= await httpClient.delete(`/api/groups/${id}`)
+  return resp.data;
+
+}
  
 export const getSupervisors= async()=>{
     const resp= await httpClient.get(`/api/admin/supervisors`);
@@ -37,6 +52,10 @@ export const getSupervisors= async()=>{
 }
 export const getStudents= async()=>{
     const resp= await httpClient.get(`/api/admin/students`)
+    return resp.data;
+}
+export const totalUsers= async()=>{
+    const resp= await httpClient.get(`/api/admin/totalUsers`)
     return resp.data;
 
 }
@@ -64,4 +83,8 @@ export const updateUser = async (id, user) => {
   export const getAllSupervisors=async ()=>{
     const resp= await httpClient.get("/api/users/supervisors/all")
     return resp.data;
+    }
+    export const getAllAssignments=async ()=>{
+      const resp= await httpClient.get("api/assignments/all")
+      return resp.data;
     }
