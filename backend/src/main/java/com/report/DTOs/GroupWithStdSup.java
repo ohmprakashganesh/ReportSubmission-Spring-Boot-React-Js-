@@ -12,6 +12,7 @@ import java.util.List;
 public class GroupWithStdSup {
     private Long id;
     private String groupName;
+    private int totalAssignment;
     private List<StudentD> students;
     private  Supervisord supervisor;
 }

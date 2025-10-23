@@ -65,7 +65,6 @@ public class StudentGroupController {
         studentGroupService.deleteGroup(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
     @GetMapping("/groupDetails/{id}")
     public  ResponseEntity<StudentGroupDetailDTO> groupWithStdAndSupervisor (@PathVariable Long id ){
         return  new ResponseEntity<>(studentGroupService.findGroupWithStudentsAndSupervisor(id),HttpStatus.OK);

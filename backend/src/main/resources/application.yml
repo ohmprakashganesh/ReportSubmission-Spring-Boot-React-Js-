@@ -10,12 +10,12 @@ spring:
       ddl-auto: update
     show-sql: true
 
-copyleaks:
-  email: om.777402@memc.tu.edu.np
-  api-key: c88f15b0-1cbf-4cb8-a20a-e7763010483b
-  base-url: https://api.copyleaks.com
-  login-url: https://id.copyleaks.com/v3/account/login/api
-  product: education
+#copyleaks:
+#  email: om.777402@memc.tu.edu.np
+#  api-key: c88f15b0-1cbf-4cb8-a20a-e7763010483b
+#  base-url: https://api.copyleaks.com
+#  login-url: https://id.copyleaks.com/v3/account/login/api
+#  product: education
 
 Uploads:
   iteration: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\iteration

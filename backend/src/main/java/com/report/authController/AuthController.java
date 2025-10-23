@@ -36,7 +36,7 @@ public ResponseEntity<AuthResponse> registerUser(@RequestBody UserDTO registerRe
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        System.out.println("printitn login data"+loginRequest);
+        System.out.println("login api hit , requested data are "+loginRequest);
         return ResponseEntity.ok(service.login(loginRequest));
     }
     @PostMapping("/refresh")

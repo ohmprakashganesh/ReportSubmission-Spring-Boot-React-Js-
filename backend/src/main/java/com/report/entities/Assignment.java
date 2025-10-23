@@ -40,10 +40,9 @@ public class Assignment {
 
     private  String documentName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonBackReference(value = "supervisor-assignment")
     private StudentGroup studentGroup;
-
 
     @OneToMany(mappedBy="assignment", cascade=CascadeType.ALL)
     private List<AssignmentIteration> iterations;

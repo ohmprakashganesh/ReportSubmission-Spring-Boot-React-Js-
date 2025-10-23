@@ -36,7 +36,7 @@ public class AssignmentIterationController {
 
     //get the single assignment
     @GetMapping("/{id}")
-    public ResponseEntity<AssignmentIteration> getIteration(@PathVariable Long id) {
+    public ResponseEntity<AssignmentIteration> getIteration(@PathVariable("id") Long id) {
         try {
             Optional<AssignmentIteration> iteration = assignmentIterationService.getIterationById(id);
             return new ResponseEntity<>(iteration.get(), HttpStatus.OK);

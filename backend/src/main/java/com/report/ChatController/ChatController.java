@@ -21,7 +21,7 @@ public class ChatController {
 
     @GetMapping("/rooms/{roomId}/messages")
     public List<Message> getMessages(@PathVariable Long roomId) {
-        return messageService.getMessagedByroom(roomId);
+        return messageService.getMessageByStudentGroup(roomId);
     }
 
     @PostMapping("/rooms/{roomId}/messages")

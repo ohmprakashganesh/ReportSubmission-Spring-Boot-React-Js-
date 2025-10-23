@@ -42,7 +42,7 @@ public class User  implements UserDetails {
 
 
     // Supervisor-only relation
-    @OneToMany(mappedBy = "supervisor")
+    @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference(value = "supervisor")
     private List<StudentGroup> supervisedGroups;
 
@@ -58,7 +58,7 @@ public class User  implements UserDetails {
     //there are implemented methods
 
     public Collection<? extends GrantedAuthority> getAuthorities(){
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
     }
 
     @Override

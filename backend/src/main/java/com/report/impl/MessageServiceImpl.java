@@ -23,17 +23,21 @@ public class MessageServiceImpl implements MessageServices {
 
     @Override
     public Message sendMessage(Long roomid, String text) {
+        System.out.println(roomid + text);
        StudentGroup studentGroup=studentGroupRepo.findById(roomid).orElseThrow(()-> new UserNotFound("group not found with id"+roomid));
-       Message message= new Message(studentGroup,text);
-       return  messageRepo.save(message);
 
+       Message message= new Message();
+       message.setContent(text);
+       message.setSender("rana naidu");
+//       message.setStudentGroup(studentGroup);
+      return    messageRepo.save(message);
 
     }
 
     @Override
-    public List<Message> getMessagedByroom(Long roomId) {
+    public List<Message> getMessageByStudentGroup(Long roomId) {
         StudentGroup room = studentGroupRepo.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
-        return messageRepo.findByRoomOrderByTimestampAsc(room);
+        return messageRepo.findByStudentGroupOrderByTimeStampAsc(room);
 
     }
 }

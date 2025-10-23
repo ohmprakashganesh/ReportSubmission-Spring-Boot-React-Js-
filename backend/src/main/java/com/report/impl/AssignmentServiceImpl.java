@@ -82,9 +82,14 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     }
 
+
+
     @Override
     public Assignment getAssignmentById(Long id) {
-        return assignmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+
+         Assignment assignment=assignmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Assignment not found"));
+         return  assignment;
     }
 
     @Override

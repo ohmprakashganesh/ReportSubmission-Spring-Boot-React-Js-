@@ -155,7 +155,9 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
 
        List<StudentD> list= new ArrayList<>();
+
         GroupWithStdSup obj= new GroupWithStdSup();
+
       if(gru.isPresent()){
           System.out.println("this is from "+ gru.get());
           StudentGroup group= gru.get();
@@ -177,6 +179,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
           temp2.setId(gru.get().getSupervisor().getId());
           obj.setSupervisor(temp2);
           obj.setStudents(list);
+          obj.setTotalAssignment(gru.get().getAssignments().toArray().length);
 
           return  obj;
       }
@@ -185,7 +188,7 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
     @Override
     public List<StudentGroup> findGroupBySupervisor(Long id) {
-        return  studentGroupRepository.findBySupervisorId(loggedUser.getLoggedUser().getId());
+        return  studentGroupRepository.findBySupervisorId(id);
     }
 
     @Override

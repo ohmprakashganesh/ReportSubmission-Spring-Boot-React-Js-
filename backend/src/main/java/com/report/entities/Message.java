@@ -1,28 +1,43 @@
 package com.report.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message {
-     private  Long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private  Long id;
+
+    @NotEmpty
     private String sender;
+
+    @NotEmpty
+    @NotBlank
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private StudentGroup room;
+    @JsonIgnore
+    @JoinColumn(name = "student_group_id") // safer name
+    private StudentGroup studentGroup;
+
+    @CreationTimestamp
     private LocalDateTime timeStamp;
 
-    public Message(StudentGroup room, String content) {
-        this.room= room;
+    public Message(StudentGroup studentGroup, String content) {
+        this.studentGroup= studentGroup;
         this.content=content;
 
     }
