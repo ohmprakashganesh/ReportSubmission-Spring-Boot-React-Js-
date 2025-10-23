@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Submissions from "./Submissions";
 import FormAssignment from "./FormAssignment";
 import AssignmentEdit from "./AssignmentEdit";
-import { getGroupStudents } from "../../services/Assugnment";
+import { getGroupStudents } from "../../../services/Assugnment";
 
 export const GroupDetails = ({ group,onNavigate }) => {
   const [selectedAssignment,setSelectedAssignment] = useState(null);
@@ -148,36 +148,6 @@ export const GroupDetails = ({ group,onNavigate }) => {
           </ul> 
         </div>
 
-        {/* {group.assignments?.length > 0 ? (
-          <div className="grid   md:grid-cols-2 lg:grid-cols-2 gap-4">
-              {group.assignments.map(assign => (
-                <div key={assign.id} className="bg-white p-3 min-w-96 rounded-md border border-amber-200 shadow-sm hover:shadow-md transition-shadow duration-200">
-                  <div className="flex justify-between items-start">
-                    <h4 className="font-medium text-amber-900">{assign.title}</h4>
-                    <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1  rounded-full">
-                      Due: {assign.deadline}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mt-1">{assign.description}</p>
-                   <div className='flex justify-between '>
-                    <p className='md:gap-8   gap-2 flex flex-row'>
-                     <button className='bg-blue-200 p-0 rounded-2xl md:p-1'>total  Submission</button>
-                      <span className='bg-cyan-100 mr-2 text-center pb-0 max-h-8  px-4 md:px-4 md:py-1'>{assign.iterations.length} </span>
-                     </p>
-                     <div className="flex  gap-2">
-                     <button onClick={()=>seeSubmission(assign)} className='bg-amber-500 max-h-8 rounded-xl p-1 px-2'>View </button>
-                     <button onClick={()=>handleEdit(assign)} className='bg-amber-500 max-h-8  rounded-xl p-1 px-2'>Edit </button>
-                      <button onClick={()=>setDelete()} className='bg-amber-500 max-h-8  rounded-xl p-1 px-2'>Delete </button>
-                       </div>
-
-                   </div>
-                </div>
-               
-              ))}
-            </div>
-
-            ):<div> not assignment found</div> }
-             */}
 {group.assignments?.length > 0 ? (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {group.assignments.map((assign) => (

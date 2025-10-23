@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../Navbar';
+import Navbar from '../../admin/dashboard/Navbar';
 import Sidebar1 from './Sidebar1';
-import { CoursesSection } from './AssignmentSection';
-import { GroupsSection } from './GroupSection';
-import { StudentsSection } from './StudentSection';
-import { SettingsSection } from './SettingSection';
-import { GroupDetails } from './GroupDetails';
-import { getUser } from '../../services/AdminSer';
-import { getProfile, SupervisedStudents, supervisorKoGroups, TotalChecked } from '../../services/SuperviserSer';
+import { CoursesSection } from '../assignments/AssignmentSection';
+import { GroupsSection } from '../group/GroupSection';
+import { StudentsSection } from '../students/StudentSection';
+import { SettingsSection } from '../SettingSection';
+import { GroupDetails } from '../group/GroupDetails';
+import { getUser } from '../../../services/AdminSer';
+import { getProfile, SupervisedStudents, supervisorKoGroups, TotalChecked } from '../../../services/SuperviserSer';
 
 
 // Main App Component
@@ -22,13 +22,14 @@ const DashboardU = () => {
     const [currentSection, setCurrentSection] = useState('dashboard');
     const [currentCourse, setCurrentCourse] = useState(null); // Stores selected course data
     const [currentAssignment, setCurrentAssignment] = useState(null); // Stores selected assignment data
-    const [currentGroup, setCurrentGroup] = useState(null); // Stores selected group data
+    const [currentGroup, setCurrentGroup] = useState(null); 
+    const [profile,setProfile]=useState(null);// Stores selected group data
 
     // State for modal visibility
     const [showAssignTaskModal, setShowAssignTaskModal] = useState(false);
     const [showReviewSubmissionModal, setShowReviewSubmissionModal] = useState(false);
     const [reviewModalData, setReviewModalData] = useState({ groupName: '', assignmentName: '' });
-    const tempId=28;
+    
     
     //total feedback  given by supervisor
     useEffect(()=>{
@@ -56,7 +57,7 @@ const DashboardU = () => {
        useEffect(()=>{
         const fetchUser=async ()=>{
             try{
-                const res= await SupervisedStudents (tempId);
+                const res= await SupervisedStudents (user.id);
                  setStudents(res);
                  console.log("students",students);
             }catch(error){
@@ -64,12 +65,12 @@ const DashboardU = () => {
             }
         };
           fetchUser();
-     },[]);
+     },[user.id]);
 //fetching all  groups of particular supervisor
     useEffect(()=>{
         const fetchUser=async ()=>{
             try{
-                const res= await supervisorKoGroups(tempId);
+                const res= await supervisorKoGroups(user.id);
                  setGroups(res);
                  console.log(groups);
             }catch(error){
@@ -77,7 +78,7 @@ const DashboardU = () => {
             }
         };
           fetchUser();
-     },[]);
+     },[user.id]);
      
 //collecting all assignments of all groups
    const allAssignments = groups.flatMap((group) => group.assignments);
@@ -86,15 +87,6 @@ const DashboardU = () => {
     
 
     // Dummy Data (replace with actual data fetching in a real application)
-   
-
-   
-
-  
-
-   
-    
-
     // Handlers for navigation
     const setComponent = (section, data = null) => {
         setCurrentSection(section);

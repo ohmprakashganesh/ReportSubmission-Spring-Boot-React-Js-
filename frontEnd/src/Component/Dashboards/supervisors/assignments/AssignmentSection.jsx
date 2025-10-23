@@ -69,8 +69,8 @@
 
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
-import { createFeedback } from "../../services/SuperviserSer";
-import { httpClient } from "../../services/Config/Config";
+import { createFeedback } from "../../../services/SuperviserSer";
+import { httpClient } from "../../../services/Config/Config";
 
 export const CoursesSection = ({ groups }) => {
   const allAssignments = groups.flatMap((group) => group.assignments);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { httpClient } from '../../services/Config/Config';
+import { httpClient } from '../../../services/Config/Config';
 
 const FormAssignment = ({id, setShowForm }) => {
   console.log("group is is ",id);

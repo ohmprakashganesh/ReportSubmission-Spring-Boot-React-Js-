@@ -219,7 +219,7 @@ const GroupsTable = () => {
 
       {/* View Modal */}
    {showViewModal && tempId && (
-  <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+  <div className="relative  inset-0 z-50 bg to-white bg-opacity-50 flex items-center justify-center">
     <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] overflow-y-auto relative">
       <ViewGroup
         git={tempId}

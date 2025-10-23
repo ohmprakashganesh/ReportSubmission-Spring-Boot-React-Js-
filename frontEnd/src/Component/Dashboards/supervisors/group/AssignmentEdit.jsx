@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { httpClient } from '../../services/Config/Config';
+import { httpClient } from '../../../services/Config/Config';
 
 const AssignmentEdit = ({setShowEditForm,assignment,id}) => {
     console.log("form edit",assignment);

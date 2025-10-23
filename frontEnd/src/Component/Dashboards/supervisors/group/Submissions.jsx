@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios'; // Make sure axios is installed
-import { createFeedback, getProfile } from '../../services/SuperviserSer';
-import { httpClient } from '../../services/Config/Config';
+import { createFeedback, getProfile } from '../../../services/SuperviserSer';
+import { httpClient } from '../../../services/Config/Config';
 
 
 const Submissions = ({ setSubmissionShow, assignment }) => {

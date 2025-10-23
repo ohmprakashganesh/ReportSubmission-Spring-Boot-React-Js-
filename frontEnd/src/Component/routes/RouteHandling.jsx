@@ -5,7 +5,7 @@ import Registar from '../LoginRegister/Registar'
 import LandPage from '../landpage/LandPage'
 
 import Dash from '../Dashboards/admin/Dash'
-import DashboardU from '../Dashboards/supervisors/Dashboard'
+import DashboardU from '../Dashboards/supervisors/landing/Dashboard'
 import Dashboard from '../Dashboards/Students/DashboardStd'
 import ProtectedRoutes from './ProtectedRoutes'
 

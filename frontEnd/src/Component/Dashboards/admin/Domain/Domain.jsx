@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 const Domain = ({groups}) => {
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 

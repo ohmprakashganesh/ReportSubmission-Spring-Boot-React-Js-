@@ -52,17 +52,7 @@ const Sidebar = ({setActiveTab,setCurrentView,setSelectedGroup,activeTab}) => {
                   History
                 </button>
               </li>
-              <li>
-                <button
-                  onClick={() => { setActiveTab('chats'); setCurrentView('groupList'); setSelectedGroup(null); }}
-                  className={`w-full text-left px-4 py-2 rounded-md transition duration-150 ease-in-out ${
-                    activeTab === 'chats' ? 'bg-blue-600' : 'hover:bg-gray-700'
-                  }`}
-                >
-                  Chats (Non-Functional)
-                </button>
-              </li>
-               
+
             </ul>
              <div className="mt-auto pt-4 border-t border-gray-700">
  

@@ -41,11 +41,6 @@ const Assignemnts = () => {
     </div>
    ))}
   </div>
-
-  <div className='fixed z-30 bg-red-500 h-screen w-full'>
-   hello 
-  </div>
-
 </div>
   )
 }

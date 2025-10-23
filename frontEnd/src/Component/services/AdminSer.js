@@ -23,7 +23,18 @@ export const getGroupsBySuperviserName = async ()=>{
     const resp= await httpClient.get(`/api/groups/all`);
     return resp.data;
 }
- 
+ export const reportGroup = async ()=>{
+    const resp= await httpClient.get(`/api/report/groups`);
+    return resp.data;
+}
+ export const reportAssignments = async ()=>{
+    const resp= await httpClient.get(`/api/report/assignments`);
+    return resp.data;
+}
+ export const reportSupervisor = async ()=>{
+    const resp= await httpClient.get(`/api/report/supervisor`);
+    return resp.data;
+}
 
 
 export const getAllUsers=async()=>{

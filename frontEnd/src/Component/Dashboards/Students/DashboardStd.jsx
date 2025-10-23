@@ -170,15 +170,7 @@ const  fetchUser=async ()=>{
 
         {/* Main Content Area */}
         <div className="flex-grow mt-12 min-h-screen p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">
-          {/* {activeTab==="chats"?(
-            <ChatPlaceholder />
-          ):( <SummeryBoxs  assignments={assignmentsB}
-          submissions={submissionsB}
-           unChecked={unChecked}
-           checked={checked} />)}
-          {/* Dashboard Summary */}
-         
-          
+     
 
           {/* Dynamic Content based on activeTab */}
            {activeTab === 'dashboard' && (

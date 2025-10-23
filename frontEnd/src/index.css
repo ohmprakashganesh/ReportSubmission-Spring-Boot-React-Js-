@@ -1,2 +1,96 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"');
+
+/* In your global CSS file */
+/*  */
+
+@media print {
+    /* ---------------------------------------------------- */
+    /* 🛑 CRITICAL FIXES FOR CLIPPING/HEIGHT ISSUES 🛑      */
+    /* ---------------------------------------------------- */
+
+    /* 1. Reset root elements to ensure they don't clip content */
+    html, body {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 2. Target the main application container (if applicable, e.g., #root) */
+    #root, body > div {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    /* 3. Ensure the Report component's main container expands */
+    .bg-white.shadow-md.rounded-xl.p-6 {
+        visibility: visible !important;
+        box-shadow: none !important; /* Remove shadows in print */
+        height: auto !important;
+        max-height: none !important;
+        padding: 0 !important;
+    }
+
+    /* ---------------------------------------------------- */
+    /* ✅ VISIBILITY AND POSITIONING                        */
+    /* ---------------------------------------------------- */
+
+    /* 4. Hide everything by default (good practice for isolation) */
+    body * {
+        visibility: hidden;
+    }
+
+    /* 5. Make the printable content visible and flow naturally */
+    .printable, .printable * {
+        visibility: visible !important;
+    }
+    
+    .printable {
+        /* 🛑 CRUCIAL ADJUSTMENT: Use static position to avoid clipping 🛑 */
+        position: relative !important; 
+        
+        /* Ensure no scrollbars */
+        overflow: visible !important; 
+        
+        /* Ensure it fits all content */
+        height: auto !important;
+        max-height: none !important;
+        width: 100% !important;
+        margin-top: 20px !important; /* Add some margin from the top of the page */
+    }
+
+    /* 6. Hide Controls */
+    .flex.gap-4.mb-4.border-b.pb-2, /* Tabs */
+    .mb-2, /* Print button container */
+    button {
+        display: none !important;
+    }
+
+    /* ---------------------------------------------------- */
+    /* 🎨 TABLE STYLES (Your styles are mostly fine here)  */
+    /* ---------------------------------------------------- */
+
+    table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        background-color: white !important; /* Resetting the aqua for print */
+    }
+    th, td {
+        border: 1px solid #000 !important;
+        padding: 8px !important;
+    }
+    thead {
+        background-color: #eee !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* 7. Ensure rows break correctly across pages (prevents single rows from splitting) */
+    tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+    }
+}

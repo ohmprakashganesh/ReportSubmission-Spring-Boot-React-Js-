@@ -11,9 +11,9 @@ import { getGroups } from "../../services/AdminSer";
 import Domain from "./Domain/Domain";
 import { getProfile } from "../../services/SuperviserSer";
 import {  WorkflowIcon } from "lucide-react";
-import Navbar from "../Navbar";
+import Navbar from "./dashboard/Navbar";
 import Sidebar from "./dashboard/Sidebar";
-import Report from "./Report";
+import Report from "./report/Report";
 
 const Dash = () => {
   // State to manage the currently active section
@@ -89,13 +89,13 @@ const Dash = () => {
 
   return (
     <div>
-     <Navbar />
+     <Navbar activeSection={activeSection} showSection={showSection} handleLogout={handleLogout}  />
       <div className="flex-row w-[100%]  min-h-screen">
         {/* Sidebar Navigation */}
         <Sidebar activeSection={activeSection} showSection={showSection} handleLogout={handleLogout}/>
-        <div className=" absolute ml-[20%] mt-16 min-h-screen w-[80%]">
+        <div className=" absolute md:ml-[20%] lg:ml-[25%] xl:ml-[25%] mt-16 min-h-screen w-[80%]">
           {/* Main Content Area */}
-          <main className="flex-1 p-8 w-full relative overflow-y-auto">
+          <main className="flex-1 w-full relative overflow-y-auto">
             {renderSection()}
           </main>
         </div>

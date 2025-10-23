@@ -1,6 +1,6 @@
 import { use, useState } from "react";
 import { RxAvatar } from "react-icons/rx";
-import { UserProfile } from "./UserProfile";
+import { UserProfile } from "../UserProfile";
 
 export const StudentsSection = ({ studentsData }) => {
     const[showProfile, setShowProfile]=useState(false)

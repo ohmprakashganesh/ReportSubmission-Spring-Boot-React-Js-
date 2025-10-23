@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getProfile } from '../../services/SuperviserSer';
+import { UserIcon } from 'lucide-react';
 
 const MyDetails = () => {
   const [profile, setProfile] = useState("");
@@ -22,53 +23,93 @@ const MyDetails = () => {
     .reduce((count, a) => count + (a.iterations?.length || 0), 0);
 
   return (
-    <div className="h-screen w-full flex justify-center items-center p-6 rounded-xl  mb-8">
-      <div className=" w-[90%] h-[60%] p-4 rounded-xl mb-8">
+   // Assuming 'profile', 'totalIterations', and 'UserIcon' are available in scope.
 
+<div className="min-h-screen pt-20 pb-10 bg-gray-50 flex flex-col items-center">
+    <div className="w-full max-w-5xl px-4">
 
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            
+            {/* 1. Profile Card (Takes 1/3 width on md screens and up) */}
+            <div className="md:col-span-1">
+                <div className="bg-white rounded-xl shadow-2xl p-8 flex flex-col items-center border-t-4 border-blue-500 transform hover:scale-[1.02] transition-transform duration-300">
+                    
+                    {/* User Icon & Role/Status */}
+                    <div className="relative mb-4">
+                        <UserIcon className='w-20 h-20 text-gray-700 p-1 bg-gray-100 rounded-full border-2 border-blue-500' />
+                        <span className="absolute bottom-0 right-0 h-4 w-4 bg-green-500 rounded-full border-2 border-white"></span>
+                    </div>
 
-
-          {/* Card */}
-          <div className=" gap-2 md:grid w-full h-full pt-14 sm:grid flex flex-col grid-cols-2">
-            <div className=" max-w-sm mx-auto  w-full rounded-md shadow-lg p-6 flex flex-col items-center">
-              <img
-
-                className="w-30 h-30 rounded-full border-4 border-blue-500 shadow-md"
-              />
-              <h3 className="mt-3 text-lg font-semibold capitalize">{profile.name} </h3>
-              <p className="text-sm text-gray-500">{profile.role}</p>
-              <span className="font-semibold"></span> {profile.username}
-            </div>
-
-            <div className="  shadow-lg p-6 mx-6 rounded-md flex flex-col  ">
-              <h1 className="pb-2 text-xl font-semibold">Activities Details</h1>
-              <div className="grid grid-cols-3 ">
-                <div className=" gap-2">
-
-                  <table>
-                    <tr>
-                      <td className="border border-gray-300 px-4 py-2">Group Name</td>
-                      <td className="border border-gray-300 px-4 py-2">{profile?.group?.name || "-"}</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 px-4 py-2">Total Assignments</td>
-                      <td className="border border-gray-300 px-4 py-2">{profile?.group?.assignments?.length || 0}</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 px-4 py-2">Total Submissions</td>
-                      <td className="border border-gray-300 px-4 py-2">{totalIterations || 0}</td>
-                    </tr>
-                  </table>
-
+                    <h3 className="mt-3 text-2xl font-bold text-gray-900 capitalize text-center">{profile.name}</h3>
+                    <p className="text-md text-blue-600 font-medium">{profile.role}</p>
+                    <p className="mt-2 text-sm text-gray-500">
+                        <span className="font-semibold text-gray-700">Username:</span> {profile.username}
+                    </p>
 
                 </div>
-                </div>
-              </div>
             </div>
-          </div>
+
+            {/* 2. Activities Details (Takes 2/3 width on md screens and up) */}
+            <div className="md:col-span-2">
+                <div className="bg-white rounded-xl shadow-2xl p-8 h-full border-t-4 border-purple-500">
+                    
+                    <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
+                        <span className="text-purple-600">📊</span> Activities Report
+                    </h1>
+                    
+                    {/* Activity Table */}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <tbody>
+                                {/* Group Name Row */}
+                                <tr className='bg-gray-50 hover:bg-gray-100 transition'>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-200">
+                                        Group Name
+                                    </td>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                        {profile?.group?.name || "N/A"}
+                                    </td>
+                                </tr>
+                                
+                                {/* Total Assignments Row */}
+                                <tr className='bg-white hover:bg-gray-100 transition'>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-200">
+                                        Total Assignments
+                                    </td>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-lg font-bold text-purple-600">
+                                        {profile?.group?.assignments?.length || 0}
+                                    </td>
+                                </tr>
+                                
+                                {/* Total Submissions Row */}
+                                <tr className='bg-gray-50 hover:bg-gray-100 transition'>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-200">
+                                        Total Submissions
+                                    </td>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-lg font-bold text-purple-600">
+                                        {totalIterations || 0}
+                                    </td>
+                                </tr>
+                                
+                                {/* Example: Supervisor Row (if available) */}
+                                <tr className='bg-white hover:bg-gray-100 transition'>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-200">
+                                        Supervisor
+                                    </td>
+                                    <td className="w-1/2 px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                        {profile?.group?.supervisor?.name || "N/A"}
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-      )
+    </div>
+</div>
+  )
 }
- export default MyDetails;
+export default MyDetails;

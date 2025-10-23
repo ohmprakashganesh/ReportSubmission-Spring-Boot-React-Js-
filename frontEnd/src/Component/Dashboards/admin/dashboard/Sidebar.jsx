@@ -4,7 +4,7 @@ import React from 'react'
 const Sidebar = ({activeSection,showSection,handleLogout}) => {
   return (
     <div>
-        <aside className=" w-[20%] fixed mt-16 h-screen bg-gray-800 text-white flex flex-col rounded-r-lg shadow-lg">
+        <aside className=" w-[20%] fixed mt-16 h-screen hidden bg-gray-800 text-white md:flex lg:flex xl:flex flex-col rounded-r-lg shadow-lg">
           <div className="p-6 text-2xl font-bold text-center border-b border-gray-700">
             Admin Panel 
           </div>
@@ -169,7 +169,7 @@ const Sidebar = ({activeSection,showSection,handleLogout}) => {
                 <a
                   href="#"
                   className={`flex items-center p-2 rounded-lg ${
-                    activeSection === "domain"
+                    activeSection === "report"
                       ? "bg-gray-700 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white"
                   } transition-colors duration-200`}
