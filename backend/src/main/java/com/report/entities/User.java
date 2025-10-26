@@ -12,12 +12,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.naming.Name;
+
 
 @Entity
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "agent")
 public class User  implements UserDetails {
 
 
@@ -39,7 +42,6 @@ public class User  implements UserDetails {
     @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "fk_user_group", foreignKeyDefinition = "FOREIGN KEY (group_id) REFERENCES student_group(id) ON DELETE SET NULL"))
     @JsonManagedReference (value = "group")
     private StudentGroup group;
-
 
     // Supervisor-only relation
     @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, orphanRemoval = true)

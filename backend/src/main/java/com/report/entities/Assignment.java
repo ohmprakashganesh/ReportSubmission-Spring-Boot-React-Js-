@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.Future;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class Assignment {
     @JsonFormat(pattern = "yy/MM/dd:H/m/s")
     private LocalDateTime createdAt;
 
+    @Future(message = "Due date must be a future date")
     @JsonFormat(pattern = "yy/MM/dd")
     private LocalDate dueDate;
 

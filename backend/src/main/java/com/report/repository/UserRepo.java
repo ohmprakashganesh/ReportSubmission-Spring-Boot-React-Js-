@@ -36,9 +36,6 @@ public interface UserRepo extends  JpaRepository<User, Long> {
             "AND u.group.supervisor.id = :supervisorId")
     List<User> findStudentsBySupervisorId(@Param("supervisorId") Long supervisorId);
 
-
-    
-
     List<User> findByNameAndRole(String name, Role role);
 
 

@@ -6,6 +6,8 @@ import com.report.entities.StudentGroup;
 import com.report.entities.User;
 import com.report.repository.StudentGroupRepo;
 import com.report.repository.UserRepo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.Assignment;
@@ -25,7 +27,8 @@ public class AssignmentServiceImpl implements AssignmentService {
     private  final   FileServiceAssignment fileServiceAssignment;
     private  final UserRepo userRepo;
     private final LoggedUser loggedUser;
-  
+
+    @Autowired
     public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment,LoggedUser loggedUse,UserRepo userRepo, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
         this.assignmentRepository = assignmentRepository;
         this.fileServiceAssignment=fileServiceAssignment;
@@ -74,7 +77,7 @@ public class AssignmentServiceImpl implements AssignmentService {
       Optional<User> user=  userRepo.findById(loggedUser.getLoggedUser().getId());
         if(user.isPresent())
         {
-         return    assignmentRepository.findBystudentGroup(user.get().getGroup());
+         return   assignmentRepository.findBystudentGroup(user.get().getGroup());
 
         }else{
             return  null;

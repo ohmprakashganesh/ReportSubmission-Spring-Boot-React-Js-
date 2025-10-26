@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.report.entities.AssignmentIteration;
 import com.report.entities.StudentGroup;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class AssignmentDTO {
         private String title;
         private MultipartFile file;
         private Long studentGroupId;
+        @Future(message = "accept only future date")
         private LocalDate dueDate;
         private String StudentGroupName;
         private List<Long> assignmentIterIds;

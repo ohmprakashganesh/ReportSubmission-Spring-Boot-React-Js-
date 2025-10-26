@@ -2,15 +2,15 @@ package com.report.impl;
 
 import com.report.DTOs.AssignmentIterDTO;
 import com.report.authServices.LoggedUser;
-import com.report.entities.Assignment;
-import com.report.entities.IterationType;
-import com.report.entities.User;
+import com.report.entities.*;
 import com.report.exceptional.UserNotFound;
 import com.report.repository.AssignmentRepo;
 import com.report.repository.UserRepo;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.report.entities.AssignmentIteration;
 import com.report.repository.AssignmentIterationRepo;
 import com.report.services.AssignmentIterationService;
 
@@ -49,15 +49,22 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     public AssignmentIteration createIteration(AssignmentIterDTO iteration) {
         AssignmentIteration itr= new AssignmentIteration();
         itr.setIterationType(IterationType.valueOf(iteration.getIterationType().toString()));
-        itr.setStatus(iteration.getStatus());
+        itr.setStatus(Status.SUBMITTED);
         itr.setAssignment(assinment(iteration.getAssignmentId()));
         itr.setSubmittedBy(loggedUser(iteration.getSubmittedBy()));
         String[] names = fileService.saveFile(iteration.getFile());
         Path filepath = Paths.get(names[2]);
         itr.setDocumentName(names[0]);
+        itr.setSubmittedBy(getLoggedUser());
         itr.setDocumentUrl(filepath.toString());
         System.out.println(" upto here file is well ");// important fix
         return assignmentIterationRepository.save(itr);
+    }
+    public User getLoggedUser(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String email= authentication.getName();
+        User user= userRepo.findByEmail(email).orElseThrow(()-> new RuntimeException("user not found"));
+        return user;
     }
 
      public Assignment assinment(Long id){

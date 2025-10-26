@@ -42,7 +42,6 @@ public class UserController {
         String email= authentication.getName();
         User user= userRepo.findByEmail(email).orElseThrow(()-> new RuntimeException("user not found"));
         return ResponseEntity.ok(user);
-
     }
 
     @GetMapping("/{id}")

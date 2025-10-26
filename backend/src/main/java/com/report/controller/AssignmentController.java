@@ -1,6 +1,10 @@
 package com.report.controller;
 
 import com.report.DTOs.AssignmentDTO;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +22,15 @@ import java.util.List;
 public class AssignmentController {
 
     private final AssignmentService assignmentService;
-
     @Autowired
-    public AssignmentController(AssignmentService assignmentService) {
-        this.assignmentService = assignmentService;
+    public  AssignmentController (AssignmentService assignmentService){
+        this.assignmentService=assignmentService;
     }
+
 
     //Post the Assignment
     @PostMapping
-    public ResponseEntity<Assignment> createAssignment(@ModelAttribute AssignmentDTO assignment) {
+    public ResponseEntity<Assignment> createAssignment(@Valid @ModelAttribute AssignmentDTO assignment) {
         MultipartFile file= assignment.getFile();
         Assignment createdAssignment = assignmentService.createAssignment(assignment);
         return new ResponseEntity<>(createdAssignment, HttpStatus.CREATED);
