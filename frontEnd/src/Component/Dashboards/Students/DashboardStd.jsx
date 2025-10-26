@@ -50,7 +50,6 @@ const [profile,setProfile]=useState("");
            },[])
         console.log(profile)
 
-
          useEffect(()=>{
            const assignmentsOfGroup= async()=>{
              try{
@@ -63,6 +62,7 @@ const [profile,setProfile]=useState("");
            assignmentsOfGroup(); 
          },[localStorage.getItem("token")]);
 
+          console.log(assignmentsB);
 
         useEffect(()=>{
            const iterationsByUser=async ()=>{
@@ -164,12 +164,13 @@ const  fetchUser=async ()=>{
           }
         `}
       </style>
-      <Navbar studentName={user.name} setActiveTab={setActiveTab} activeTab={activeTab}  setCurrentView={setCurrentView} setSelectedGroup={setSelectedGroup} />
-      <div className="w-full  p-4 flex  flex-col lg:flex-row min-h-[80vh]">
-        <Sidebar setActiveTab={setActiveTab} activeTab={activeTab}  setCurrentView={setCurrentView} setSelectedGroup={setSelectedGroup}/>
-
+      <Navbar studentName={profile.name} setActiveTab={setActiveTab} activeTab={activeTab}  setCurrentView={setCurrentView} setSelectedGroup={setSelectedGroup} />
+      <div className="w-full  flex flex-row min-h-[80vh]">
+          <div className="w-1/5  text-white fixed top-0 left-0 h-screen shadow-lg z-40">
+        <Sidebar  setActiveTab={setActiveTab} activeTab={activeTab}  setCurrentView={setCurrentView} setSelectedGroup={setSelectedGroup}/>
+          </div>
         {/* Main Content Area */}
-        <div className="flex-grow mt-12 min-h-screen p-6 lg:p-8 bg-white rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none shadow-lg">
+           <div className="flex-1 md:ml-[20%]  lg:ml-[20%] xl:ml-[20%] mt-16 p-6 overflow-y-auto h-screen bg-white">
      
 
           {/* Dynamic Content based on activeTab */}

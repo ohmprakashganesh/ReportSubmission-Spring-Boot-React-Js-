@@ -3,24 +3,20 @@ import Submissions from "./Submissions";
 import FormAssignment from "./FormAssignment";
 import AssignmentEdit from "./AssignmentEdit";
 import { getGroupStudents } from "../../../services/Assugnment";
+import { deleteAssignment } from "../../../services/SuperviserSer";
 
 export const GroupDetails = ({ group,onNavigate }) => {
   const [selectedAssignment,setSelectedAssignment] = useState(null);
   const [feedbackInputs, setFeedbackInputs] = useState({});
   const[submissionShow,setSubmissionShow]=useState(false);
   const[assignment,setAssignment]=useState("");
-    const[users,setUsers]=useState("");
+  const[users,setUsers]=useState("");
 
   console.log("group from group details",group);
  console.log("gorup id is ", group.id);
 
   // Handle feedback input change
-  const handleFeedbackInputChange = (iterationId, value) => {
-    setFeedbackInputs((prev) => ({
-      ...prev,
-      [iterationId]: value,
-    }));
-  };
+ 
 
    useEffect(()=>{
     const fetchStds= async ()=>{
@@ -37,25 +33,21 @@ export const GroupDetails = ({ group,onNavigate }) => {
 
   },[]);
 
-  // Handle feedback submit
-  const handleSubmitFeedback = (iterationId) => {
-    const newFeedback = feedbackInputs[iterationId];
-    if (newFeedback) {
-      // Normally, you'd POST to backend here
-      console.log("Submitted feedback:", iterationId, newFeedback);
 
-      // Clear input
-      setFeedbackInputs((prev) => {
-        const newState = { ...prev };
-        delete newState[iterationId];
-        return newState;
-      });
-    }
-  };
 
   const handleEdit=(data)=>{
     setShowEditForm(true);
     setAssignment(data);
+
+  }
+
+
+  const handleDelete=(data)=>{
+    const res= deleteAssignment(data.id);
+   if (res){
+      alert("deleted successful")
+    }
+   
 
   }
   
@@ -67,6 +59,15 @@ export const GroupDetails = ({ group,onNavigate }) => {
     const [showForm,setShowForm]=useState(false)
     const[showEditForm,setShowEditForm]=useState(false);
 
+      function getColor(date){
+        const current= new Date();
+        const diff= date-current;
+
+        const days=diff/1000*60*60*24;
+        if (days < 0) return "bg-red-500 text-white";        // expired
+       if (days <= 30) return "bg-yellow-400 text-black";   // within 1 month
+       return "bg-green-500 text-white";   
+      }
   return (
     <section id="group-details-section" className="content-section">
       {/* Breadcrumb */}
@@ -158,8 +159,8 @@ export const GroupDetails = ({ group,onNavigate }) => {
         {/* Header */}
         <div className="flex justify-between items-start mb-3">
           <h4 className="text-lg font-semibold text-gray-800">{assign.title}</h4>
-          <span className="bg-gray-100 text-gray-800 text-xs px-3 py-1 rounded-full font-medium">
-            Due: {assign.deadline}
+          <span  className={`bg-gray-100  text-gray-800 ${getColor(assign.dueDate)} text-xs px-3 py-1 rounded-full font-medium`}>
+            Due: {assign.dueDate}
           </span>
         </div>
 
@@ -190,7 +191,7 @@ export const GroupDetails = ({ group,onNavigate }) => {
               Edit
             </button>
             <button
-              onClick={() => setDelete(assign)}
+              onClick={() => handleDelete(assign)}
               className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium px-3 py-1 rounded-lg transition-colors"
             >
               Delete

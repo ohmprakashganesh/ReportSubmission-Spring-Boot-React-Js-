@@ -4,17 +4,28 @@ import React from 'react'
 
 const ProtectedRoutes = ({ children, allowedRoles }) => {
   const token = localStorage.getItem("accessToken");
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role").trim().toUpperCase();
+
+  const getDashboardPath= (userRole)=>{
+    switch(userRole){
+      case 'STUDENT':
+      return '/student';
+      case 'SUPERVISOR':
+        return '/supervisor';
+        case 'ADMIN':
+          return '/admin';
+          default:
+            return '/'
+    }
+  }
 
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!allowedRoles.includes(role?.trim().toUpperCase())) {
-    // logged in but role is not allowed → go to landing page or error page
-    return <Navigate to="/" replace />;
+  if (!allowedRoles.includes(role)) {
+    return <Navigate to={getDashboardPath(role)} replace />;
   }
-
   return children; // ✅ allowed → show component
 };
 

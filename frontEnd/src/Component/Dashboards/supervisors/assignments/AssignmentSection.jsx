@@ -83,6 +83,7 @@ export const CoursesSection = ({ groups }) => {
     setAssignment(assignment);
   };
 
+  console.log(allAssignments);
   // Sort assignments by due date
   const sortedAssignments = [...allAssignments].sort((a, b) => {
     if (!sortByDueDate) return 0;

@@ -12,6 +12,10 @@ export const supervisorKoGroups= async (id)=>{
     const obj= await httpClient.get(`/api/groups/GroupsBySupervisor/${id}`);
     return obj.data;
 }
+export const deleteAssignment=async (id)=>{
+    const obj= await httpClient.delete(`/api/assignments/${id}`);
+    return obj.data;
+}
 
 export const getProfile = async ()=>{
     const obj= await httpClient.get("/api/users/profile");

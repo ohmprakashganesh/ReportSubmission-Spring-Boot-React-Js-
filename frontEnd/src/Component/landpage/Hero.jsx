@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 const Hero = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:mt-16">
-          <div className="md:flex flexcol  md:items-center md:justify-between ">
+          <div className="md:flex   md:items-center md:justify-between ">
             <div className="md:w-1/2 md:order-1 order-2 lg:order-1">
               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block">Smart Report Submission</span>
-                <span className="block text-[#2563eb]">Made Simple</span>
+                <span className="block">Project  Submission System</span>
+                <span className="block tracking-widest text-3xl pt-3 text-green-600">Made Simple</span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Submit, track, and manage reports effortlessly with our intelligent platform

@@ -65,7 +65,7 @@ const SubmittedWorks = ({ allAssignments }) => {
       {!filteredAssignments || filteredAssignments.length === 0 ? (
         <p className="text-gray-600">No submissions found for this filter.</p>
       ) : (
-        <div className="space-y-6 space-x-6 grid grid-cols-2">
+        <div className="space-y-6 space-x-6 grid lg:grid-cols-2 md:grid-cols-2">
           {filteredAssignments.map((assignment) => (
             <div
               key={assignment.id}

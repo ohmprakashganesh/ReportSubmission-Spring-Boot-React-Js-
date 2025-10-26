@@ -14,8 +14,8 @@ const Report = () => {
   const [supervisors, setSupervisors] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // ✅ Search input state
 
-  // Ref to the table container
   const tableRef = useRef(null);
 
   // Fetch data
@@ -59,16 +59,27 @@ const Report = () => {
     fetchAssignments();
   }, []);
 
-  // Print function
+  // Print table
   const handlePrint = () => {
     if (!tableRef.current) return;
     window.print();
   };
 
-  // Dynamic table renderer
+  // ✅ Filtered data based on search
+  const filterData = (data, keys) => {
+    return data.filter(item =>
+      keys.some(key => {
+        const value = key.split('.').reduce((obj, prop) => obj?.[prop], item);
+        return value?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    );
+  };
+
+  // ✅ Table Renderer
   const renderTable = () => {
     switch (activeTab) {
       case "students":
+        const filteredStudents = filterData(students, ["name", "group.name", "group.domain", "group.supervisor.name"]);
         return (
           <table className="w-full text-sm text-left mt-4 border" ref={tableRef}>
             <thead className="bg-gray-100">
@@ -82,7 +93,7 @@ const Report = () => {
               </tr>
             </thead>
             <tbody>
-              {students.map((s, ind) => (
+              {filteredStudents.map((s, ind) => (
                 <tr key={ind} className="hover:bg-gray-50">
                   <td className="border p-2">{ind + 1}</td>
                   <td className="border p-2">{s.name || "N/A"}</td>
@@ -97,6 +108,7 @@ const Report = () => {
         );
 
       case "supervisors":
+        const filteredSupervisors = filterData(supervisors, ["name", "email"]);
         return (
           <table className="w-full text-sm text-left mt-4 border" ref={tableRef}>
             <thead className="bg-gray-100">
@@ -110,7 +122,7 @@ const Report = () => {
               </tr>
             </thead>
             <tbody>
-              {supervisors.map((sup, ind) => (
+              {filteredSupervisors.map((sup, ind) => (
                 <tr key={ind} className="hover:bg-gray-50">
                   <td className="border p-2">{ind + 1}</td>
                   <td className="border p-2">{sup.name || "N/A"}</td>
@@ -125,6 +137,7 @@ const Report = () => {
         );
 
       case "assignments":
+        const filteredAssignments = filterData(assignments, ["name", "superviser"]);
         return (
           <table className="w-full text-sm text-left mt-4 border" ref={tableRef}>
             <thead className="bg-gray-100">
@@ -137,13 +150,13 @@ const Report = () => {
               </tr>
             </thead>
             <tbody>
-              {assignments.map((a, ind) => (
+              {filteredAssignments.map((a, ind) => (
                 <tr key={a.id} className="hover:bg-gray-50">
                   <td className="border p-2">{ind + 1}</td>
                   <td className="border p-2">{a.name}</td>
                   <td className="border p-2">{a.itr}</td>
                   <td className="border p-2">{a.superviser}</td>
-                  <td className="border p-2">{a.students.length}</td>
+                  <td className="border p-2">{a.students?.length || 0}</td>
                 </tr>
               ))}
             </tbody>
@@ -151,6 +164,7 @@ const Report = () => {
         );
 
       case "groups":
+        const filteredGroups = filterData(groups, ["groupName", "supervisor.name"]);
         return (
           <table className="w-full text-sm text-left mt-4 border" ref={tableRef}>
             <thead className="bg-gray-100">
@@ -163,12 +177,12 @@ const Report = () => {
               </tr>
             </thead>
             <tbody>
-              {groups.map((g, ind) => (
+              {filteredGroups.map((g, ind) => (
                 <tr key={g.id} className="hover:bg-gray-50">
                   <td className="border p-2">{ind + 1}</td>
                   <td className="border p-2">{g.groupName}</td>
-                  <td className="border p-2">{g.supervisor.name}</td>
-                  <td className="border p-2">{g.students.length}</td>
+                  <td className="border p-2">{g.supervisor?.name || "N/A"}</td>
+                  <td className="border p-2">{g.students?.length || 0}</td>
                   <td className="border p-2">{g.totalAssignment}</td>
                 </tr>
               ))}
@@ -196,7 +210,10 @@ const Report = () => {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => {
+              setActiveTab(tab.id);
+              setSearchTerm(""); // ✅ reset search when tab changes
+            }}
             className={`px-4 py-2 font-medium rounded-t-md transition ${
               activeTab === tab.id
                 ? "border-b-4 border-blue-600 text-blue-700"
@@ -208,8 +225,15 @@ const Report = () => {
         ))}
       </div>
 
-      {/* Print button */}
-      <div className="mb-2">
+      {/* ✅ Search and Print */}
+      <div className="flex justify-between items-center mb-3">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder={`Search in ${activeTab}...`}
+          className="border px-4 py-2 rounded-md w-1/2 focus:ring-2 focus:ring-blue-400 outline-none"
+        />
         <button
           onClick={handlePrint}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
@@ -220,8 +244,8 @@ const Report = () => {
 
       {/* Table Display */}
       <div className="overflow-x-auto h-fit w-full printable">
-  {renderTable()}
-</div>
+        {renderTable()}
+      </div>
     </div>
   );
 };

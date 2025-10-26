@@ -67,8 +67,11 @@ const AssignedWorks = ({assignment, onViewSubmissions }) => {
         <p className="text-gray-600 text-sm mb-1">
           <strong className="font-medium">Description:</strong> {assignment.description}
         </p>
+         <p className="text-gray-600 text-sm mb-3">
+          <strong className="font-medium">created At:</strong> {assignment.createdAt || "null"}
+        </p>
         <p className="text-gray-600 text-sm mb-3">
-          <strong className="font-medium">Deadline:</strong> {assignment.dueDate || "No limit"}
+          <strong className="font-medium">Deadline:</strong> {assignment.dueDate || "flexiable"}
         </p>
         <p className="mb-4">
           <a

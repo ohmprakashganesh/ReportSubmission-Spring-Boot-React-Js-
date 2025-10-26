@@ -4,10 +4,6 @@ import { Link, useNavigate, useNavigation } from "react-router-dom";
  
 
 
-
- 
-
-
 const Login = () => {
 
   const nav = useNavigate();
@@ -66,9 +62,6 @@ const Login = () => {
 
   if (validateForm()) {
     setIsSubmitting(true);
-    
-
-  
 
     try {
      const  response = await fetch("http://localhost:8080/auth/login", {
@@ -76,7 +69,6 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
       const data = await response.json();
     
 
