@@ -110,7 +110,12 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
         gru.setStudents(stds);
 
-        return studentGroupRepository.save(gru);
+      if(studentGroupRepository.save(gru) !=null){
+         return studentGroupRepository.findById(id)
+                  .orElseThrow(() -> new RuntimeException("not found with id " + id));
+
+      }
+      return  null;
     }
 
     @Override

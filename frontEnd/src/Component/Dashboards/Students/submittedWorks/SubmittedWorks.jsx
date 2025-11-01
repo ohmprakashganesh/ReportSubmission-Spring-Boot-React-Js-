@@ -6,17 +6,17 @@ const SubmittedWorks = ({ allAssignments }) => {
   
   const [filterStatus, setFilterStatus] = useState(""); // "" means no filter
 
-  const onDelete = async (id) => {
+  const onDelete = async (id) =>{
     try {
       const response = await httpClient.delete(`/api/itr/${id}`);
-      if (response.status === 200 || response.status === 204) {
+      if (response.status === 200 || response.status === 204){
         alert("Item deleted successfully");
         // Optionally refresh list here
       } else {
         const error = await response.text();
         alert("Error: " + error);
       }
-    } catch (err) {
+    } catch (err){
       console.error("Error deleting item:", err);
     }
   };

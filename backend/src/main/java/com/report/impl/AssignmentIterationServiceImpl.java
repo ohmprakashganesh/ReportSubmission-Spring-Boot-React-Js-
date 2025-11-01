@@ -31,7 +31,7 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
 
 //    private final CopyleaksBusinessCheck copyleaksBusinessCheck;
 
-    private FileService fileService;
+    private final FileService fileService;
 
 
   

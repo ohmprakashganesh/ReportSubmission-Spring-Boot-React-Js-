@@ -2,10 +2,6 @@ package com.report.controller;
 
 import com.report.DTOs.AssignmentDTO;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +17,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class AssignmentController {
 
-    private final AssignmentService assignmentService;
-    @Autowired
+    private  AssignmentService assignmentService;
+
     public  AssignmentController (AssignmentService assignmentService){
         this.assignmentService=assignmentService;
     }

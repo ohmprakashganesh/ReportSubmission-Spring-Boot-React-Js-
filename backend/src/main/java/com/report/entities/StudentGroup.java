@@ -26,9 +26,7 @@ public class StudentGroup {
 
 
     private  Domain domain;
-//
-//    @OneToMany(mappedBy = "studentGroup", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Message> messages;
+
 
    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
    @JsonBackReference (value = "group")

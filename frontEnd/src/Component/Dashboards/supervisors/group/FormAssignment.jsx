@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { httpClient } from '../../../services/Config/Config';
+import { sendMail } from '../../../services/message';
 
-const FormAssignment = ({id, setShowForm }) => {
+const FormAssignment = ({id, setShowForm, users, setFormSuccess }) => {
   console.log("group is is ",id);
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
@@ -30,11 +31,6 @@ const FormAssignment = ({id, setShowForm }) => {
       formData.append("file", file);
       formData.append("studentGroupId",id)
 
-      // const response = await fetch("http://localhost:8080/api/assignments", {
-      //   method: "POST",
-      //   body: formData,
-      // });
-
        const response = await httpClient.post('/api/assignments',formData,
       {
         headers: {
@@ -43,9 +39,26 @@ const FormAssignment = ({id, setShowForm }) => {
       }
     );
     
-  if (response.status !== 201 && response.status !== 200) {
-    throw new Error("Failed to create assignment");
-  }
+  // if (response.status !== 201 && response.status !== 200) {
+  //   throw new Error("Failed to create assignment");
+  // }
+  if (response.status === 200 || response.status === 201) {
+      alert("Assignment successfully created!");
+
+      // ✅ Prepare mail details
+      const subject = "New Assignment Created";
+      const content = `A new assignment titled "${topic}" has been created.\n\nDescription: ${description}\nDue Date: ${dueDate}`;
+
+      // ✅ Send mail to all users
+      for (const user of users) {
+        if (user.email) {
+          await sendMail(user.email, subject, content);
+          console.log(`Mail sent to ${user.name} (${user.email})`);
+        }
+      }
+      setFormSuccess(true);
+      setShowForm(false);
+    }
       setSuccess("Assignment created successfully!");
       setTopic("");
       setDescription("");

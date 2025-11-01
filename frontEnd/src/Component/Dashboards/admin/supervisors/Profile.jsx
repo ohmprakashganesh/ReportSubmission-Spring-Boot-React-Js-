@@ -20,14 +20,11 @@ import { getUser } from "../../../services/AdminSer";
       fetchUser();
     }
   }, [user]);
-    
-
   const closeFun = () => {
     setShowProfile(false);
    
     console.log("Close clicked!");
   };
-
   return (
     <div className="bg-white p-4 rounded-xl   mb-8">
       {/* Header with close button */}
@@ -40,10 +37,7 @@ import { getUser } from "../../../services/AdminSer";
           &times;
         </button>
       </div>
-
            <div>
-
-         
       {/* Card */}
       <div className=" gap-3 md:grid sm:grid flex flex-col grid-cols-2">
       <div className=" max-w-sm mx-auto  w-full rounded-md shadow-lg p-6 flex flex-col items-center">
@@ -78,13 +72,7 @@ import { getUser } from "../../../services/AdminSer";
     <td className="border border-gray-300 px-4 py-2">{user.domain || "No"}</td>
   </tr>
 </table>
-
-
-                
-                
-                
-
-             </div>
+        </div>
         </div>
         </div>
         </div>

@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class FileController {
 
-    @Value("${Uploads.iteration}")
+    @Value("${uploads.iteration}")
     private  String basePath;
 
     @GetMapping("/{filename}")

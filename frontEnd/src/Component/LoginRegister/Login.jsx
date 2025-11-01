@@ -144,9 +144,6 @@ return (
             {errors.password && (
               <p className="text-sm text-red-600">{errors.password}</p>
             )}
-            <a href="#" className="text-sm text-indigo-600 hover:underline ml-auto">
-              Forgot password?
-            </a>
           </div>
         </div>
 

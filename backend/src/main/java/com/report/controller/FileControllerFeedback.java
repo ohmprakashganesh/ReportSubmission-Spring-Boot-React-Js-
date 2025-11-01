@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class FileControllerFeedback {
 
-    @Value("${Uploads.feedback}")
+    @Value("${uploads.feedback}")
     private  String basePath;
 
     @GetMapping("/{filename}")

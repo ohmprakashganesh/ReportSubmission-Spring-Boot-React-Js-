@@ -216,11 +216,10 @@ const GroupsTable = () => {
         </div>
 
       )}
-
-      {/* View Modal */}
-   {showViewModal && tempId && (
-  <div className="relative  inset-0 z-50 bg to-white bg-opacity-50 flex items-center justify-center">
-    <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] overflow-y-auto relative">
+{/* View Modal */}
+{showViewModal && tempId && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
+    <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[90vh] overflow-y-auto focus:outline-none transform transition-all scale-100">
       <ViewGroup
         git={tempId}
         grp={group}
@@ -228,10 +227,11 @@ const GroupsTable = () => {
           setShowViewModal(false);
           setTempId(null);
         }}
-            />
-          </div>
-        </div>
-      )}
+      />
+    </div>
+  </div>
+)}
+
      </>
   );
 };

@@ -1,7 +1,11 @@
 import { httpClient } from "./Config/Config"
 
-
-export const SendMessage=async (message)=>{ 
-     const  data=httpClient.post(`localhost:8080/api/chat/rooms/${message.id}/messages`,data)
-     return data.message;
-}
+export const sendMail = async (to, subject, content) => {
+  const response = await httpClient.get(
+    `http://localhost:8080/mail/send`,
+    {
+      params: { to, subject, message: content }
+    }
+  );
+  return response.data;
+};

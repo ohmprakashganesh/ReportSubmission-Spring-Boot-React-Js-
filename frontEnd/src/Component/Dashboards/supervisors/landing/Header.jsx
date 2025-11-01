@@ -1,6 +1,5 @@
 const Header = () => {
-    // This sidebar toggle logic needs to interact with the parent App component's state
-    // For now, it's a placeholder. In a real app, you'd pass a toggle function from App.
+   
     const handleSidebarToggle = () => {
         const sidebar = document.getElementById('sidebar');
         if (sidebar) {

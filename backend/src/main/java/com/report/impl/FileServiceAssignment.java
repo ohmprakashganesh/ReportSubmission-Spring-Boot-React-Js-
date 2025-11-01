@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 @Service
 public class FileServiceAssignment {
-    @Value("${Uploads.assignment}")
+    @Value("${uploads.assignment}")
     private String path; // This is your base upload path from application.properties
 
     public String[] saveFile(MultipartFile file) {

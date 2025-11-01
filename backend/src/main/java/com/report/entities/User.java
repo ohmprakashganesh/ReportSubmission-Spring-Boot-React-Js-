@@ -20,7 +20,6 @@ import javax.naming.Name;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "agent")
 public class User  implements UserDetails {
 
 

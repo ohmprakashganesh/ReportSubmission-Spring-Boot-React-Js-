@@ -22,18 +22,18 @@ import java.util.Optional;
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
 
-    private final AssignmentRepo assignmentRepository;
-    private  final StudentGroupRepo studentGroupRepo;
-    private  final   FileServiceAssignment fileServiceAssignment;
-    private  final UserRepo userRepo;
-    private final LoggedUser loggedUser;
+    private  AssignmentRepo assignmentRepository;
+    private   StudentGroupRepo studentGroupRepo;
+    private     FileServiceAssignment fileServiceAssignment;
+    private   UserRepo userRepo;
+    private  LoggedUser loggedUser;
 
     @Autowired
-    public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment,LoggedUser loggedUse,UserRepo userRepo, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
+    public AssignmentServiceImpl(FileServiceAssignment fileServiceAssignment,LoggedUser loggedUser,UserRepo userRepo, AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
         this.assignmentRepository = assignmentRepository;
         this.fileServiceAssignment=fileServiceAssignment;
         this .userRepo=userRepo;
-        this.loggedUser=loggedUse;
+        this.loggedUser=loggedUser;
         this.studentGroupRepo=studentGroupRepo;
 
     }

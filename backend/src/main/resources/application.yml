@@ -1,44 +1,44 @@
-
-
-# //development
+#
+#
+## //development
+## spring:
+##   datasource:
+##     username: root
+##     password: admin
+##     url: jdbc:mysql://localhost:3306/research
+##     driver-class-name: com.mysql.cj.jdbc.Driver
+##
+##   jpa:
+##     hibernate:
+##       ddl-auto: update
+##     show-sql: true
+##
+## Uploads:
+##   iteration:  C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\iteration
+##   assignment: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\assignment
+##   feedback:  C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\feedback
+##
+#
+#
+##production
 # spring:
 #   datasource:
-#     username: root
-#     password: admin
-#     url: jdbc:mysql://localhost:3306/research
-#     driver-class-name: com.mysql.cj.jdbc.Driver
+#     username: pss_6oeq_user
+#     password: yqZfJP3EvOPYt4rCL9OMbJJRuGPB4DXk
+#     url: jdbc:postgresql://dpg-d3v0ed1r0fns73c4uc8g-a.oregon-postgres.render.com:5432/pss_6oeq
+#     driver-class-name: org.postgresql.Driver
 #
 #   jpa:
 #     hibernate:
 #       ddl-auto: update
-#     show-sql: true
-#
 # Uploads:
 #   iteration:  C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\iteration
 #   assignment: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\assignment
 #   feedback:  C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\feedback
 #
-
-
-#production
- spring:
-   datasource:
-     username: pss_6oeq_user
-     password: yqZfJP3EvOPYt4rCL9OMbJJRuGPB4DXk
-     url: jdbc:postgresql://dpg-d3v0ed1r0fns73c4uc8g-a.oregon-postgres.render.com:5432/pss_6oeq
-     driver-class-name: org.postgresql.Driver
-
-   jpa:
-     hibernate:
-       ddl-auto: update
- Uploads:
-   iteration:  C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\iteration
-   assignment: C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\assignment
-   feedback:  C:\Users\GANESH\OneDrive\Desktop\BootProjects\final year project\backend\Uploads\feedback
-
-# spring.datasource.url=jdbc:postgresql://dpg-d3jsbfer433s739j1fj0-a.oregon-postgres.render.com/ecommerce_mini
-# spring.datasource.username=ecommerce_mini_user
-# spring.datasource.password=DJdnJPn38bCP4ux7MlsbN7ACJmiOF5vZ
-# spring.datasource.driver-class-name=org.postgresql.Driver
-# spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-# spring.jpa.hibernate.ddl-auto=update
+## spring.datasource.url=jdbc:postgresql://dpg-d3jsbfer433s739j1fj0-a.oregon-postgres.render.com/ecommerce_mini
+## spring.datasource.username=ecommerce_mini_user
+## spring.datasource.password=DJdnJPn38bCP4ux7MlsbN7ACJmiOF5vZ
+## spring.datasource.driver-class-name=org.postgresql.Driver
+## spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+## spring.jpa.hibernate.ddl-auto=update
