@@ -44,7 +44,7 @@ const ViewGroup = ({ onClose ,grp}) => {
    }
 
   return (
-  <div className="absolute bg-white  inset-0  bg-gradient-to-tr backdrop-blur-sm   overflow-y-auto animate-fadeIn">
+  <div className="relative bg-white  inset-0  bg-gradient-to-tr backdrop-blur-sm   overflow-y-auto animate-fadeIn">
 
   <div className=" h-fit bg-white rounded-xl  shadow-2xl  w-full  transform transition-all duration-300 scale-100 opacity-100 animate-slideUp">
 

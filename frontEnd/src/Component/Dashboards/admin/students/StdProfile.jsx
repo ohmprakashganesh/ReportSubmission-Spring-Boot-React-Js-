@@ -38,10 +38,13 @@ const StdProfile = ({ setShowProfile, user }) => {
           <div className="gap-2 md:grid w-full h-full pt-14 sm:grid flex flex-col grid-cols-2">
             {/* Profile Card */}
             <div className="max-w-sm mx-auto w-full rounded-md shadow-lg p-6 flex flex-col items-center">
-              <img
-                className="w-30 h-30 rounded-full border-4 border-blue-500 shadow-md"
-                alt="Profile"
-              />
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <title>Default Avatar</title>
+  <circle cx="12" cy="12" r="12" fill="#E5E7EB"/> 
+  <path d="M12 12.5a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5z" fill="#374151"/>
+  <path d="M4 19.5c1.2-3.4 4.3-5.5 8-5.5s6.8 2.1 8 5.5" fill="#374151"/>
+</svg>
+
               <h3 className="mt-3 text-lg font-semibold capitalize">{profile.name}</h3>
               <p className="text-sm text-gray-500">{profile.role}</p>
               <span className="font-semibold">{profile.username}</span>

@@ -2,6 +2,8 @@
 import { UserIcon } from 'lucide-react';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+ import logo from "../../../../../public/logo.png"; // ✅ Import image
+
 
 const Navbar = ({  currentSection ,showSection,handleLogout }) => {
   const [show, setShow] = useState(false);
@@ -14,9 +16,10 @@ const Navbar = ({  currentSection ,showSection,handleLogout }) => {
 <nav className="fixed top-0 left-0 w-full z-30  bg-gray-700 px-4 sm:px-6 lg:px-8 shadow-md">
       <div className="flex justify-between h-16 items-center">
         <div className="flex-shrink-0 flex items-center">
-          <span className="text-xl font-bold text-[#2563eb]">SmartReport</span>
-        </div>
-        <div className="hidden md:flex  text-white justify-center items-center">
+        < span className="text-xl h-full w-full font-bold text-[#2563eb] ">
+                <img className='w-[120px] h-[140px]' src={logo} alt="Banner" />
+              </span>        </div>
+             <div className="hidden md:flex  text-white justify-center items-center">
                <UserIcon />
                <p>{role}</p>
         </div>

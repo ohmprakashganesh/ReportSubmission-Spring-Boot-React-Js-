@@ -11,6 +11,7 @@ export const GroupDetails = ({ group,onNavigate }) => {
   const[submissionShow,setSubmissionShow]=useState(false);
   const[assignment,setAssignment]=useState("");
   const[users,setUsers]=useState("");
+  const[formSuccess, setFormSuccess]=useState(false);
 
   console.log("group from group details",group);
  console.log("gorup id is ", group.id);
@@ -211,7 +212,7 @@ export const GroupDetails = ({ group,onNavigate }) => {
       <Submissions  assignment={selectedAssignment}   setSubmissionShow={setSubmissionShow} />
       )}
       {showForm &&(
-         <FormAssignment id={group.id}  setShowForm={setShowForm}/>
+         <FormAssignment id={group.id} users={users} setFormSuccess={setFormSuccess}  setShowForm={setShowForm}/>
       )}
       {showEditForm &&(
          <AssignmentEdit assignment={assignment} id={group.id} setShowEditForm={setShowEditForm}/>

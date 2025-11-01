@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Registar from '../LoginRegister/Registar'
+ import logo from "../../../public/logo.png"; // ✅ Import image
 
 const Navbar = () => {
   const [show,setShow]=useState(false);
   return (
     <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-[#2563eb] ">SmartReport</span>
+            <div className="flex-shrink-0 flex overflow-hidden items-center">
+              <span className="text-xl h-full w-full font-bold text-[#2563eb] ">
+                <img className='w-[120px] h-[140px]' src={logo} alt="Banner" />
+              </span>
             </div>
             {show &&(
              <div className='md:hidden mt-50  w-1/2 absolute ml-[48%] lg:hidden xl:hidden flex flex-col'>
